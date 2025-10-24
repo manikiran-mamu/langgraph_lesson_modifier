@@ -19,3 +19,4 @@ uvicorn
 google-search-results
 html2text
 bs4
+python-docx
