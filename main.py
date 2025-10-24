@@ -56,6 +56,12 @@ class RuleUpdateRequest(BaseModel):
 class RuleUpdateResponse(BaseModel):
     updated_rule_file: List[str]
 
+class LessonDocxRequest(BaseModel):
+    student_profile: Dict[str, Union[str, List[str]]]
+    lesson_objective: str
+    language_objective: Dict[str, str]
+    target_language: str
+
 # ===== Root Route =====
 @app.get("/")
 def root():
