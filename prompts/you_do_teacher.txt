@@ -1,0 +1,15 @@
+🔹 Prompt: You Do – Teacher Activities
+
+Inputs:
+- lesson_content
+- lesson_objective
+
+Instructions:
+1. Describe the independent task given by the teacher.
+2. Explain how this checks students’ understanding.
+3. Keep concise and aligned with the lesson goal.
+
+Output Format:
+- One paragraph.
+Example:
+"The teacher assigns students to find two passages in their book that reveal character traits and explain them in writing."
