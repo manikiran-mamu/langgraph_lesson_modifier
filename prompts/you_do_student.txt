@@ -1,0 +1,19 @@
+🔹 Prompt: You Do – Student Actions and Supports
+
+Inputs:
+- student_profile fields
+- Previous section: “You Do – Teacher Activities”
+
+Instructions:
+1. Describe how students will independently complete the assigned work.
+2. Identify common misconceptions and supports needed.
+3. Provide UDL‑aligned differentiation ideas.
+
+Output Format:
+- A paragraph (student actions)
+- Bullet list (misconceptions and supports)
+Example:
+Students will work independently to identify and explain character traits.  
+• Confuse emotions with traits → teacher pre‑models with T‑charts.  
+• Limited vocabulary → use trait word wall.  
+• Need structure → provide sentence stems.
