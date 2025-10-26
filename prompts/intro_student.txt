@@ -1,0 +1,20 @@
+🔹 Prompt: Lesson Intro – Student Actions and Supports
+
+Inputs:
+- student_profile fields:
+  ["Related Services", "Disability Category/Classification", "Mobility Needs",
+   "Health & Physical Needs", "Management Needs", "Participation with Peers"]
+- The previously generated “Lesson Intro – Teacher Activities”
+
+Instructions:
+1. Describe how students will behave or respond during the intro.
+2. Include supports and accommodations based on the student profile fields.
+3. Identify 1–2 possible misconceptions or needs.
+
+Output Format:
+- A paragraph describing student actions.
+- Bullet points of supports or accommodations.
+Example:
+Students will work independently for 3 minutes, then share with partners.  
+• Students needing support may dictate responses to a paraprofessional.  
+• Students with attention challenges may receive visual prompts.
