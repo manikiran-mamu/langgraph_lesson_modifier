@@ -1,0 +1,14 @@
+🔹 Prompt: I Do – Teacher Activities
+
+Inputs:
+- lesson_content
+
+Instructions:
+1. Describe what the teacher explicitly teaches or models in this phase.
+2. Include examples, explanations, or modeling methods.
+3. Keep tone instructional.
+
+Output Format:
+- 1–2 paragraphs.
+Example:
+"The teacher defines character traits, showing examples from the class text. She models how to annotate sentences that reveal personality, using a think‑aloud strategy."
