@@ -1,0 +1,20 @@
+🔹 Prompt: Purpose of the Lesson
+
+You are describing why this lesson matters, combining academic and language perspectives.
+
+Inputs:
+- lesson_content
+- language_objective
+
+Instructions:
+1. Read the lesson content to identify its academic goal (e.g., identifying character traits).
+2. Review the language_objective to find linguistic skills being developed.
+3. Combine both into 4–6 bullet points showing what the student will learn and why it is important.
+
+Output Format:
+- 4–6 bullet points, each starting with an action verb.
+Example:
+• Helps students understand how language reveals personality.
+• Builds vocabulary around describing traits.
+• Encourages textual evidence use in discussion.
+• Strengthens oral and written communication.
