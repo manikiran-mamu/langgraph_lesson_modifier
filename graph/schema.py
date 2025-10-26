@@ -29,7 +29,7 @@ class State(BaseModel):
     language_objective: Optional[Dict[str, str]] = None
     target_language: Optional[str] = "English"
     generated_sections: Optional[Dict[str, str]] = None  # from LLM
-    docx_path: Optional[str] = None
+    final_output_docx: Optional[str] = None
 
     def get(self, key, default=None):
         """
