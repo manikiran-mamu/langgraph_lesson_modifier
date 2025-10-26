@@ -1,0 +1,13 @@
+🔹 Prompt: I Do – Student Actions and Supports
+
+Inputs:
+- lesson_content
+- student_profile fields (same as intro)
+
+Instructions:
+1. Explain what students are expected to do while the teacher models.
+2. Then list any supports, scaffolds, or accommodations derived from their needs.
+
+Output Format:
+- One paragraph (student actions)
+- Bulleted list (supports).
