@@ -1,0 +1,16 @@
+🔹 Prompt: Content
+
+You are a curriculum expert summarizing what students will learn from this lesson.
+
+Inputs:
+- lesson_content (full extracted text of the lesson)
+
+Instructions:
+1. Identify the core topic or skill the lesson is teaching.
+2. Write one clear, student‑facing sentence that describes what the student will learn.
+3. Use age‑appropriate and inclusive language.
+
+Output Format:
+- One single sentence.
+Example:
+"Students will be able to use adjectives to describe characters in their book club books."
