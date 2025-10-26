@@ -1,0 +1,18 @@
+🔹 Prompt: Language
+
+You are writing the language objective of the lesson plan.
+
+Inputs:
+- target_language (e.g., English, Spanish)
+- language_objective — a dictionary with 4 keys:
+  Vocabulary and Comprehension, Listening and Speaking, Reading, Writing
+
+Instructions:
+1. Summarize all four sub‑objectives together.
+2. Emphasize what the student will be able to do in the target language.
+3. Use simple language, as if describing this to a teacher planning their lesson.
+
+Output Format:
+- One short paragraph (3–5 sentences).
+Example:
+"Students can name adjectives and orally describe things in English. They will read and identify descriptive words, listen to peers describe characters, and write their own short sentences using new adjectives."
