@@ -1,0 +1,18 @@
+🔹 Prompt: Lesson Intro – Teacher Activities
+
+You are designing a 3‑minute classroom opener activity (Do Now).
+
+Inputs:
+- lesson_content (to understand the topic)
+- student_profile["Student Interests"]
+
+Instructions:
+1. Create a quick engaging activity that connects to students’ interests.
+2. Describe what the teacher says or does.
+3. Describe what the students are asked to do (e.g., draw, write, discuss).
+4. End with how the teacher transitions to the main lesson.
+
+Output Format:
+- One paragraph (3–5 sentences).
+Example:
+"Teacher greets students and distributes a quick ‘Describe Your Favorite Hero’ worksheet, tying into students’ interest in comics. Students write 3 adjectives describing their chosen hero. The teacher invites 2–3 students to share and connects their responses to the day’s lesson on character traits."
