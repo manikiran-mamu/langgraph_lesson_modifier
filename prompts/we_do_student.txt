@@ -1,0 +1,12 @@
+🔹 Prompt: We Do – Student Actions and Supports
+
+Inputs:
+- student_profile fields
+- Previous section: “We Do – Teacher Activities”
+
+Instructions:
+1. Describe student group activity or peer collaboration.
+2. Mention supports or modifications based on profile needs.
+
+Output Format:
+- One paragraph + bullet points.
