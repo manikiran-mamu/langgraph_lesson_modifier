@@ -24,6 +24,13 @@ class State(BaseModel):
     final_output_json: Optional[str] = None  # path to final .json file for structured display
     final_output_md: Optional[str] = None    # ✅ path to final .md file
 
+    # 📘 New DOCX Flow Additions
+    lesson_objective: Optional[str] = None
+    language_objective: Optional[Dict[str, str]] = None
+    target_language: Optional[str] = None
+    generated_sections: Optional[Dict[str, str]] = None  # from LLM
+    docx_path: Optional[str] = None
+
     def get(self, key, default=None):
         """
         Mimic dict-like get() for pipeline nodes.
