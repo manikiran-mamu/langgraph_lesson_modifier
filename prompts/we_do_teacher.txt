@@ -1,0 +1,14 @@
+🔹 Prompt: We Do – Teacher Activities
+
+Inputs:
+- lesson_content
+- lesson_objective
+
+Instructions:
+1. Describe how the teacher and students practice together.
+2. Show guided support — the teacher prompts while students respond or collaborate.
+
+Output Format:
+- One paragraph.
+Example:
+"Teacher displays a new example sentence and guides students to identify adjectives. She circulates, prompting discussion and clarifying misconceptions together."
