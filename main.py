@@ -17,6 +17,7 @@ from tools.audio.generate import generate_audio_file
 from tools.visuals.fetch import get_image_urls_from_serpapi, download_images
 from graph.lesson_placeholder_graph import lesson_placeholders_app
 from graph.lesson_graph_from_rules import lesson_from_rules_app
+from graph.lesson_docx_graph import lesson_docx_app  # <-- new graph import
 
 app = FastAPI(title="Lesson Modifier API - Placeholder Based")
 
@@ -101,6 +102,26 @@ async def update_rule_file(request: RuleUpdateRequest):
         return {"updated_rule_file": updated_rules}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# ===== Generate lesson plan from the Inputs =====
+@app.post("/generate_lesson_docx")
+async def generate_lesson_docx(request: LessonDocxRequest):
+    try:
+        result = lesson_docx_app.invoke({
+            "student_profile": request.student_profile,
+            "lesson_objective": request.lesson_objective,
+            "language_objective": request.language_objective,
+            "target_language": request.target_language
+        })
+
+        docx_file = os.path.basename(result["docx_path"])
+        return {
+            "docx_url": f"https://langgraph-lesson-modifier.onrender.com/files/{docx_file}"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"DOCX pipeline failed: {str(e)}")
+
 
 
 @app.post("/lesson_from_rules")
