@@ -27,7 +27,7 @@ class State(BaseModel):
     # 📘 New DOCX Flow Additions
     lesson_objective: Optional[str] = None
     language_objective: Optional[Dict[str, str]] = None
-    target_language: Optional[str] = None
+    target_language: Optional[str] = "English"
     generated_sections: Optional[Dict[str, str]] = None  # from LLM
     docx_path: Optional[str] = None
 
