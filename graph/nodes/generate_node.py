@@ -11,9 +11,9 @@ class GenerateNode(Runnable):
         if not state.lesson_content:
             raise ValueError("Missing lesson content.")
 
-        lesson_objective = state.student_profile.get("Lesson Objective", "")
-        language_objective = state.student_profile.get("Language Objective", {})
-        target_language = state.student_profile.get("Target Language", "English")
+        lesson_objective = state.lesson_objective
+        language_objective = state.language_objective
+        target_language = state.target_language
 
         sections = generate_all_sections(
             student_profile=state.student_profile,
