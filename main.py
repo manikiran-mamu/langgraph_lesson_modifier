@@ -62,6 +62,7 @@ class LessonDocxRequest(BaseModel):
     lesson_objective: str
     language_objective: Dict[str, str]
     target_language: str
+    lesson_url: HttpUrl
 
 # ===== Root Route =====
 @app.get("/")
