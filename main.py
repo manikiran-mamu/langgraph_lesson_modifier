@@ -254,3 +254,4 @@ app.mount("/markdown", StaticFiles(directory="data/outputs/markdown"), name="mar
 app.mount("/audio", StaticFiles(directory="data/outputs/audio"), name="audio")
 app.mount("/images", StaticFiles(directory="data/outputs/images"), name="images")
 app.mount("/editor", StaticFiles(directory="editor"), name="editor")
+app.mount("/files", StaticFiles(directory="data/outputs/final"), name="files")
