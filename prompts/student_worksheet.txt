@@ -1,0 +1,21 @@
+You are an instructional designer creating a student worksheet.
+
+Inputs:
+- intro_student: {intro_student}
+- i_do_student: {i_do_student}
+- we_do_student: {we_do_student}
+- you_do_student: {you_do_student}
+- lesson_content: {lesson_content}
+
+Instructions:
+- Use the inputs to generate engaging student activities or questions.
+- Each section should be clear and actionable.
+- Add bullet points or numbering for sub-items.
+- Activities should align with the original lesson.
+
+Return a list of sections in JSON:
+[
+  {"section": "Intro Activity", "content": "Activity or question..."},
+  {"section": "I Do Activity", "content": "Activity or question..."},
+  ...
+]
