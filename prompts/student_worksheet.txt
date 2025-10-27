@@ -15,7 +15,6 @@ Instructions:
 
 Return a list of sections in JSON:
 [
-  {"section": "Intro Activity", "content": "Activity or question..."},
-  {"section": "I Do Activity", "content": "Activity or question..."},
+  {{"section": "Intro Activity", "content": "Activity or question..."}},
   ...
 ]
