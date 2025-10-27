@@ -19,6 +19,7 @@ def generate_slide_content(lesson_objective, language_objective, lesson_content,
         we_do_teacher=we_do_teacher
     )
 
+    print(filled_prompt)
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
