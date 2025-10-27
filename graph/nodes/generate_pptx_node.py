@@ -1,7 +1,7 @@
 # graph/nodes/generate_pptx_node.py
 
 from graph.schema import State
-from tools.output.generate_pptx import generate_slide_deck
+from tools.llm.generate_pptx import generate_slide_deck
 
 def generate_pptx_node(state: State) -> State:
     sections = state.get("sections")
