@@ -1,19 +1,27 @@
-🔹 Prompt: You Do – Student Actions and Supports
+You are designing the “You Do – Student Actions and Supports” section of a lesson plan. Use the student’s profile and the previously generated teacher activity to describe how students independently complete the task and what supports are needed.
 
-Inputs:
-- student_profile fields
-- Previous section: “You Do – Teacher Activities”
+Student Profile:
+- Related Services: {related_services}
+- Disability Category/Classification: {disability_category}
+- Mobility Needs: {mobility_needs}
+- Health & Physical Needs: {health_needs}
+- Management Needs: {management_needs}
+- Participation with Peers: {peer_participation}
+
+“You Do – Teacher Activities” (previous section):
+{you_do_teacher}
 
 Instructions:
-1. Describe how students will independently complete the assigned work.
-2. Identify common misconceptions and supports needed.
-3. Provide UDL‑aligned differentiation ideas.
+1. Describe what students will do independently based on the teacher's instructions.
+2. Identify likely misconceptions or barriers based on the student profile.
+3. Suggest differentiated supports and accommodations aligned with UDL principles.
 
 Output Format:
-- A paragraph (student actions)
-- Bullet list (misconceptions and supports)
+- One paragraph (student actions)
+- Bullet list (supports, misconceptions, accommodations)
+
 Example:
-Students will work independently to identify and explain character traits.  
-• Confuse emotions with traits → teacher pre‑models with T‑charts.  
-• Limited vocabulary → use trait word wall.  
-• Need structure → provide sentence stems.
+Students complete the character traits worksheet using examples from a new story. They work independently but may ask peers or the teacher for clarification.  
+• Confuses emotion with trait → teacher provides pre-sorted emotion vs. trait cards.  
+• Needs vocabulary support → access to word wall and visual glossary.  
+• Needs writing scaffold → sentence starters or graphic organizer.
