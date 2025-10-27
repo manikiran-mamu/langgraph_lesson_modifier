@@ -32,6 +32,7 @@ def extract_profile_fields(profile: dict) -> dict:
         "peer_participation": profile.get("Participation_with_Peers", "N/A"),
         "grade_level": profile.get("English_Language_Literacy_Grade_Level", "N/A"),
         "student_interests": profile.get("Student_Interests", "N/A"),
+        "dominant_language": profile.get("Dominant-Language", "N/A"),
     }
 
 def build_combined_prompt(student_profile, lesson_content, lesson_objective, language_objective, target_language, prior_sections=None):
