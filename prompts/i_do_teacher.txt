@@ -1,15 +1,26 @@
 You are an experienced classroom teacher writing the “I Do” section of a lesson plan. In this phase, the teacher introduces new content, explains it clearly, and models how to approach the task.
 
-Lesson Content:
+Inputs:
+• Lesson Objective:
+{lesson_objective}
+• Language Objective:
+{language_objective}
+• Lesson Content:
 {lesson_content}
+• Dominant Language (from student profile):
+{dominant_language}
 
 Instructions:
-1. Describe what the teacher explicitly teaches or models, based on the lesson content.
-2. Include any examples, visuals, definitions, or modeling strategies the teacher might use (e.g., think-alouds, annotations, charts).
-3. Write in a clear, instructional tone suitable for educators reading the plan.
+	1.	Clearly describe what the teacher explicitly teaches or models, staying closely aligned to the lesson objective.
+	2.	Incorporate the language objective by including how the teacher supports students in understanding and using relevant academic language.
+	3.	Mention any examples, visuals, definitions, or modeling strategies used (e.g., think-alouds, charts, sentence frames, annotations, etc.).
+	4.	End with one line stating:
+“Teacher should include translations in {dominant_language}” if the dominant language is not English.
 
 Output Format:
-- 1–2 instructional paragraphs.
+	•	1–2 instructional paragraphs written in a clear, professional tone for educators.
+	•	End with one clear line indicating whether translations are needed.
 
-Example:
-"The teacher defines character traits, showing examples from the class text. She models how to annotate sentences that reveal personality, using a think‑aloud strategy."
+Example Output:
+The teacher defines character traits and explains their importance in understanding a story. Using the class text, she highlights descriptive sentences and models how to annotate them with notes about personality, using a think-aloud strategy and a chart of common traits. She introduces the sentence frame: “The character is ___ because ___” to support language development.
+Teacher should include translations in Spanish.
