@@ -126,6 +126,7 @@ def generate_all_sections(student_profile, lesson_content, lesson_objective, lan
 
     teacher_output = teacher_response.choices[0].message.content
     teacher_sections = parse_sections(teacher_output)
+    print(teacher_sections)
 
     # --- SECOND CALL: Generate student sections using teacher output ---
     student_prompt = build_combined_prompt(
