@@ -10,6 +10,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def generate_slide_content(lesson_objective, language_objective, lesson_content, intro_teacher, i_do_teacher, we_do_teacher):
     prompt_template = load_prompt("slide_deck")
+    print(prompt_template)
     filled_prompt = prompt_template.format(
         lesson_objective=lesson_objective,
         language_objective=language_objective,
