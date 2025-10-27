@@ -38,6 +38,7 @@ def extract_profile_fields(profile: dict) -> dict:
 def build_combined_prompt(student_profile, lesson_content, lesson_objective, language_objective, target_language, prior_sections=None):
     prompt_blocks = []
     extracted = extract_profile_fields(student_profile)
+    print(extracted)
     prior_sections = prior_sections or {}
 
     for section_key in SECTION_TITLES:
