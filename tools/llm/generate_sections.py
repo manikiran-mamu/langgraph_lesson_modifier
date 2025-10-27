@@ -1,5 +1,3 @@
-# tools/llm/generate_sections.py
-
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -23,18 +21,45 @@ SECTION_TITLES = [
     "you_do_teacher", "you_do_student"
 ]
 
-def build_combined_prompt(student_profile, lesson_content, lesson_objective, language_objective, target_language):
+# Extract values from student_profile dict for prompts requiring individual fields
+def extract_profile_fields(profile: dict) -> dict:
+    return {
+        "related_services": profile.get("Related Services", "N/A"),
+        "disability_category": profile.get("Disability Category/Classification", "N/A"),
+        "mobility_needs": profile.get("Mobility Needs", "N/A"),
+        "health_needs": profile.get("Health & Physical Needs", "N/A"),
+        "management_needs": profile.get("Management Needs", "N/A"),
+        "peer_participation": profile.get("Participation with Peers", "N/A"),
+        "grade_level": profile.get("English Language Literacy Grade Level", "N/A"),
+        "student_interests": profile.get("Student Interests", "N/A"),
+    }
+
+def build_combined_prompt(student_profile, lesson_content, lesson_objective, language_objective, target_language, prior_sections=None):
     prompt_blocks = []
+    extracted = extract_profile_fields(student_profile)
+    prior_sections = prior_sections or {}
 
     for section_key in SECTION_TITLES:
         section_prompt = load_prompt(section_key)
 
+        # Dynamically determine inputs based on section
         filled_prompt = section_prompt.format(
             student_profile=student_profile,
             lesson_content=lesson_content,
             lesson_objective=lesson_objective,
             language_objective=language_objective,
-            target_language=target_language
+            target_language=target_language,
+            related_services=extracted["related_services"],
+            disability_category=extracted["disability_category"],
+            mobility_needs=extracted["mobility_needs"],
+            health_needs=extracted["health_needs"],
+            management_needs=extracted["management_needs"],
+            peer_participation=extracted["peer_participation"],
+            grade_level=extracted["grade_level"],
+            student_interests=extracted["student_interests"],
+            intro_teacher=prior_sections.get("intro_teacher", ""),
+            we_do_teacher=prior_sections.get("we_do_teacher", ""),
+            you_do_teacher=prior_sections.get("you_do_teacher", "")
         )
 
         prompt_blocks.append(f"### Section: {section_key.replace('_', ' ').title()}\n{filled_prompt}")
@@ -78,7 +103,6 @@ def generate_all_sections(student_profile, lesson_content, lesson_objective, lan
         elif current_section:
             buffer.append(line)
 
-    # Capture final section
     if current_section and buffer:
         parsed_sections[current_section] = "\n".join(buffer).strip()
 
