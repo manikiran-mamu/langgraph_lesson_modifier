@@ -113,7 +113,8 @@ async def generate_lesson_docx(request: LessonDocxRequest):
             "student_profile": request.student_profile,
             "lesson_objective": request.lesson_objective,
             "language_objective": request.language_objective,
-            "target_language": request.target_language
+            "target_language": request.target_language,
+            "lesson_url": str(request.lesson_url)
         })
 
         docx_file = os.path.basename(result["docx_path"])
