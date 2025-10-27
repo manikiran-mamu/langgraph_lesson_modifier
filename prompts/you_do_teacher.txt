@@ -1,15 +1,26 @@
-🔹 Prompt: You Do – Teacher Activities
+You are designing the “Purpose of the Lesson” section for a standards-aligned lesson plan. Your task is to explain why the lesson matters from both an academic and a language development perspective, using the lesson content and the language objectives.
 
-Inputs:
-- lesson_content
-- lesson_objective
+Lesson Content:
+{lesson_content}
+
+Language Objective:
+{language_objective}
 
 Instructions:
-1. Describe the independent task given by the teacher.
-2. Explain how this checks students’ understanding.
-3. Keep concise and aligned with the lesson goal.
+1. Read the lesson content to understand the core academic concept or skill being taught (e.g., identifying character traits, comparing themes).
+2. Review the language objective to extract the vocabulary, communication, or comprehension skills being developed.
+3. Combine both perspectives to write 4–6 concise bullet points explaining what students are learning and why it is important.
+4. Begin each bullet point with an action verb (e.g., Builds, Encourages, Supports).
 
 Output Format:
-- One paragraph.
+- 4 to 6 bullet points
+- Each bullet must clearly reflect either academic or language value of the lesson
+- Keep the tone professional and teacher-facing
+
 Example:
-"The teacher assigns students to find two passages in their book that reveal character traits and explain them in writing."
+• Helps students understand how language reveals personality.  
+• Builds vocabulary around describing traits.  
+• Encourages textual evidence use in discussion.  
+• Strengthens oral and written communication.  
+• Supports deeper engagement with text meaning.  
+• Reinforces use of descriptive language in context.
