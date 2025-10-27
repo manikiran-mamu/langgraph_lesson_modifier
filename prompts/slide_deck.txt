@@ -21,6 +21,6 @@ Generate slide titles and content for each of the following slides:
 Output Format:
 Return a list of slides:
 [
-  {"title": "Slide Title", "content": "Slide content"},
+  {{"title": "Slide Title", "content": "Slide content"}},
   ...
 ]
