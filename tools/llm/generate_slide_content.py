@@ -1,4 +1,6 @@
 #tools/llm/generate_slide_content.py
+from tools.llm.generate_sections import load_prompt
+import json
 
 def generate_slide_content(lesson_objective, language_objective, lesson_content, intro_teacher, i_do_teacher, we_do_teacher):
     prompt_template = load_prompt("slide_deck")
