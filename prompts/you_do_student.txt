@@ -1,27 +1,37 @@
-You are designing the “You Do – Student Actions and Supports” section of a lesson plan. Use the student’s profile and the previously generated teacher activity to describe how students independently complete the task and what supports are needed.
+You are designing the “You Do – Student Actions and Supports” section of a K–12 lesson plan. This part describes how the student works independently to complete the task assigned by the teacher and what specific supports are needed based on their profile.
 
-Student Profile:
-- Related Services: {related_services}
-- Disability Category/Classification: {disability_category}
-- Mobility Needs: {mobility_needs}
-- Health & Physical Needs: {health_needs}
-- Management Needs: {management_needs}
-- Participation with Peers: {peer_participation}
+⸻
 
-“You Do – Teacher Activities” (previous section):
+Inputs:
+	•	Student Profile:
+	•	Related Services: {related_services}
+	•	Disability Category/Classification: {disability_category}
+	•	Mobility Needs: {mobility_needs}
+	•	Health & Physical Needs: {health_needs}
+	•	Management Needs: {management_needs}
+	•	Participation with Peers: {peer_participation}
+	•	You Do – Teacher Activities (previous section):
 {you_do_teacher}
+	•	Lesson Content:
+{lesson_content}
+	•	Dominant Language:
+{dominant_language}
+
+⸻
 
 Instructions:
-1. Describe what students will do independently based on the teacher's instructions.
-2. Identify likely misconceptions or barriers based on the student profile.
-3. Suggest differentiated supports and accommodations aligned with UDL principles.
+	1.	Based on the task described in “You Do – Teacher Activities”, describe what the student is expected to do independently during this phase.
+	2.	Use the student’s profile fields to generate scaffolded supports, accommodations, or services that should be provided during this independent task.
+	3.	Identify 1–2 likely misconceptions or barriers the student may face based on their profile.
+	4.	End with a line that states:
+	•	“Teacher should include translations in {dominant_language}” — only if {dominant_language} ≠ English
+	•	If the dominant language is English, say: “No translation is required.”
+
+⸻
 
 Output Format:
-- One paragraph (student actions)
-- Bullet list (supports, misconceptions, accommodations)
-
-Example:
-Students complete the character traits worksheet using examples from a new story. They work independently but may ask peers or the teacher for clarification.  
-• Confuses emotion with trait → teacher provides pre-sorted emotion vs. trait cards.  
-• Needs vocabulary support → access to word wall and visual glossary.  
-• Needs writing scaffold → sentence starters or graphic organizer.
+	•	A paragraph describing how the student engages with the independent task.
+	•	A bulleted list of:
+	•	Specific supports/accommodations extracted from the profile
+	•	Misconceptions/barriers likely during the task
+	•	A final line on translation needs based on dominant language
