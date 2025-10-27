@@ -1,14 +1,18 @@
-🔹 Prompt: We Do – Teacher Activities
+You are writing the “We Do – Teacher Activities” section of a lesson plan, where the teacher and students engage in guided practice together.
 
-Inputs:
-- lesson_content
-- lesson_objective
+Lesson Content:
+{lesson_content}
+
+Lesson Objective:
+{lesson_objective}
 
 Instructions:
-1. Describe how the teacher and students practice together.
-2. Show guided support — the teacher prompts while students respond or collaborate.
+1. Based on the objective and lesson content, describe how the teacher and students will interact during this phase.
+2. Include how the teacher provides scaffolding, prompts, or circulates to support students.
+3. Focus on collaborative learning and correcting misunderstandings.
 
 Output Format:
-- One paragraph.
+- One paragraph (3–5 sentences).
+
 Example:
-"Teacher displays a new example sentence and guides students to identify adjectives. She circulates, prompting discussion and clarifying misconceptions together."
+The teacher displays a new example sentence and guides students to identify adjectives. She circulates, prompting discussion and clarifying misconceptions together.
