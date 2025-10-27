@@ -30,8 +30,7 @@ def generate_slide_content(lesson_objective, language_objective, lesson_content,
     )
 
     raw_output = response.choices[0].message.content.strip()
-    print("🔵 Raw LLM Output:")
-    print(raw_output)
+
     # ✅ Try parsing JSON safely
         # Try parsing raw_output directly
     try:
