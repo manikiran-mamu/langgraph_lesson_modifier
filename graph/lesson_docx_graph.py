@@ -1,9 +1,9 @@
-# graph/lesson_docx_graph.py
+rate# graph/lesson_docx_graph.py
 
 from langgraph.graph import StateGraph
 from graph.schema import State
 from graph.nodes.download_lesson_node import download_lesson_node
-from graph.nodes.generate_node import GenerateNode
+from graph.nodes.generate_node import generate_node
 from graph.nodes.save_node import save_node
 
 # Build the graph for docx generation
