@@ -1,17 +1,23 @@
 # graph/nodes/generate_pptx_node.py
 
 from graph.schema import State
-from tools.llm.generate_pptx import generate_slide_deck
+from tools.llm.generate_slide_content import generate_slide_content
+from tools.output.generate_pptx import generate_slide_deck
 
 def generate_pptx_node(state: State) -> State:
-    sections = state.get("sections")
-    lesson_objective = state.get("lesson_objective", "")
-    language_objective = state.get("language_objective", "")
+    lesson_obj = state.lesson_objective
+    lang_obj = state.language_objective
+    content = state.lesson_content
+    sections = state.sections
 
-    if not sections:
-        raise ValueError("Missing 'sections' in state.")
-    
-    slide_path = generate_slide_deck(sections, lesson_objective, language_objective)
-    print(f"📊 Slides saved at: {slide_path}")
+    slides = generate_slide_content(
+        lesson_objective=lesson_obj,
+        language_objective=lang_obj,
+        lesson_content=content,
+        intro_teacher=sections.get("intro_teacher", ""),
+        i_do_teacher=sections.get("i_do_teacher", ""),
+        we_do_teacher=sections.get("we_do_teacher", "")
+    )
 
-    return state.update({"final_output_pptx": slide_path})
+    pptx_path = generate_slide_deck(slides)
+    return state.update({"final_output_pptx": pptx_path})
