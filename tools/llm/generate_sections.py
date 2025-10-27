@@ -24,14 +24,14 @@ SECTION_TITLES = [
 # Extract values from student_profile dict for prompts requiring individual fields
 def extract_profile_fields(profile: dict) -> dict:
     return {
-        "related_services": profile.get("Related Services", "N/A"),
-        "disability_category": profile.get("Disability Category/Classification", "N/A"),
-        "mobility_needs": profile.get("Mobility Needs", "N/A"),
-        "health_needs": profile.get("Health & Physical Needs", "N/A"),
-        "management_needs": profile.get("Management Needs", "N/A"),
-        "peer_participation": profile.get("Participation with Peers", "N/A"),
-        "grade_level": profile.get("English Language Literacy Grade Level", "N/A"),
-        "student_interests": profile.get("Student Interests", "N/A"),
+        "related_services": profile.get("Related_Services", "N/A"),
+        "disability_category": profile.get("Disability_Category", "N/A"),
+        "mobility_needs": profile.get("Mobility_Needs", "N/A"),
+        "health_needs": profile.get("Health_&_Physical_Needs", "N/A"),
+        "management_needs": profile.get("Management_Needs", "N/A"),
+        "peer_participation": profile.get("Participation_with_Peers", "N/A"),
+        "grade_level": profile.get("English_Language_Literacy_Grade_Level", "N/A"),
+        "student_interests": profile.get("Student_Interests", "N/A"),
     }
 
 def build_combined_prompt(student_profile, lesson_content, lesson_objective, language_objective, target_language, prior_sections=None):
