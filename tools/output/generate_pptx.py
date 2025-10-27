@@ -1,3 +1,7 @@
+import os
+import uuid
+from pptx import Presentation  # ✅ Required for generating slides
+
 def generate_slide_deck(slides: list) -> str:
     prs = Presentation()
     for slide in slides:
