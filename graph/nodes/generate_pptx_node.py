@@ -1,4 +1,4 @@
-# graph/nodes/generate_pptx_node.py
+here# graph/nodes/generate_pptx_node.py
 
 from graph.schema import State
 from tools.llm.generate_slide_content import generate_slide_content
@@ -19,6 +19,6 @@ def generate_pptx_node(state: State) -> State:
         we_do_teacher=sections.get("we_do_teacher", "")
     )
 
-    print(slides)
+    print("i came here")
     pptx_path = generate_slide_deck(slides)
     return state.update({"final_output_pptx": pptx_path})
