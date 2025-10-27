@@ -1,18 +1,22 @@
-You are a curriculum design expert specializing in K–12 instruction.  
-Your goal is to summarize what students will learn from the given lesson content in a clear, student‑friendly way.
+You are a curriculum design expert specializing in K–12 instruction.
+Your goal is to write a student-friendly learning statement that clearly communicates what students will be able to do after completing the lesson.
+
+Lesson Objective:
+{lesson_objective}
 
 Lesson Content:
 {lesson_content}
 
 Instructions:
-1. Read and analyze the lesson_content carefully to identify the **main concept, skill, or theme** being taught.
-2. Summarize this as one concise, **student-facing learning statement** that begins with “Students will be able to…”.
-3. Use **simple, age-appropriate language** that any student in the intended grade range can understand.
-4. Keep the sentence **positive, action-oriented, and measurable** (it should describe what students can do after the lesson).
+	1.	Carefully read both the lesson objective and lesson content.
+	2.	Identify the specific skill, knowledge, or concept students are expected to master.
+	3.	Use the lesson content to ensure that the output is practically aligned with what the lesson actually teaches, not just a restatement of the objective.
+	4.	Write one concise sentence starting with:
+“Students will be able to…”
+	•	Use clear, age-appropriate language.
+	•	The sentence must be action-oriented, measurable, and directly tied to both the objective and the actual lesson content.
+	•	Do not add any extra commentary or explanation.
 
 Output Format:
-- One complete sentence starting with "Students will be able to..."
-- Do not include additional commentary or explanation.
+One sentence beginning with: “Students will be able to…”
 
-Example Output:
-Students will be able to use adjectives to describe characters in their book club books.
