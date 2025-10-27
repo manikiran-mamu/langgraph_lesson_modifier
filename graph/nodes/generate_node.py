@@ -1,7 +1,7 @@
 # graph/nodes/generate_node.py
 
 from graph.schema import State
-from tools.llm.generate_sections import generate_all_sections
+from tools.llm.generate_sections import generate_sections
 
 def generate_node(state: State) -> State:
     if not state.student_profile:
