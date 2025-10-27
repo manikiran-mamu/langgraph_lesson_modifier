@@ -117,7 +117,7 @@ async def generate_lesson_docx(request: LessonDocxRequest):
             "lesson_url": str(request.lesson_url)
         })
 
-        docx_file = os.path.basename(result["docx_path"])
+        docx_file = os.path.basename(result["final_output_docx"])
         return {
             "docx_url": f"https://langgraph-lesson-modifier.onrender.com/files/{docx_file}"
         }
@@ -256,4 +256,4 @@ app.mount("/markdown", StaticFiles(directory="data/outputs/markdown"), name="mar
 app.mount("/audio", StaticFiles(directory="data/outputs/audio"), name="audio")
 app.mount("/images", StaticFiles(directory="data/outputs/images"), name="images")
 app.mount("/editor", StaticFiles(directory="editor"), name="editor")
-app.mount("/files", StaticFiles(directory="data/outputs/final"), name="files")
+app.mount("/files", StaticFiles(directory="data/outputs/word"), name="files")
