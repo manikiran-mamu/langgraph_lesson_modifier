@@ -4,6 +4,7 @@ from pptx import Presentation  # ✅ Required for generating slides
 
 def generate_slide_deck(slides: list) -> str:
     prs = Presentation()
+    print(slides)
     for slide in slides:
         if slide["title"].lower() in ["i do", "we do"]:
             _add_center_text_slide(prs, slide["title"])
