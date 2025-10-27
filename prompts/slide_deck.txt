@@ -1,0 +1,26 @@
+You are an expert instructional designer creating a complete slide deck for a lesson.
+
+Inputs:
+- lesson_objective: {lesson_objective}
+- language_objective: {language_objective}
+- lesson_content: {lesson_content}
+- intro_teacher: {intro_teacher}
+- i_do_teacher: {i_do_teacher}
+- we_do_teacher: {we_do_teacher}
+
+Instructions:
+Generate slide titles and content for each of the following slides:
+1. Slide 1: Title of the lesson
+2. Slide 2: Engager (based on intro_teacher)
+3. Slide 3: Objectives (lesson + language objective)
+4. Slide 4: I DO (just title)
+5. Slide 5-n: I DO slides (content from i_do_teacher and lesson_content)
+6. Slide n+1: WE DO (just title)
+7. Slide n+2, n+3: WE DO slides (content from we_do_teacher and lesson_objective)
+
+Output Format:
+Return a list of slides:
+[
+  {"title": "Slide Title", "content": "Slide content"},
+  ...
+]
