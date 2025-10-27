@@ -16,8 +16,8 @@ def load_prompt(section_name: str) -> str:
 
 # Master list of all 12 sections in order
 SECTION_TITLES = [
-    "standards_addressed", "content", "language", "purpose",
-    "lesson_intro_teacher", "lesson_intro_student",
+    "standards", "content", "language", "purpose",
+    "intro_teacher", "intro_student",
     "i_do_teacher", "i_do_student",
     "we_do_teacher", "we_do_student",
     "you_do_teacher", "you_do_student"
