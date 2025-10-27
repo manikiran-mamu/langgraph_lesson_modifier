@@ -111,7 +111,7 @@ async def update_rule_file(request: RuleUpdateRequest):
 @app.post("/generate_lesson_docx")
 async def generate_lesson_docx(request: Request, lesson_request: LessonDocxRequest):
     try:
-        # Run the LangGraph docx + pptx pipeline
+        # Run the LangGraph docx + pptx + worksheet generation pipeline
         result = lesson_docx_app.invoke({
             "student_profile": lesson_request.student_profile,
             "lesson_objective": lesson_request.lesson_objective,
@@ -122,16 +122,20 @@ async def generate_lesson_docx(request: Request, lesson_request: LessonDocxReque
 
         base_url = str(request.base_url).rstrip("/")
 
-        # Extract filenames
-        docx_file = os.path.basename(result["final_output_docx"])
+        # Extract filenames safely
+        docx_file = os.path.basename(result.get("final_output_docx", ""))
         pptx_file = os.path.basename(result.get("final_output_pptx", ""))
+        worksheet_file = os.path.basename(result.get("student_worksheet_path", ""))
 
-        response = {
-            "docx_url": f"{base_url}/outputs/word/{docx_file}"
-        }
+        # Base response
+        response = {}
 
+        if docx_file:
+            response["docx_url"] = f"{base_url}/outputs/word/{docx_file}"
         if pptx_file:
             response["pptx_url"] = f"{base_url}/outputs/slides/{pptx_file}"
+        if worksheet_file:
+            response["worksheet_url"] = f"{base_url}/outputs/worksheets/{worksheet_file}"
 
         return response
 
