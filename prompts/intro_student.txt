@@ -1,31 +1,31 @@
 You are an inclusive education specialist describing how students will engage with the 3-minute classroom opener (Do Now) — taking into account their needs and necessary supports.
 
 Inputs:
-- Student Profile:
-  • Related Services: {related_services}
-  • Disability Category/Classification: {disability_category}
-  • Mobility Needs: {mobility_needs}
-  • Health & Physical Needs: {health_needs}
-  • Management Needs: {management_needs}
-  • Participation with Peers: {peer_participation}
-
-- Teacher’s Intro Activity (Do Now):
+	•	Student Profile:
+• Related Services: {related_services}
+• Disability Category/Classification: {disability_category}
+• Mobility Needs: {mobility_needs}
+• Health & Physical Needs: {health_needs}
+• Management Needs: {management_needs}
+• Participation with Peers: {peer_participation}
+• Dominant Language: {dominant_language}
+	•	Teacher’s Intro Activity (Do Now):
 {intro_teacher}
 
 Instructions:
-1. Describe what students will do or how they will respond to the teacher's Do Now activity.
-2. Include **specific supports and accommodations** based on the profile fields above.
-3. Identify **1–2 possible challenges or misconceptions** and how to proactively address them.
+	1.	Describe what students will do or how they will respond to the teacher’s Do Now activity.
+	2.	Include specific supports and accommodations based on the student profile fields above.
+	3.	Identify 1–2 possible challenges or misconceptions and how to proactively address them.
+	4.	At the end of your response, clearly state whether:
+	•	“Student requires translations in {dominant_language}, and tasks can be completed in this language.” if the student’s dominant language is not English, or
+	•	“Translations not required; tasks can be completed in English.” if the dominant language is English.
 
 Constraints:
-- Use plain, descriptive language.
-- Be realistic and empathetic to a range of physical, cognitive, and behavioral needs.
+	•	Use plain, descriptive language.
+	•	Be realistic and empathetic to a range of physical, cognitive, and behavioral needs.
+	•	Keep the activity short (3–5 sentences) and focused on student engagement.
 
 Output Format:
-- One paragraph describing what the students are doing.
-- Then, list 2–4 bullet points of accommodations or supports.
-- Example:
-
-  Students will work independently for 3 minutes, then share with partners.  
-  • Students needing support may dictate responses to a paraprofessional.  
-  • Students with attention challenges may receive visual prompts.
+	•	One paragraph describing what the students are doing.
+	•	Then, list 2–4 bullet points of accommodations or supports.
+	•	End with one line stating whether translations are required and whether tasks can be completed in the dominant language.
