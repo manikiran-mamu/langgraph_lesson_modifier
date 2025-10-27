@@ -8,6 +8,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Read all prompts from the prompts/ directory
 def load_prompt(section_name: str) -> str:
+    print("i am here")
     path = f"prompts/{section_name}.txt"
     with open(path, "r") as f:
         return f.read()
