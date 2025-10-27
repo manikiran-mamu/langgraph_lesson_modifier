@@ -1,13 +1,27 @@
-🔹 Prompt: I Do – Student Actions and Supports
+You are designing the “I Do – Student Actions and Supports” section of a lesson plan. Use the student’s profile and the lesson content to describe how students engage and what supports are provided while the teacher models the concept.
 
-Inputs:
-- lesson_content
-- student_profile fields (same as intro)
+Lesson Content:
+{lesson_content}
+
+Student Profile:
+- Related Services: {related_services}
+- Disability Category/Classification: {disability_category}
+- Mobility Needs: {mobility_needs}
+- Health & Physical Needs: {health_needs}
+- Management Needs: {management_needs}
+- Participation with Peers: {peer_participation}
 
 Instructions:
-1. Explain what students are expected to do while the teacher models.
-2. Then list any supports, scaffolds, or accommodations derived from their needs.
+1. Describe what students are expected to do while the teacher is modeling (e.g., watch, listen, take notes, copy from board).
+2. Then, list any scaffolds, accommodations, or services the student may need based on their profile.
+3. Include 1–2 likely misconceptions or areas of difficulty if applicable.
 
 Output Format:
-- One paragraph (student actions)
-- Bulleted list (supports).
+- A paragraph describing student actions.
+- A bulleted list of supports/accommodations.
+
+Example:
+Students follow along as the teacher annotates the text, copying examples into their notebooks.  
+• Students with fine motor challenges may use a tablet to take notes.  
+• Visual supports (anchor charts) provided for comprehension.  
+• Paraprofessional assists with focus and task initiation.
