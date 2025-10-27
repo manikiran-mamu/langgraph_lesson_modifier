@@ -1,28 +1,35 @@
-You are designing the “We Do – Student Actions and Supports” section of a lesson plan. Use the student’s profile and the teacher’s collaborative activity to describe how students engage during this guided practice phase and what supports are provided to help them succeed.
+You are designing the “We Do – Student Actions and Supports” section of a lesson plan. Use the student’s profile, the collaborative activity described in the “We Do – Teacher Activities,” and the lesson content to describe how students engage and what supports are provided to help them succeed during this guided practice phase.
 
-We Do – Teacher Activities:
+⸻
+
+Inputs:
+	•	We Do – Teacher Activities:
 {we_do_teacher}
+	•	Lesson Content:
+{lesson_content}
+	•	Dominant Language:
+{dominant_language}
+	•	Student Profile:
+	•	Related Services: {related_services}
+	•	Disability Category/Classification: {disability_category}
+	•	Mobility Needs: {mobility_needs}
+	•	Health & Physical Needs: {health_needs}
+	•	Management Needs: {management_needs}
+	•	Participation with Peers: {peer_participation}
 
-Student Profile:
-- Related Services: {related_services}
-- Disability Category/Classification: {disability_category}
-- Mobility Needs: {mobility_needs}
-- Health & Physical Needs: {health_needs}
-- Management Needs: {management_needs}
-- Participation with Peers: {peer_participation}
+⸻
 
 Instructions:
-1. Describe how students interact with peers or the teacher during this guided practice (e.g., pair work, small group activity, shared writing, discussion).
-2. Mention specific supports, accommodations, or strategies based on the student’s profile that promote collaboration and engagement.
-3. Identify 1–2 potential misconceptions or challenges and how the supports help address them.
+	1.	Describe what students are expected to do during the “We Do” collaborative activity, based on the teacher’s actions and the lesson content (e.g., partner discussion, shared annotation, joint problem-solving).
+	2.	Ensure student actions are meaningfully connected to what the teacher is modeling or guiding.
+	3.	Then, list specific supports, accommodations, or strategies students may need to succeed, based on their IEP and the provided student profile.
+	4.	Mention 1–2 likely misconceptions or challenges, and how supports address them.
+	5.	End with one line indicating whether translations should be included, based on the dominant language.
+
+⸻
 
 Output Format:
-- A paragraph describing student actions and collaboration.
-- A bulleted list of supports/accommodations.
-
-Example:
-Students work in small groups to analyze story events and identify key details, discussing ideas together before sharing with the class.  
-• Visual aids and graphic organizers support comprehension.  
-• Students with speech needs receive sentence stems for discussion.  
-• Peer mentors help model participation for students with social challenges.  
-• Paraprofessional circulates to prompt engagement and clarify instructions.
+	•	A paragraph describing student actions and collaboration during the We Do phase.
+	•	A bulleted list of supports/accommodations tailored to the student profile.
+	•	Final line:
+ “Teacher should include translations in {dominant_language}” (only if {dominant_language} is not English)
