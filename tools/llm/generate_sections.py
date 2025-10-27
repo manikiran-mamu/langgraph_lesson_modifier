@@ -6,46 +6,54 @@ from graph.schema import State
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Read all prompts from the prompts/ directory
+# -----------------------------
+# Load individual prompt templates
+# -----------------------------
 def load_prompt(section_name: str) -> str:
     path = f"prompts/{section_name}.txt"
     with open(path, "r") as f:
         return f.read()
 
-# Master list of all 12 sections in order
-SECTION_TITLES = [
+# -----------------------------
+# Section groupings
+# -----------------------------
+TEACHER_SECTIONS = [
     "standards", "content", "language", "purpose",
-    "intro_teacher", "intro_student",
-    "i_do_teacher", "i_do_student",
-    "we_do_teacher", "we_do_student",
-    "you_do_teacher", "you_do_student"
+    "intro_teacher", "i_do_teacher", "we_do_teacher", "you_do_teacher"
 ]
 
-# Extract values from student_profile dict for prompts requiring individual fields
+STUDENT_SECTIONS = [
+    "intro_student", "i_do_student", "we_do_student", "you_do_student"
+]
+
+# -----------------------------
+# Extract key fields from profile
+# -----------------------------
 def extract_profile_fields(profile: dict) -> dict:
     return {
-        "related_services": profile.get("Related_Services", "N/A"),
-        "disability_category": profile.get("Disability_Category", "N/A"),
-        "mobility_needs": profile.get("Mobility_Needs", "N/A"),
-        "health_needs": profile.get("Health_&_Physical_Needs", "N/A"),
-        "management_needs": profile.get("Management_Needs", "N/A"),
-        "peer_participation": profile.get("Participation_with_Peers", "N/A"),
-        "grade_level": profile.get("English_Language_Literacy_Grade_Level", "N/A"),
-        "student_interests": profile.get("Student_Interests", "N/A"),
-        "dominant_language": profile.get("Dominant-Language", "N/A"),
+        "related_services": profile.get("Related Services", "N/A"),
+        "disability_category": profile.get("Disability Category/Classification", "N/A"),
+        "mobility_needs": profile.get("Mobility Needs", "N/A"),
+        "health_needs": profile.get("Health & Physical Needs", "N/A"),
+        "management_needs": profile.get("Management Needs", "N/A"),
+        "peer_participation": profile.get("Participation with Peers", "N/A"),
+        "grade_level": profile.get("English Language Literacy Grade Level", "N/A"),
+        "student_interests": profile.get("Student Interests", "N/A"),
+        "dominant_language": profile.get("Dominant Language", "N/A")
     }
 
-def build_combined_prompt(student_profile, lesson_content, lesson_objective, language_objective, target_language, prior_sections=None):
+# -----------------------------
+# Helper: Build prompt dynamically
+# -----------------------------
+def build_combined_prompt(section_list, student_profile, lesson_content, lesson_objective, language_objective, target_language, prior_sections=None):
     prompt_blocks = []
-    print(student_profile)
     extracted = extract_profile_fields(student_profile)
-    print(extracted)
     prior_sections = prior_sections or {}
 
-    for section_key in SECTION_TITLES:
+    for section_key in section_list:
         section_prompt = load_prompt(section_key)
 
-        # Dynamically determine inputs based on section
+        # Fill prompt placeholders
         filled_prompt = section_prompt.format(
             student_profile=student_profile,
             lesson_content=lesson_content,
@@ -60,6 +68,7 @@ def build_combined_prompt(student_profile, lesson_content, lesson_objective, lan
             peer_participation=extracted["peer_participation"],
             grade_level=extracted["grade_level"],
             student_interests=extracted["student_interests"],
+            dominant_language=extracted["dominant_language"],
             intro_teacher=prior_sections.get("intro_teacher", ""),
             we_do_teacher=prior_sections.get("we_do_teacher", ""),
             you_do_teacher=prior_sections.get("you_do_teacher", "")
@@ -69,30 +78,10 @@ def build_combined_prompt(student_profile, lesson_content, lesson_objective, lan
 
     return "\n\n".join(prompt_blocks)
 
-def generate_all_sections(student_profile, lesson_content, lesson_objective, language_objective, target_language):
-    full_prompt = build_combined_prompt(
-        student_profile, lesson_content, lesson_objective,
-        language_objective, target_language
-    )
-
-    response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {
-                "role": "system",
-                "content": "You are an expert instructional designer generating a rich, inclusive lesson plan across 12 sections. Format responses clearly with section titles."
-            },
-            {
-                "role": "user",
-                "content": full_prompt
-            }
-        ],
-        temperature=0.7
-    )
-
-    output_text = response.choices[0].message.content
-
-    # Split the LLM response into sections using the headers
+# -----------------------------
+# Helper: Parse response into dict by section
+# -----------------------------
+def parse_sections(output_text):
     parsed_sections = {}
     current_section = None
     buffer = []
@@ -110,3 +99,59 @@ def generate_all_sections(student_profile, lesson_content, lesson_objective, lan
         parsed_sections[current_section] = "\n".join(buffer).strip()
 
     return parsed_sections
+
+# -----------------------------
+# MAIN FUNCTION: Two LLM calls
+# -----------------------------
+def generate_all_sections(student_profile, lesson_content, lesson_objective, language_objective, target_language):
+    # --- FIRST CALL: Generate teacher sections ---
+    teacher_prompt = build_combined_prompt(
+        TEACHER_SECTIONS, student_profile, lesson_content, lesson_objective, language_objective, target_language
+    )
+
+    teacher_response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are an expert instructional designer generating teacher-facing lesson sections clearly titled with '### Section:'."
+            },
+            {
+                "role": "user",
+                "content": teacher_prompt
+            }
+        ],
+        temperature=0.7
+    )
+
+    teacher_output = teacher_response.choices[0].message.content
+    teacher_sections = parse_sections(teacher_output)
+
+    # --- SECOND CALL: Generate student sections using teacher output ---
+    student_prompt = build_combined_prompt(
+        STUDENT_SECTIONS, student_profile, lesson_content, lesson_objective, language_objective, target_language,
+        prior_sections=teacher_sections
+    )
+
+    student_response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are an expert instructional designer generating student-facing lesson sections. Use the teacher sections as context for tone and learning continuity."
+            },
+            {
+                "role": "user",
+                "content": student_prompt
+            }
+        ],
+        temperature=0.7
+    )
+
+    student_output = student_response.choices[0].message.content
+    student_sections = parse_sections(student_output)
+
+    # Combine all sections
+    all_sections = {**teacher_sections, **student_sections}
+
+    return all_sections
