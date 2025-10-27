@@ -1,19 +1,30 @@
-You are designing the “You Do – Teacher Activities” section of a lesson plan. This part describes how the teacher sets up independent practice based on the modeled and guided instruction.
+You are designing the “You Do – Teacher Activities” section of a lesson plan. This part describes how the teacher assigns independent practice to assess how well students have understood and can apply the lesson.
 
-Lesson Content:
+⸻
+
+Inputs:
+	•	Lesson Content:
 {lesson_content}
-
-Lesson Objective:
+	•	Lesson Objective:
 {lesson_objective}
+	•	Language Objective:
+{language_objective}
+	•	Dominant Language:
+{dominant_language}
+
+⸻
 
 Instructions:
-1. Identify what academic task the students are now ready to try independently (e.g., write a short paragraph, complete a worksheet, annotate a passage).
-2. Describe how the teacher sets up and explains this task.
-3. Include how the teacher checks for understanding or monitors progress during this phase.
-4. Keep the tone instructional and professional.
+	1.	Based on the lesson content, clearly define the independent task that students are now ready to complete on their own. This task should help the teacher evaluate how well students can meet both the lesson objective and language objective.
+	2.	Describe how the teacher introduces and explains the task, including reminders of key strategies, visual aids, or references from earlier in the lesson.
+	3.	Describe how the teacher monitors progress, checks for understanding, and supports students as needed — without solving the task for them.
+	4.	Ensure the activity is completed individually and is instructionally aligned with what was modeled and practiced earlier.
+	5.	Conclude with a line stating whether translations should be included based on the dominant language.
+
+⸻
 
 Output Format:
-- One clear paragraph (3–5 sentences)
-
-Example:
-The teacher distributes a worksheet asking students to identify character traits in a new short story. She reminds them of the think-aloud strategy and points to an anchor chart with sentence starters. While students work, she circulates to answer questions and provide guidance to those who need extra support.
+	•	One professional, instructional paragraph (3–5 sentences).
+	•	Final line:
+ “Teacher should include translations in {dominant_language}”
+ (only if {dominant_language} is not English)
