@@ -1,20 +1,31 @@
-🔹 Prompt: Lesson Intro – Student Actions and Supports
+You are an inclusive education specialist describing how students will engage with the 3-minute classroom opener (Do Now) — taking into account their needs and necessary supports.
 
 Inputs:
-- student_profile fields:
-  ["Related Services", "Disability Category/Classification", "Mobility Needs",
-   "Health & Physical Needs", "Management Needs", "Participation with Peers"]
-- The previously generated “Lesson Intro – Teacher Activities”
+- Student Profile:
+  • Related Services: {related_services}
+  • Disability Category/Classification: {disability_category}
+  • Mobility Needs: {mobility_needs}
+  • Health & Physical Needs: {health_needs}
+  • Management Needs: {management_needs}
+  • Participation with Peers: {peer_participation}
+
+- Teacher’s Intro Activity (Do Now):
+{teacher_intro_activity}
 
 Instructions:
-1. Describe how students will behave or respond during the intro.
-2. Include supports and accommodations based on the student profile fields.
-3. Identify 1–2 possible misconceptions or needs.
+1. Describe what students will do or how they will respond to the teacher's Do Now activity.
+2. Include **specific supports and accommodations** based on the profile fields above.
+3. Identify **1–2 possible challenges or misconceptions** and how to proactively address them.
+
+Constraints:
+- Use plain, descriptive language.
+- Be realistic and empathetic to a range of physical, cognitive, and behavioral needs.
 
 Output Format:
-- A paragraph describing student actions.
-- Bullet points of supports or accommodations.
-Example:
-Students will work independently for 3 minutes, then share with partners.  
-• Students needing support may dictate responses to a paraprofessional.  
-• Students with attention challenges may receive visual prompts.
+- One paragraph describing what the students are doing.
+- Then, list 2–4 bullet points of accommodations or supports.
+- Example:
+
+  Students will work independently for 3 minutes, then share with partners.  
+  • Students needing support may dictate responses to a paraprofessional.  
+  • Students with attention challenges may receive visual prompts.
