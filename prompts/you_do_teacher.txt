@@ -1,26 +1,19 @@
-You are designing the “Purpose of the Lesson” section for a standards-aligned lesson plan. Your task is to explain why the lesson matters from both an academic and a language development perspective, using the lesson content and the language objectives.
+You are designing the “You Do – Teacher Activities” section of a lesson plan. This part describes how the teacher sets up independent practice based on the modeled and guided instruction.
 
 Lesson Content:
 {lesson_content}
 
-Language Objective:
-{language_objective}
+Lesson Objective:
+{lesson_objective}
 
 Instructions:
-1. Read the lesson content to understand the core academic concept or skill being taught (e.g., identifying character traits, comparing themes).
-2. Review the language objective to extract the vocabulary, communication, or comprehension skills being developed.
-3. Combine both perspectives to write 4–6 concise bullet points explaining what students are learning and why it is important.
-4. Begin each bullet point with an action verb (e.g., Builds, Encourages, Supports).
+1. Identify what academic task the students are now ready to try independently (e.g., write a short paragraph, complete a worksheet, annotate a passage).
+2. Describe how the teacher sets up and explains this task.
+3. Include how the teacher checks for understanding or monitors progress during this phase.
+4. Keep the tone instructional and professional.
 
 Output Format:
-- 4 to 6 bullet points
-- Each bullet must clearly reflect either academic or language value of the lesson
-- Keep the tone professional and teacher-facing
+- One clear paragraph (3–5 sentences)
 
 Example:
-• Helps students understand how language reveals personality.  
-• Builds vocabulary around describing traits.  
-• Encourages textual evidence use in discussion.  
-• Strengthens oral and written communication.  
-• Supports deeper engagement with text meaning.  
-• Reinforces use of descriptive language in context.
+The teacher distributes a worksheet asking students to identify character traits in a new short story. She reminds them of the think-aloud strategy and points to an anchor chart with sentence starters. While students work, she circulates to answer questions and provide guidance to those who need extra support.
