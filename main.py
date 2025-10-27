@@ -71,14 +71,16 @@ def root():
 
 # ===== Full Pipeline: Placeholder only =====
 @app.post("/full-pipeline")
-async def full_pipeline(request: FullPipelineRequest):
+async def full_pipeline(request: Request, payload: FullPipelineRequest):
     try:
         result = lesson_placeholders_app.invoke({
-            "student_profile": request.student_profile,
-            "lesson_url": str(request.lesson_url),
-            "number_of_days": request.number_of_days,              
-            "file_category": str(request.file_category)
+            "student_profile": payload.student_profile,
+            "lesson_url": str(payload.lesson_url),
+            "number_of_days": payload.number_of_days,              
+            "file_category": str(payload.file_category)
         })
+
+        base_url = str(request.base_url).rstrip("/")
 
         md_file = os.path.basename(result["final_output_md"])
         json_file = os.path.basename(result["final_output_json"])
@@ -86,10 +88,10 @@ async def full_pipeline(request: FullPipelineRequest):
 
         return {
             "rules": result.get("rules", []),
-            "final_output_md": f"https://langgraph-lesson-modifier.onrender.com/markdown/{md_file}",
-            "final_output_json": f"https://langgraph-lesson-modifier.onrender.com/json/{json_file}",
-            "final_output_path": f"https://langgraph-lesson-modifier.onrender.com/files/{txt_file}",
-            "editor_url": f"https://langgraph-lesson-modifier.onrender.com/editor/index.html?file={md_file}"
+            "final_output_md": f"{base_url}/outputs/markdown/{md_file}",
+            "final_output_json": f"{base_url}/outputs/json/{json_file}",
+            "final_output_path": f"{base_url}/outputs/final/{txt_file}",
+            "editor_url": f"{base_url}/editor/index.html?file={md_file}"
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Full pipeline failed: {str(e)}")
@@ -107,45 +109,55 @@ async def update_rule_file(request: RuleUpdateRequest):
 
 # ===== Generate lesson plan from the Inputs =====
 @app.post("/generate_lesson_docx")
-async def generate_lesson_docx(request: LessonDocxRequest):
+async def generate_lesson_docx(request: Request, lesson_request: LessonDocxRequest):
     try:
         result = lesson_docx_app.invoke({
-            "student_profile": request.student_profile,
-            "lesson_objective": request.lesson_objective,
-            "language_objective": request.language_objective,
-            "target_language": request.target_language,
-            "lesson_url": str(request.lesson_url)
+            "student_profile": lesson_request.student_profile,
+            "lesson_objective": lesson_request.lesson_objective,
+            "language_objective": lesson_request.language_objective,
+            "target_language": lesson_request.target_language,
+            "lesson_url": str(lesson_request.lesson_url)
         })
 
+        base_url = str(request.base_url).rstrip("/")
         docx_file = os.path.basename(result["final_output_docx"])
+
         return {
-            "docx_url": f"https://langgraph-lesson-modifier.onrender.com/files/{docx_file}"
+            "docx_url": f"{base_url}/outputs/word/{docx_file}"
         }
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"DOCX pipeline failed: {str(e)}")
 
 
 
 @app.post("/lesson_from_rules")
-async def generate_lesson_from_existing_rules(request: ShortPipelineRequest):
+async def generate_lesson_from_existing_rules(request: Request, payload: ShortPipelineRequest):
     try:
+        # Invoke LangGraph pipeline
         result = lesson_from_rules_app.invoke({
-            "rules": request.rules,
-            "lesson_url": str(request.lesson_url),
-            "number_of_days": request.number_of_days,              
-            "file_category": str(request.file_category)
+            "rules": payload.rules,
+            "lesson_url": str(payload.lesson_url),
+            "number_of_days": payload.number_of_days,
+            "file_category": str(payload.file_category)
         })
 
+        # Dynamically detect base URL
+        base_url = str(request.base_url).rstrip("/")
+
+        # Extract file names
         md_file = os.path.basename(result["final_output_md"])
         json_file = os.path.basename(result["final_output_json"])
         txt_file = os.path.basename(result["final_output_path"])
 
+        # Build URLs dynamically
         return {
-            "final_output_md": f"https://langgraph-lesson-modifier.onrender.com/markdown/{md_file}",
-            "final_output_json": f"https://langgraph-lesson-modifier.onrender.com/json/{json_file}",
-            "final_output_path": f"https://langgraph-lesson-modifier.onrender.com/files/{txt_file}",
-            "editor_url": f"https://langgraph-lesson-modifier.onrender.com/editor/index.html?file={md_file}"
+            "final_output_md": f"{base_url}/outputs/markdown/{md_file}",
+            "final_output_json": f"{base_url}/outputs/json/{json_file}",
+            "final_output_path": f"{base_url}/outputs/final/{txt_file}",
+            "editor_url": f"{base_url}/editor/index.html?file={md_file}"
         }
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lesson from rules pipeline failed: {str(e)}")
     
@@ -163,23 +175,37 @@ async def search_images(q: str = Query(...)):
 
 # ===== Generate Audio on Demand =====
 @app.post("/api/generate_audio")
-async def generate_audio(request: GenerateAudioRequest):
+async def generate_audio(request: Request, payload: GenerateAudioRequest):
     try:
-        path = generate_audio_file(request.prompt)
+        # Generate the audio file
+        path = generate_audio_file(payload.prompt)
         filename = os.path.basename(path)
-        return {"audio_url": f"https://langgraph-lesson-modifier.onrender.com/audio/{filename}"}
+
+        # Dynamically get base URL
+        base_url = str(request.base_url).rstrip("/")
+
+        # Return full audio URL
+        return {"audio_url": f"{base_url}/outputs/audio/{filename}"}
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
 
 # ===== Upload Audio =====
+from fastapi import Request  # Make sure this import is present
+
 @app.post("/api/upload_audio")
-async def upload_audio(file: UploadFile = File(...)):
+async def upload_audio(request: Request, file: UploadFile = File(...)):
     try:
+        # Save uploaded file to outputs/audio with unique name
         out_path = f"data/outputs/audio/{uuid.uuid4().hex}_{file.filename}"
         with open(out_path, "wb") as out_file:
             shutil.copyfileobj(file.file, out_file)
+
         filename = os.path.basename(out_path)
-        return {"audio_url": f"https://langgraph-lesson-modifier.onrender.com/audio/{filename}"}
+
+        # Dynamically build base URL
+        base_url = str(request.base_url).rstrip("/")
+
+        return {"audio_url": f"{base_url}/outputs/audio/{filename}"}
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
 
@@ -249,11 +275,6 @@ async def save_markdown(request: Request):
         print("Error in /api/save_markdown:", str(e))
         return {"error": str(e)}
 
-# ===== Static File Routes =====
-app.mount("/files", StaticFiles(directory="data/outputs/final"), name="files")
-app.mount("/json", StaticFiles(directory="data/outputs/json"), name="json")
-app.mount("/markdown", StaticFiles(directory="data/outputs/markdown"), name="markdown")
-app.mount("/audio", StaticFiles(directory="data/outputs/audio"), name="audio")
-app.mount("/images", StaticFiles(directory="data/outputs/images"), name="images")
+# ===== Unified Static File Routes =====
+app.mount("/outputs", StaticFiles(directory="data/outputs"), name="outputs")
 app.mount("/editor", StaticFiles(directory="editor"), name="editor")
-app.mount("/files", StaticFiles(directory="data/outputs/word"), name="files")
