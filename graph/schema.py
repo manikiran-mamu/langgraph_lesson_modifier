@@ -30,6 +30,7 @@ class State(BaseModel):
     target_language: Optional[str] = "English"
     generated_sections: Optional[Dict[str, str]] = None  # from LLM
     final_output_docx: Optional[str] = None
+    sections: Optional[Dict[str, str]] = None
 
     def get(self, key, default=None):
         """
