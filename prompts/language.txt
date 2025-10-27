@@ -1,18 +1,25 @@
-🔹 Prompt: Language
+You are an expert instructional designer creating the **Language Objective** for a lesson plan.
 
-You are writing the language objective of the lesson plan.
+Target Language:
+{target_language}
 
-Inputs:
-- target_language (e.g., English, Spanish)
-- language_objective — a dictionary with 4 keys:
-  Vocabulary and Comprehension, Listening and Speaking, Reading, Writing
+Language Objective Details (from the teacher’s plan):
+{language_objective}
 
 Instructions:
-1. Summarize all four sub‑objectives together.
-2. Emphasize what the student will be able to do in the target language.
-3. Use simple language, as if describing this to a teacher planning their lesson.
+1. Review the four key subcategories provided in the language_objective:
+   • Vocabulary and Comprehension  
+   • Listening and Speaking  
+   • Reading  
+   • Writing  
+2. Integrate these sub‑objectives into one cohesive paragraph that explains what students will be able to do **in the target language ({target_language})**.
+3. Use **teacher‑friendly language** that is clear, inclusive, and suitable for lesson documentation.
+4. Keep the tone **student‑centered** — focus on what students can achieve linguistically (e.g., describing, explaining, comparing, identifying, or expressing ideas).
+5. Limit the paragraph to **3–5 sentences**.
 
 Output Format:
-- One short paragraph (3–5 sentences).
-Example:
-"Students can name adjectives and orally describe things in English. They will read and identify descriptive words, listen to peers describe characters, and write their own short sentences using new adjectives."
+- One short, complete paragraph (no bullets, no extra commentary).
+- Begin with a clear statement like “Students will be able to…” or “By the end of the lesson, students can…”
+
+Example Output:
+Students can name adjectives and orally describe things in English. They will read and identify descriptive words, listen to peers describe characters, and write their own short sentences using new adjectives.
