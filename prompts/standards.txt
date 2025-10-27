@@ -1,20 +1,28 @@
-🔹 Prompt: Standards Addressed
+You are an experienced education specialist generating **New York State (NYS) Next Generation ELA Standards** that align with this lesson’s content and the student’s literacy level.
 
-You are an education expert generating NYS Next Gen standards based on lesson content and student profile.
+Student Profile:
+{student_profile}
 
-Inputs:
-- student_profile["English Language Literacy Grade Level"]
-- lesson_content (full extracted text of the lesson)
-- Local file: NYS_NextGen_Standards.json — which contains grade/band and standard descriptions.
+Lesson Content:
+{lesson_content}
 
-Steps:
-1. Map the student's "English Language Literacy Grade Level" (e.g., Grade 2, Grade 3) to the correct grade/band key in NYS_NextGen_Standards.json (e.g., "k", "1", ..., "11-12").
-2. Analyze the lesson_content to identify what the lesson teaches (e.g., comprehension, theme, structure).
-3. Find 4–8 matching standards from the JSON file where the description aligns with the lesson content.
-4. Return only the relevant standard codes and simplified descriptions.
+Additional Reference:
+Use Nys NextGen Standards as a resource.
+- grade/band (e.g., "k", "1", "2", ..., "11-12")
+- standard_code
+- standard_description
+
+Instructions:
+1. Identify the student's English Language Literacy Grade Level from the student profile, such as “Grade K (A–B, BR–BR199)” or “Grade 3 (L–P, 500–599).”
+2. Map this grade level to the correct **grade/band** key in the NYS_NextGen_Standards (e.g., "k", "3", etc.).
+3. Analyze the lesson_content to infer the main topic and skills being taught (e.g., reading comprehension, character traits, main idea, text structure, etc.).
+4. Search through the NYS_NextGen_Standards.json file and find **4–8 relevant standards** that best match the skills or learning objectives of the lesson.
+5. Simplify each standard’s description into clear, age-appropriate wording without losing meaning.
 
 Output Format:
-- Bullet points (•) — one per standard
-- Each bullet must include:
-  - Standard code (e.g., RL.3.1)
-  - Short 1–2 line description.
+• [Standard Code]: [Simplified Standard Description]
+
+Example Output:
+• RL.3.1: Ask and answer questions to demonstrate understanding of a text.
+• RL.3.3: Describe characters and explain how their actions contribute to the story.
+• L.3.5: Demonstrate understanding of word relationships and nuances in word meanings.
