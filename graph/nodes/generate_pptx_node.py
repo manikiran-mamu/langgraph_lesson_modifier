@@ -19,5 +19,6 @@ def generate_pptx_node(state: State) -> State:
         we_do_teacher=sections.get("we_do_teacher", "")
     )
 
+    print(slides)
     pptx_path = generate_slide_deck(slides)
     return state.update({"final_output_pptx": pptx_path})
