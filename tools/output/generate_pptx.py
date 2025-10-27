@@ -1,6 +1,5 @@
 def generate_slide_deck(slides: list) -> str:
     prs = Presentation()
-    print("i came here 2")
     for slide in slides:
         if slide["title"].lower() in ["i do", "we do"]:
             _add_center_text_slide(prs, slide["title"])
