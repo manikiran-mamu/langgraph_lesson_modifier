@@ -22,4 +22,5 @@ def generate_slide_content(lesson_objective, language_objective, lesson_content,
         temperature=0.7
     )
 
+    print(response)
     return eval(response.choices[0].message.content)  # or use json.loads() if valid JSON
