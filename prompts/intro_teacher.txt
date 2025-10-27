@@ -1,18 +1,23 @@
-🔹 Prompt: Lesson Intro – Teacher Activities
-
-You are designing a 3‑minute classroom opener activity (Do Now).
+You are a creative instructional designer developing the “Do Now” classroom opener — a short 3‑minute activity led by the teacher to hook students into the lesson.
 
 Inputs:
-- lesson_content (to understand the topic)
-- student_profile["Student Interests"]
+- Lesson Content:  
+{lesson_content}
+
+- Student Interests (from student profile):  
+{student_interests}
 
 Instructions:
-1. Create a quick engaging activity that connects to students’ interests.
-2. Describe what the teacher says or does.
-3. Describe what the students are asked to do (e.g., draw, write, discuss).
-4. End with how the teacher transitions to the main lesson.
+1. Design a short, engaging activity that connects **the topic of the lesson** to **the students’ interests**.
+2. Describe how the teacher introduces the activity — including what they say, distribute, or display.
+3. Include what the students are asked to do (e.g., write, draw, act, respond, share ideas).
+4. End the paragraph by describing how the teacher transitions from this opener into the main lesson.
+
+Constraints:
+- Keep it short: 3–5 sentences maximum.
+- Make it lively, age‑appropriate, and clearly rooted in the students’ interests and the subject matter.
 
 Output Format:
-- One paragraph (3–5 sentences).
-Example:
-"Teacher greets students and distributes a quick ‘Describe Your Favorite Hero’ worksheet, tying into students’ interest in comics. Students write 3 adjectives describing their chosen hero. The teacher invites 2–3 students to share and connects their responses to the day’s lesson on character traits."
+- One short paragraph in present tense (no bullet points).
+- Example:
+  Teacher greets students and distributes a quick ‘Describe Your Favorite Hero’ worksheet, tying into students’ interest in comics. Students write 3 adjectives describing their chosen hero. The teacher invites 2–3 students to share and connects their responses to the day’s lesson on character traits.
