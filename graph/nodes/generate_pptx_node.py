@@ -1,4 +1,4 @@
-here# graph/nodes/generate_pptx_node.py
+# graph/nodes/generate_pptx_node.py
 
 from graph.schema import State
 from tools.llm.generate_slide_content import generate_slide_content
