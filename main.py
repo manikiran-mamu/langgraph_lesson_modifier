@@ -111,6 +111,7 @@ async def update_rule_file(request: RuleUpdateRequest):
 @app.post("/generate_lesson_docx")
 async def generate_lesson_docx(request: Request, lesson_request: LessonDocxRequest):
     try:
+        # Run the LangGraph docx + pptx pipeline
         result = lesson_docx_app.invoke({
             "student_profile": lesson_request.student_profile,
             "lesson_objective": lesson_request.lesson_objective,
@@ -120,11 +121,19 @@ async def generate_lesson_docx(request: Request, lesson_request: LessonDocxReque
         })
 
         base_url = str(request.base_url).rstrip("/")
-        docx_file = os.path.basename(result["final_output_docx"])
 
-        return {
+        # Extract filenames
+        docx_file = os.path.basename(result["final_output_docx"])
+        pptx_file = os.path.basename(result.get("final_output_pptx", ""))
+
+        response = {
             "docx_url": f"{base_url}/outputs/word/{docx_file}"
         }
+
+        if pptx_file:
+            response["pptx_url"] = f"{base_url}/outputs/slides/{pptx_file}"
+
+        return response
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"DOCX pipeline failed: {str(e)}")
