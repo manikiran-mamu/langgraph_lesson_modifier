@@ -106,5 +106,4 @@ def generate_all_sections(student_profile, lesson_content, lesson_objective, lan
     if current_section and buffer:
         parsed_sections[current_section] = "\n".join(buffer).strip()
 
-    print(parsed_sections)
     return parsed_sections
