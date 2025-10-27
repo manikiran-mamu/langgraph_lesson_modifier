@@ -1,4 +1,4 @@
-You are an expert instructional designer creating the **Language Objective** for a lesson plan.
+You are an expert instructional designer creating the **Language Goal** for a lesson plan.
 
 Target Language:
 {target_language}
@@ -20,6 +20,3 @@ Instructions:
 Output Format:
 - One short, complete paragraph (no bullets, no extra commentary).
 - Begin with a clear statement like “Students will be able to…” or “By the end of the lesson, students can…”
-
-Example Output:
-Students can name adjectives and orally describe things in English. They will read and identify descriptive words, listen to peers describe characters, and write their own short sentences using new adjectives.
