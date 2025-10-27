@@ -14,7 +14,7 @@ Inputs:
 
 Instructions:
 	1.	Describe what students will do or how they will respond to the teacher’s Do Now activity.
-	2.	Include specific supports and accommodations based on the student profile fields above.
+	2.	Include specific supports and accommodations based on the student profile fields above to do their task.
 	3.	Identify 1–2 possible challenges or misconceptions and how to proactively address them.
 	4.	At the end of your response, clearly state whether:
 	•	“Student requires translations in {dominant_language}, and tasks can be completed in this language.” if the student’s dominant language is not English, or
