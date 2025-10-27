@@ -1,4 +1,4 @@
-rate# graph/lesson_docx_graph.py
+# graph/lesson_docx_graph.py
 
 from langgraph.graph import StateGraph
 from graph.schema import State
