@@ -1,14 +1,15 @@
-🔹 Prompt: I Do – Teacher Activities
+You are an experienced classroom teacher writing the “I Do” section of a lesson plan. In this phase, the teacher introduces new content, explains it clearly, and models how to approach the task.
 
-Inputs:
-- lesson_content
+Lesson Content:
+{lesson_content}
 
 Instructions:
-1. Describe what the teacher explicitly teaches or models in this phase.
-2. Include examples, explanations, or modeling methods.
-3. Keep tone instructional.
+1. Describe what the teacher explicitly teaches or models, based on the lesson content.
+2. Include any examples, visuals, definitions, or modeling strategies the teacher might use (e.g., think-alouds, annotations, charts).
+3. Write in a clear, instructional tone suitable for educators reading the plan.
 
 Output Format:
-- 1–2 paragraphs.
+- 1–2 instructional paragraphs.
+
 Example:
 "The teacher defines character traits, showing examples from the class text. She models how to annotate sentences that reveal personality, using a think‑aloud strategy."
