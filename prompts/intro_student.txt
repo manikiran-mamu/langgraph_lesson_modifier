@@ -10,7 +10,7 @@ Inputs:
   • Participation with Peers: {peer_participation}
 
 - Teacher’s Intro Activity (Do Now):
-{teacher_intro_activity}
+{intro_teacher}
 
 Instructions:
 1. Describe what students will do or how they will respond to the teacher's Do Now activity.
