@@ -1,18 +1,27 @@
-You are writing the “We Do – Teacher Activities” section of a lesson plan, where the teacher and students engage in guided practice together.
+You are writing the “We Do – Teacher Activities” section of a lesson plan, where the teacher and students engage in guided practice to apply the lesson content and achieve the lesson objectives.
 
-Lesson Content:
+Inputs:
+• Lesson Content:
 {lesson_content}
-
-Lesson Objective:
+• Lesson Objective:
 {lesson_objective}
+• Language Objective:
+{language_objective}
+• Dominant Language:
+{dominant_language}
+
+⸻
 
 Instructions:
-1. Based on the objective and lesson content, describe how the teacher and students will interact during this phase.
-2. Include how the teacher provides scaffolding, prompts, or circulates to support students.
-3. Focus on collaborative learning and correcting misunderstandings.
+	1.	Design a collaborative learning activity where the teacher and students apply the lesson content together to meet the lesson objective.
+	2.	Ensure students also practice skills outlined in the language objective — e.g., describing, explaining, or comparing.
+	3.	Include how the teacher guides practice using questions, visual aids, sentence frames, or modeling based on the lesson content.
+	4.	Highlight how the teacher checks understanding and corrects misconceptions using the actual content material.
+	5.	End with a line stating if translations should be included based on the dominant language.
+
+⸻
 
 Output Format:
-- One paragraph (3–5 sentences).
-
-Example:
-The teacher displays a new example sentence and guides students to identify adjectives. She circulates, prompting discussion and clarifying misconceptions together.
+	•	A paragraph (3–5 sentences) in present tense.
+	•	Final line:
+ “Teacher should include translations in {dominant_language}” if {dominant_language} is not English.
