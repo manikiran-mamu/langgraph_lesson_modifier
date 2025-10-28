@@ -24,7 +24,7 @@ Slide Generation Guidelines:
 	•	Use the intro_teacher to create a short 2–3 minute “Do Now” or opener activity.
 	•	This should spark curiosity or activate prior knowledge.
 	•	Include a student-facing prompt or question.
-	•	If the intro_teacher mentions “Teacher should include translations in {language}”, include that note at the bottom.
+	•	Include notes for translation if required based on intro_teacher.
 	3.	Slide 3: I DO (Section Title)
 	•	This is a section divider. The title should be: “I DO – Teacher Modeling”.
 	•	No content on this slide.
