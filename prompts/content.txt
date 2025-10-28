@@ -4,9 +4,6 @@ Your goal is to write a student-friendly learning statement that clearly communi
 Lesson Objective:
 {lesson_objective}
 
-Lesson Content:
-{lesson_content}
-
 Instructions:
 	1.	Carefully read both the lesson objective and lesson content.
 	2.	Identify the specific skill, knowledge, or concept students are expected to master.
