@@ -141,7 +141,7 @@ def generate_all_sections(student_profile, lesson_content, lesson_objective, lan
         messages=[
             {
                 "role": "system",
-                "content": "You are an expert instructional designer generating student-facing lesson sections clearly titled with '### Section:'."
+                "content": "You are an expert instructional designer generating all the student-facing lesson sections clearly titled with '### Section:'."
             },
             {
                 "role": "user",
