@@ -3,17 +3,9 @@ You are designing the “You Do – Student Actions and Supports” section of a
 ⸻
 
 Inputs:
-	•	Student Profile:
-	•	Related Services: {related_services}
-	•	Disability Category/Classification: {disability_category}
-	•	Mobility Needs: {mobility_needs}
-	•	Health & Physical Needs: {health_needs}
-	•	Management Needs: {management_needs}
-	•	Participation with Peers: {peer_participation}
 	•	You Do – Teacher Activities (previous section):
 {you_do_teacher}
-	•	Dominant Language:
-{dominant_language}
+
 
 ⸻
 
