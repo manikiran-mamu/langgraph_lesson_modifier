@@ -5,15 +5,6 @@ Inputs:
 {lesson_content}
 • Teacher Modeling (“I Do – Teacher”):
 {i_do_teacher}
-• Student Profile:
- - Related Services: {related_services}
- - Disability Category/Classification: {disability_category}
- - Mobility Needs: {mobility_needs}
- - Health & Physical Needs: {health_needs}
- - Management Needs: {management_needs}
- - Participation with Peers: {peer_participation}
-• Dominant Language:
-{dominant_language}
 
 ⸻
 
