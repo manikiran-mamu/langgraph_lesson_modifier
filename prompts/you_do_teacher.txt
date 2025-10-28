@@ -2,18 +2,6 @@ You are designing the “You Do – Teacher Activities” section of a lesson pl
 
 ⸻
 
-Inputs:
-	•	Lesson Content:
-{lesson_content}
-	•	Lesson Objective:
-{lesson_objective}
-	•	Language Objective:
-{language_objective}
-	•	Dominant Language:
-{dominant_language}
-
-⸻
-
 Instructions:
 	1.	Based on the lesson content, clearly define the independent task that students are now ready to complete on their own. This task should help the teacher evaluate how well students can meet both the lesson objective and language objective.
 	2.	Describe how the teacher introduces and explains the task, including reminders of key strategies, visual aids, or references from earlier in the lesson.
