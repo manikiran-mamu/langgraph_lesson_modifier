@@ -70,6 +70,7 @@ def build_combined_prompt(section_list, student_profile, lesson_content, lesson_
             student_interests=extracted["student_interests"],
             dominant_language=extracted["dominant_language"],
             intro_teacher=prior_sections.get("intro_teacher", ""),
+            i_do_teacher=prior_sections.get("i_do_teacher", ""),
             we_do_teacher=prior_sections.get("we_do_teacher", ""),
             you_do_teacher=prior_sections.get("you_do_teacher", "")
         )
@@ -126,6 +127,7 @@ def generate_all_sections(student_profile, lesson_content, lesson_objective, lan
 
     teacher_output = teacher_response.choices[0].message.content
     teacher_sections = parse_sections(teacher_output)
+    print(teacher_sections)
 
     # --- SECOND CALL: Generate student sections using teacher output ---
     student_prompt = build_combined_prompt(
