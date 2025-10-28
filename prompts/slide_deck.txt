@@ -23,7 +23,7 @@ Use the following slide structure:
 2. Slide 2: Engager  
    - Title: "Engager"  
    - Content: Create a 2–3 minute opener activity or prompt using intro_teacher. Include a question or activity that sparks curiosity.  
-   - If intro_teacher mentions translation needs, add "**Note:** Include translations in [language]."
+   - If intro_teacher mentions translation needs, include the translated version on the same slide.
 
 3. Slide 3: I DO – Teacher Modeling  
    - Title: "I DO – Teacher Modeling"  
