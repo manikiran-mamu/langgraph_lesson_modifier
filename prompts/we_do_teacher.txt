@@ -1,14 +1,5 @@
 You are writing the “We Do – Teacher Activities” section of a lesson plan, where the teacher and students engage in guided practice to apply the lesson content and achieve the lesson objectives.
 
-Inputs:
-• Lesson Content:
-{lesson_content}
-• Lesson Objective:
-{lesson_objective}
-• Language Objective:
-{language_objective}
-• Dominant Language:
-{dominant_language}
 
 ⸻
 
