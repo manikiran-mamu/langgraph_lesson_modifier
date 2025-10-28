@@ -76,7 +76,7 @@ def build_combined_prompt(section_list, student_profile, lesson_content, lesson_
         )
 
         prompt_blocks.append(f"### Section: {section_key.replace('_', ' ').title()}\n{filled_prompt}")
-        print("prompt blocks: ", prompt_blocks)
+
     return "\n\n".join(prompt_blocks)
 
 # -----------------------------
@@ -127,7 +127,7 @@ def generate_all_sections(student_profile, lesson_content, lesson_objective, lan
 
     teacher_output = teacher_response.choices[0].message.content
     teacher_sections = parse_sections(teacher_output)
-    print(teacher_sections)
+    print("teacher_sections:", teacher_sections)
 
     # --- SECOND CALL: Generate student sections using teacher output ---
     student_prompt = build_combined_prompt(
@@ -155,5 +155,5 @@ def generate_all_sections(student_profile, lesson_content, lesson_objective, lan
 
     # Combine all sections
     all_sections = {**teacher_sections, **student_sections}
-    print(student_sections)
+    print("Student_sections:", student_sections)
     return all_sections
