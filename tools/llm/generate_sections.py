@@ -152,6 +152,7 @@ def generate_all_sections(student_profile, lesson_content, lesson_objective, lan
     )
 
     student_output = student_response.choices[0].message.content
+    print("student_output", student_output)
     student_sections = parse_sections(student_output)
 
     # Combine all sections
