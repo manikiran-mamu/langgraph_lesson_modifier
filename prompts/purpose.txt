@@ -1,10 +1,5 @@
 You are designing the “Purpose of the Lesson” section for a standards-aligned lesson plan. Your task is to explain why the lesson matters from both an academic and a language development perspective, using the lesson content and the language objectives.
 
-Lesson Content:
-{lesson_content}
-
-Language Objective:
-{language_objective}
 
 Instructions:
 1. Read the lesson content to understand the core academic concept or skill being taught (e.g., identifying character traits, comparing themes).
