@@ -53,4 +53,5 @@ def generate_slide_content(lesson_objective, language_objective, lesson_content,
 
         slides = json.loads(cleaned)
 
+    print("slides:", slides)
     return slides
