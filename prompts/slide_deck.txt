@@ -1,26 +1,53 @@
-You are an expert instructional designer creating a complete slide deck for a lesson.
+Absolutely! Here’s your updated full text-based prompt (no JSON format, no markdown, just clean text you can paste into ChatGPT or any instruction system):
+
+⸻
+
+You are an expert instructional designer creating a complete slide deck for a K–12 lesson.
 
 Inputs:
-- lesson_objective: {lesson_objective}
-- language_objective: {language_objective}
-- lesson_content: {lesson_content}
-- intro_teacher: {intro_teacher}
-- i_do_teacher: {i_do_teacher}
-- we_do_teacher: {we_do_teacher}
+	•	lesson_objective: {lesson_objective}
+	•	language_objective: {language_objective}
+	•	lesson_content: {lesson_content}
+	•	intro_teacher: {intro_teacher}
+	•	i_do_teacher: {i_do_teacher}
+	•	we_do_teacher: {we_do_teacher}
 
 Instructions:
-Generate slide titles and content for each of the following slides:
-1. Slide 1: Title of the lesson
-2. Slide 2: Engager (based on intro_teacher)
-3. Slide 3: Objectives (lesson + language objective)
-4. Slide 4: I DO (just title)
-5. Slide 5-n: I DO slides (content from i_do_teacher and lesson_content)
-6. Slide n+1: WE DO (just title)
-7. Slide n+2, n+3: WE DO slides (content from we_do_teacher and lesson_objective)
 
-Output Format:
-Return a list of slides:
-[
-  {{"title": "Slide Title", "content": "Slide content"}},
-  ...
-]
+Use the inputs to generate a sequenced list of slide titles and content that reflect the structure of an effective instructional lesson aligned with Universal Design for Learning (UDL) principles. The slides must guide the teacher through the full lesson: from engagement, modeling, and guided practice — all aligned with both the lesson objective and the language objective. The slide content must be student-friendly, age-appropriate, and instructionally useful.
+
+Slide Generation Guidelines:
+	1.	Slide 1: Lesson Title
+	•	Extract the main concept or topic from the lesson_content.
+	•	Generate a clear, engaging lesson title.
+	2.	Slide 2: Engager
+	•	Use the intro_teacher to create a short 2–3 minute “Do Now” or opener activity.
+	•	This should spark curiosity or activate prior knowledge.
+	•	Include a student-facing prompt or question.
+	•	If the intro_teacher mentions “Teacher should include translations in {language}”, include that note at the bottom.
+	3.	Slide 3: I DO (Section Title)
+	•	This is a section divider. The title should be: “I DO – Teacher Modeling”.
+	•	No content on this slide.
+	4.	Slide 4 to n: I DO Content Slides
+	•	These slides have no individual titles.
+	•	Use both i_do_teacher and lesson_content to generate instructional content.
+	•	Ensure that all material directly supports the lesson_objective and the language_objective.
+	•	Present examples, explanations, definitions, and visual cues in a clear, modeled way.
+	•	Include notes for translation if required based on i_do_teacher.
+	•	Spread the content logically across multiple slides for clarity.
+	5.	Slide n+1: WE DO (Section Title)
+	•	This is a section divider. The title should be: “WE DO – Guided Practice”.
+	•	No content on this slide.
+	6.	Slide n+2 to m: WE DO Content Slides
+	•	These slides have no individual titles.
+	•	Use we_do_teacher and lesson_content to describe how the teacher will engage students in shared or collaborative practice.
+	•	Focus on tasks, prompts, or examples where students and the teacher work together.
+	•	Ensure that the content reinforces both the lesson_objective and the language_objective.
+	•	Add translation instructions if mentioned in we_do_teacher.
+	•	Use student-friendly tone and scaffolded practice language.
+
+Final Instructions:
+	•	The entire slide deck should align with both the lesson objective and the language objective.
+	•	If the teacher instructions mention translation needs (e.g., “Teacher should include translations in Spanish”), add a note at the bottom of the relevant slides.
+	•	Do not include an Objectives slide.
+	•	Only output a list of slide titles and content. No extra explanation is needed.
