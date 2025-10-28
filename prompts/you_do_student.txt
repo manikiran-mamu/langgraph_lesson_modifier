@@ -12,8 +12,6 @@ Inputs:
 	•	Participation with Peers: {peer_participation}
 	•	You Do – Teacher Activities (previous section):
 {you_do_teacher}
-	•	Lesson Content:
-{lesson_content}
 	•	Dominant Language:
 {dominant_language}
 
