@@ -5,8 +5,6 @@ You are designing the “We Do – Student Actions and Supports” section of a 
 Inputs:
 	•	We Do – Teacher Activities:
 {we_do_teacher}
-	•	Lesson Content:
-{lesson_content}
 	•	Dominant Language:
 {dominant_language}
 	•	Student Profile:
