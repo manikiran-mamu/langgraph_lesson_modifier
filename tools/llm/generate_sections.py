@@ -151,7 +151,6 @@ def generate_all_sections(student_profile, lesson_content, lesson_objective, lan
         temperature=0.7
     )
 
-    print(student_output)
     student_output = student_response.choices[0].message.content
     student_sections = parse_sections(student_output)
 
