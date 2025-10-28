@@ -133,8 +133,8 @@ def generate_all_sections(student_profile, lesson_content, lesson_objective, lan
     student_prompt = build_combined_prompt(
         STUDENT_SECTIONS, student_profile, lesson_content, lesson_objective, language_objective, target_language,
         prior_sections=teacher_sections
-    print("student_prompt:", student_prompt)
     )
+    print("student_prompt:", student_prompt)
 
     student_response = client.chat.completions.create(
         model="gpt-4o",
