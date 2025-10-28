@@ -76,7 +76,7 @@ def build_combined_prompt(section_list, student_profile, lesson_content, lesson_
         )
 
         prompt_blocks.append(f"### Section: {section_key.replace('_', ' ').title()}\n{filled_prompt}")
-
+        print("prompt blocks: ", prompt_blocks)
     return "\n\n".join(prompt_blocks)
 
 # -----------------------------
