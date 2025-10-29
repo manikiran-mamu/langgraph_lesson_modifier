@@ -8,25 +8,26 @@ import uuid
 # Helper to add formatted text into a placeholder with colors
 def _set_formatted_content(text_frame, content):
     text_frame.clear()
+    text_frame.word_wrap = True  # ✅ Ensure wrapping
 
     for paragraph_text in content.split("\n"):
-        if not paragraph_text.strip():
+        clean_text = paragraph_text.strip()
+        if not clean_text:
             continue
 
         p = text_frame.add_paragraph()
+        p.alignment = PP_ALIGN.LEFT
+
         run = p.add_run()
-
-        # Detect translation vs English
-        if "Translation" in paragraph_text or "Translation" in paragraph_text.lower() or "अनुवाद" in paragraph_text:
-            run.text = paragraph_text.strip()
-            run.font.color.rgb = RGBColor(255, 0, 0)  # Red for translation
-        else:
-            run.text = paragraph_text.strip()
-            run.font.color.rgb = RGBColor(0, 102, 204)  # Blue for English
-
+        run.text = clean_text
         run.font.size = Pt(16)
         run.font.name = "Poppins"
-        p.alignment = PP_ALIGN.LEFT
+
+        # 🎯 Color logic
+        if "translation" in clean_text.lower() or "अनुवाद" in clean_text:
+            run.font.color.rgb = RGBColor(255, 0, 0)  # 🔴 Red for translations
+        else:
+            run.font.color.rgb = RGBColor(0, 102, 204)  # 🔵 Blue for English
 
 # Title + Content Slide
 def _add_title_content_slide(prs, title, content):
@@ -67,13 +68,15 @@ def _add_content_only_slide(prs, content):
     slide_layout = prs.slide_layouts[6]  # Blank layout
     slide = prs.slides.add_slide(slide_layout)
 
-    left = Inches(0.75)
+    # Set dimensions and position
+    left = Inches(1)
     top = Inches(1)
-    width = Inches(8.5)
+    width = Inches(8)   # Slightly narrower to allow padding
     height = Inches(5.5)
 
     textbox = slide.shapes.add_textbox(left, top, width, height)
     text_frame = textbox.text_frame
+    text_frame.word_wrap = True  # ✅ Enable word wrap
 
     _set_formatted_content(text_frame, content)
 
