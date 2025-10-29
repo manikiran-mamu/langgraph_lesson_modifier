@@ -50,34 +50,44 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
     )
 
     raw_output = response.choices[0].message.content.strip()
-    print("\n📦 Raw LLM Output:\n", raw_output[:4000])  # Print preview (first 4000 chars)
+    print("\n📦 Raw LLM Output (preview):\n", raw_output[:2000])
 
-    # --- Try direct JSON parse first ---
+    # ---------- Try direct JSON load ----------
     try:
         parsed = json.loads(raw_output)
     except json.JSONDecodeError:
         cleaned = raw_output.strip()
 
-        # Remove code fences and trailing markdown
+        # Remove ```json fences
         cleaned = re.sub(r"^```(json)?", "", cleaned)
         cleaned = re.sub(r"```$", "", cleaned)
         cleaned = cleaned.strip()
 
-        # Normalize quotes and backslashes
+        # Normalize quotes and Unicode
         cleaned = (
             cleaned.replace("“", '"').replace("”", '"')
             .replace("‘", "'").replace("’", "'")
             .replace("\r", "").replace("\xa0", " ")
         )
 
-        # Replace Danda & special Unicode BEFORE parsing
+        # ✅ Replace problematic Unicode before parsing
         cleaned = sanitize_text_for_docx(cleaned)
 
-        # Escape bad backslashes
-        cleaned = re.sub(r'(?<!\\)\\(?![nrt"\\])', r'\\\\', cleaned)
+        # ✅ Escape bad single backslashes
+        cleaned = re.sub(r'(?<!\\)\$begin:math:text$?![nrt"\\\\])', r'\\\\\\\\', cleaned)
 
-        # Try regex extraction of JSON array
-        json_match = re.search(r"(\[\s*{.*}\s*\])", cleaned, re.DOTALL)
+        # ✅ Escape unescaped double quotes inside content strings
+        # (this solves your current JSON syntax error)
+        def escape_inner_quotes(match):
+            content = match.group(1)
+            # escape inner quotes
+            content_fixed = re.sub(r'(?<!\\$end:math:text$"', r'\\"', content)
+            return f'"content": "{content_fixed}"'
+
+        cleaned = re.sub(r'"content":\s*"([^"]*?)"', escape_inner_quotes, cleaned, flags=re.DOTALL)
+
+        # ✅ Extract JSON array only
+        json_match = re.search(r"($begin:math:display$\\s*{.*}\\s*$end:math:display$)", cleaned, re.DOTALL)
         if json_match:
             cleaned = json_match.group(1)
 
@@ -89,9 +99,10 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
             except Exception as e:
                 print("\n❌ Final fallback failed. Output below:\n")
                 print(cleaned[:2000])
+                print("\n🚨 Traceback:\n", traceback.format_exc())
                 raise e
 
-    # ✅ Sanitize each slide field for DOCX/PPTX safety
+    # ---------- Sanitize output ----------
     sanitized_slides = []
     for slide in parsed:
         sanitized_slides.append({
@@ -101,6 +112,7 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
 
     print(f"✅ Modified Lesson Slides Generated: {len(sanitized_slides)}")
     return sanitized_slides
+    
 # ------------------------------------------------------------
 # SECOND LLM CALL → Generate Main Lesson Slide Structure
 # ------------------------------------------------------------
