@@ -74,7 +74,7 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
         cleaned = sanitize_text_for_docx(cleaned)
 
         # ✅ Escape bad single backslashes
-        cleaned = re.sub(r'(?<!\\)\$begin:math:text$?![nrt"\\\\])', r'\\\\\\\\', cleaned)
+        #cleaned = re.sub(r'(?<!\\)\$begin:math:text$?![nrt"\\\\])', r'\\\\\\\\', cleaned)
 
         # ✅ Escape unescaped double quotes inside content strings
         def escape_inner_quotes(match):
