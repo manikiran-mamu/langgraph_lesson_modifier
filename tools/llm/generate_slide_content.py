@@ -3,6 +3,7 @@ import json
 import re
 import ast 
 from openai import OpenAI
+import traceback
 from dotenv import load_dotenv
 from tools.llm.generate_sections import load_prompt
 
