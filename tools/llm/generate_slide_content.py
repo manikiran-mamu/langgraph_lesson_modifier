@@ -65,7 +65,7 @@ def generate_base_slide_structure(lesson_objective, language_objective, lesson_c
     Step 2: Generate the core slide structure (title, engager, I DO, WE DO, etc.)
     without including the modified lesson slides.
     """
-    prompt_template = load_prompt("slide_deck_structure")  # New prompt file (see below)
+    prompt_template = load_prompt("slide_deck")  # New prompt file (see below)
     filled_prompt = prompt_template.format(
         lesson_objective=lesson_objective,
         language_objective=language_objective,
