@@ -60,7 +60,7 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
 # ------------------------------------------------------------
 # SECOND LLM CALL → Generate Main Lesson Slide Structure
 # ------------------------------------------------------------
-def generate_base_slide_structure(lesson_objective, language_objective, lesson_content, intro_teacher, i_do_teacher, we_do_teacher):
+def generate_base_slide_structure(lesson_objective, language_objective, lesson_content, intro_teacher, we_do_teacher):
     """
     Step 2: Generate the core slide structure (title, engager, I DO, WE DO, etc.)
     without including the modified lesson slides.
@@ -71,7 +71,6 @@ def generate_base_slide_structure(lesson_objective, language_objective, lesson_c
         language_objective=language_objective,
         lesson_content=lesson_content,
         intro_teacher=intro_teacher,
-        i_do_teacher=i_do_teacher,
         we_do_teacher=we_do_teacher
     )
 
@@ -133,7 +132,6 @@ def generate_slide_content(lesson_objective, language_objective, lesson_content,
         language_objective=language_objective,
         lesson_content=lesson_content,
         intro_teacher=intro_teacher,
-        i_do_teacher=i_do_teacher,
         we_do_teacher=we_do_teacher
     )
 
