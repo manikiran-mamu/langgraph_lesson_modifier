@@ -77,17 +77,15 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
         cleaned = re.sub(r'(?<!\\)\$begin:math:text$?![nrt"\\\\])', r'\\\\\\\\', cleaned)
 
         # ✅ Escape unescaped double quotes inside content strings
-        # (this solves your current JSON syntax error)
         def escape_inner_quotes(match):
             content = match.group(1)
-            # escape inner quotes
             content_fixed = re.sub(r'(?<!\\$end:math:text$"', r'\\"', content)
             return f'"content": "{content_fixed}"'
 
         cleaned = re.sub(r'"content":\s*"([^"]*?)"', escape_inner_quotes, cleaned, flags=re.DOTALL)
 
         # ✅ Extract JSON array only
-        json_match = re.search(r"($begin:math:display$\\s*{.*}\\s*$end:math:display$)", cleaned, re.DOTALL)
+        json_match = re.search(r"($begin:math:display$\\s*{.*?}\\s*$end:math:display$)", cleaned, re.DOTALL)
         if json_match:
             cleaned = json_match.group(1)
 
