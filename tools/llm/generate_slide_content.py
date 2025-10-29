@@ -1,4 +1,3 @@
-# tools/llm/generate_slide_content.py
 import os
 import json
 from openai import OpenAI
@@ -8,9 +7,15 @@ from tools.llm.generate_sections import load_prompt
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+# ------------------------------------------------------------
+# FIRST LLM CALL → Generate Modified Lesson Content Slides
+# ------------------------------------------------------------
 def generate_modified_lesson_content(lesson_content, lesson_objective, language_objective, i_do_teacher):
-    """Call GPT to rewrite the lesson content into scaffolded instructional chunks for slide use."""
-    prompt_template = load_prompt("modify_lesson_content")  # This should be your detailed prompt file
+    """
+    Step 1: Rewrite the lesson content into slide-ready instructional chunks
+    that align with lesson & language objectives and include translations if required.
+    """
+    prompt_template = load_prompt("modify_lesson_content")
     filled_prompt = prompt_template.format(
         lesson_content=lesson_content,
         lesson_objective=lesson_objective,
@@ -21,7 +26,10 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "You are a curriculum adaptation expert generating slide-ready rewritten lesson content. Return only valid JSON."},
+            {
+                "role": "system",
+                "content": "You are a curriculum adaptation expert generating slide-ready rewritten lesson content. Return only valid JSON with 'title' and 'content'."
+            },
             {"role": "user", "content": filled_prompt}
         ],
         temperature=0.7
@@ -30,11 +38,9 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
     raw_output = response.choices[0].message.content.strip()
 
     try:
-        modified_chunks = json.loads(raw_output)
+        modified_slides = json.loads(raw_output)
     except json.JSONDecodeError:
         cleaned = raw_output.strip()
-
-        # Remove markdown formatting
         if cleaned.startswith("```json"):
             cleaned = cleaned.replace("```json", "").replace("```", "").strip()
         elif cleaned.startswith("```"):
@@ -42,32 +48,28 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
 
         cleaned = cleaned.replace("“", "\"").replace("”", "\"").replace("‘", "'").replace("’", "'")
 
-        print("🧹 Cleaned modified lesson content:")
+        print("\n🧹 Cleaned modified lesson content:")
         print(cleaned)
 
-        modified_chunks = json.loads(cleaned)
+        modified_slides = json.loads(cleaned)
 
-    return modified_chunks
+    print(f"✅ Modified Lesson Slides Generated: {len(modified_slides)}")
+    return modified_slides
 
 
-def generate_slide_content(lesson_objective, language_objective, lesson_content, intro_teacher, i_do_teacher, we_do_teacher):
-    # Step 1: Preprocess lesson_content via LLM
-    modified_chunks = generate_modified_lesson_content(
-        lesson_content=lesson_content,
-        lesson_objective=lesson_objective,
-        language_objective=language_objective,
-        i_do_teacher=i_do_teacher
-    )
-
-    # Optional: flatten modified content into a single string if your slide prompt expects one string
-    modified_lesson_content = "\n\n".join(chunk["content"] for chunk in modified_chunks)
-
-    # Step 2: Generate slides using the modified content
-    prompt_template = load_prompt("slide_deck")
+# ------------------------------------------------------------
+# SECOND LLM CALL → Generate Main Lesson Slide Structure
+# ------------------------------------------------------------
+def generate_base_slide_structure(lesson_objective, language_objective, lesson_content, intro_teacher, i_do_teacher, we_do_teacher):
+    """
+    Step 2: Generate the core slide structure (title, engager, I DO, WE DO, etc.)
+    without including the modified lesson slides.
+    """
+    prompt_template = load_prompt("slide_deck_structure")  # New prompt file (see below)
     filled_prompt = prompt_template.format(
         lesson_objective=lesson_objective,
         language_objective=language_objective,
-        lesson_content=modified_lesson_content,
+        lesson_content=lesson_content,
         intro_teacher=intro_teacher,
         i_do_teacher=i_do_teacher,
         we_do_teacher=we_do_teacher
@@ -76,7 +78,10 @@ def generate_slide_content(lesson_objective, language_objective, lesson_content,
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "You are an expert instructional designer. Return only a valid JSON list of slides. Do not use markdown or triple backticks. No explanation — just plain JSON."},
+            {
+                "role": "system",
+                "content": "You are an expert instructional designer. Return only valid JSON with 'title' and 'content'. No markdown or extra text."
+            },
             {"role": "user", "content": filled_prompt}
         ],
         temperature=0.7
@@ -85,7 +90,7 @@ def generate_slide_content(lesson_objective, language_objective, lesson_content,
     raw_output = response.choices[0].message.content.strip()
 
     try:
-        slides = json.loads(raw_output)
+        base_slides = json.loads(raw_output)
     except json.JSONDecodeError:
         cleaned = raw_output.strip()
         if cleaned.startswith("```json"):
@@ -95,10 +100,51 @@ def generate_slide_content(lesson_objective, language_objective, lesson_content,
 
         cleaned = cleaned.replace("“", "\"").replace("”", "\"").replace("‘", "'").replace("’", "'")
 
-        print("🧹 Cleaned fallback slide content:")
+        print("\n🧹 Cleaned base slide structure:")
         print(cleaned)
 
-        slides = json.loads(cleaned)
+        base_slides = json.loads(cleaned)
 
-    print("✅ Generated Slides:", slides)
-    return slides
+    print(f"✅ Base Slide Structure Generated: {len(base_slides)}")
+    return base_slides
+
+
+# ------------------------------------------------------------
+# FINAL COMBINED FUNCTION → Merge Slides
+# ------------------------------------------------------------
+def generate_slide_content(lesson_objective, language_objective, lesson_content, intro_teacher, i_do_teacher, we_do_teacher):
+    """
+    Full pipeline:
+      1️⃣ Generate modified lesson slides (LLM #1)
+      2️⃣ Generate base slide structure (LLM #2)
+      3️⃣ Insert modified slides right after 'I DO – Teacher Modeling'
+    """
+    # Step 1: Modified lesson slides
+    modified_slides = generate_modified_lesson_content(
+        lesson_content=lesson_content,
+        lesson_objective=lesson_objective,
+        language_objective=language_objective,
+        i_do_teacher=i_do_teacher
+    )
+
+    # Step 2: Main structure slides
+    base_slides = generate_base_slide_structure(
+        lesson_objective=lesson_objective,
+        language_objective=language_objective,
+        lesson_content=lesson_content,
+        intro_teacher=intro_teacher,
+        i_do_teacher=i_do_teacher,
+        we_do_teacher=we_do_teacher
+    )
+
+    # Step 3: Find index of “I DO – Teacher Modeling” slide
+    insert_index = next(
+        (i for i, slide in enumerate(base_slides) if "i do" in slide["title"].lower()),
+        3  # default after 3rd slide
+    )
+
+    # Step 4: Merge
+    final_slides = base_slides[:insert_index + 1] + modified_slides + base_slides[insert_index + 1:]
+
+    print(f"✅ Final Slide Deck Generated: {len(final_slides)} slides total")
+    return final_slides
