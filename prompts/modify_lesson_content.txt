@@ -50,14 +50,14 @@ Transform the entire lesson_content (every paragraph or event) into a clear, sca
 ### 4. Example of Ideal Output Format
 
 [
-{
+{{
   "title": "",
   "content": "Daedalus was a brilliant inventor imprisoned by King Minos. He decided to escape by creating wings out of feathers and wax. The word *ingenious* means clever and creative. Students discuss how creativity can solve problems.  \nTranslation (Hindi): डेडलस एक प्रतिभाशाली आविष्कारक था जिसे किंग मिनोस ने कैद कर लिया था। उसने पंख और मोम से पंख बनाकर भागने का निर्णय लिया। *Ingenious* का अर्थ है चतुर और रचनात्मक। छात्र चर्चा करते हैं कि रचनात्मकता से समस्याओं का समाधान कैसे किया जा सकता है।"
-},
-{
+}},
+{{
   "title": "",
   "content": "Icarus helped gather feathers for his father. Together they built wings strong enough to lift them into the air. Daedalus taught Icarus how to fly carefully — not too high, not too low — to stay safe. What might happen if someone ignores directions?  \nTranslation (Hindi): इकरस ने अपने पिता की सहायता करते हुए पंख इकट्ठे किए। दोनों ने ऐसे पंख बनाए जो उन्हें हवा में उठा सकें। डेडलस ने इकरस को सावधानी से उड़ना सिखाया— न बहुत ऊँचा, न बहुत नीचे— ताकि वह सुरक्षित रहे। सोचिए: यदि कोई निर्देशों को अनदेखा करे तो क्या हो सकता है?"
-},
+}},
 ...
 ]
 
