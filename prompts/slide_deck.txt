@@ -31,14 +31,16 @@ Use the following slide structure:
 
 4. Slide 4 to n: I DO Content Slides  
    - Title: "" (leave blank for each slide)  
-   - Content: Modify the original lesson_content by aligning it with both the lesson_objective and language_objective.  
-   - Present the modified lesson content across multiple slides, where each slide introduces one clear instructional idea, example, or modeling step.  
-   - Follow the instructional tone and approach specified in i_do_teacher — use modeling language, sentence frames, key vocabulary explanations, and age-appropriate scaffolds.  
-   - The modified content should help students meet the lesson objective and practice the target language skills defined in the language objective.  
-   - Break the content into short, digestible parts to ensure clarity and flow (1 idea per slide).  
-   - If translation support is required (as mentioned in i_do_teacher), include a note on the slide (e.g., “Include translations in Hindi.”).  
-   - Do not repeat the full lesson_content on each slide — instead, transform and divide it meaningfully across slides as modeled instruction.
-   - Include translation instructions if specified in i_do_teacher.
+   - Content: Rewrite and adapt the entire lesson_content so that every key idea, event, or passage is represented somewhere across these slides.  
+   - The goal is to transform (not shorten) the full lesson_content so it becomes clear, accessible, and instructionally aligned with both the lesson_objective and the language_objective.  
+   - Use i_do_teacher as the teaching model for tone and delivery — the teacher is modeling comprehension strategies, vocabulary use, and thinking processes aloud.  
+   - Keep all original details from the story, but express them using simpler language, scaffolds, and sentence frames that help students meet the objectives.  
+   - Divide the rewritten lesson_content logically across multiple slides — one paragraph, event, or concept per slide — so that nothing is skipped or summarized away.  
+   - Each slide should contain a short chunk of the rephrased story or concept (3–6 sentences) written in clear, student‑friendly language.  
+   - Integrate vocabulary definitions, visuals, or quick comprehension checks where appropriate.  
+   - Explicitly connect the text to the lesson_objective and the language_objective (for example, highlight how the vocabulary or theme supports them).  
+   - If translation support is required (as noted in i_do_teacher), end the slide content with a note such as “Include translations in Hindi.”  
+   - The result should be a complete, modified version of the lesson_content distributed across the slides — preserving all information but rewritten for accessibility and learning focus.
 
 5. Slide n+1: WE DO – Guided Practice  
    - Title: "WE DO – Guided Practice"  
