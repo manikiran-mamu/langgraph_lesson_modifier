@@ -29,24 +29,11 @@ Use the following slide structure:
    - Title: "I DO – Teacher Modeling"  
    - Content: Leave this empty (just a section divider slide)
 
-4. Slide 4 to n: I DO Content Slides  
-   - Title: "" (leave blank for each slide)  
-   - Content: Rewrite and adapt the entire lesson_content so that every key idea, event, or passage is represented somewhere across these slides.  
-   - The goal is to transform (not shorten) the full lesson_content so it becomes clear, accessible, and instructionally aligned with both the lesson_objective and the language_objective.  
-   - Use i_do_teacher as the teaching model for tone and delivery — the teacher is modeling comprehension strategies, vocabulary use, and thinking processes aloud.  
-   - Keep all original details from the story, but express them using simpler language, scaffolds, and sentence frames that help students meet the objectives.  
-   - Divide the rewritten lesson_content logically across multiple slides — one paragraph, event, or concept per slide — so that nothing is skipped or summarized away.  
-   - Each slide should contain a short chunk of the rephrased story or concept (3–6 sentences) written in clear, student‑friendly language.  
-   - Integrate vocabulary definitions, visuals, or quick comprehension checks where appropriate.  
-   - Explicitly connect the text to the lesson_objective and the language_objective (for example, highlight how the vocabulary or theme supports them).  
-   - If translation support is required (as noted in i_do_teacher), end the slide content with a note such as “Include translations in Hindi.”  
-   - The result should be a complete, modified version of the lesson_content distributed across the slides — preserving all information but rewritten for accessibility and learning focus.
-
-5. Slide n+1: WE DO – Guided Practice  
+4. Slide 4: WE DO – Guided Practice  
    - Title: "WE DO – Guided Practice"  
    - Content: Leave this empty (just a section divider slide)
 
-6. Slide n+2 to m: WE DO Content Slides  
+5. Slide 5 to n: WE DO Content Slides  
    - Title: "" (empty string)  
    - Content: Collaborative student + teacher practice based on we_do_teacher and lesson_content. Include sentence frames, discussion tasks, or hands-on prompts.  
    - Include translation instructions if mentioned in we_do_teacher.
@@ -60,8 +47,6 @@ Example:
 [
   {{"title": "The Solar System", "content": "Learn about the planets that orbit our sun."}},
   {{"title": "Engager", "content": "What do you already know about space? Turn and talk to a partner."}},
-  {{"title": "I DO – Teacher Modeling", "content": ""}},
-  {{"title": "", "content": "The sun is a star. It gives us light and heat. Mercury is the closest planet..."}},
   {{"title": "WE DO – Guided Practice", "content": ""}},
   {{"title": "", "content": "Work with a partner to name all the planets. Use your glossary for tricky words."}}
 ]
