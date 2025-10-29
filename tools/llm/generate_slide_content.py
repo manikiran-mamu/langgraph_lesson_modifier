@@ -12,19 +12,21 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
 def sanitize_text_for_docx(text: str) -> str:
-    """Sanitize text for DOCX-safe output (remove danda, bad quotes, etc.)."""
+    """Sanitize text for DOCX-safe output (remove danda, smart quotes, etc.)."""
     return (
-        text.replace("।", ".")             # Devanagari danda → period
-            .replace("\u0964", ".")        # Explicit Unicode danda
-            .replace("\xa0", " ")          # Non-breaking space
+        text.replace("।", ".")
+            .replace("\u0964", ".")
+            .replace("\xa0", " ")
             .replace("\r", "")
-            .replace("\u2028", " ")        # Line separator
-            .replace("\u2029", " ")        # Paragraph separator
+            .replace("\u2028", " ")
+            .replace("\u2029", " ")
+            .replace("“", '"')
+            .replace("”", '"')
+            .replace("‘", "'")
+            .replace("’", "'")
     )
 
-# ------------------------------------------------------------
-# FIRST LLM CALL → Generate Modified Lesson Content Slides
-# ------------------------------------------------------------
+
 def generate_modified_lesson_content(lesson_content, lesson_objective, language_objective, i_do_teacher):
     """Generate slide‑ready modified lesson content aligned with objectives."""
     prompt_template = load_prompt("modify_lesson_content")
@@ -41,7 +43,10 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
         messages=[
             {
                 "role": "system",
-                "content": "You are a curriculum adaptation expert generating slide-ready rewritten lesson content. Return only valid JSON with 'title' and 'content'."
+                "content": (
+                    "You are a curriculum adaptation expert generating slide-ready rewritten lesson content. "
+                    "Return only valid JSON with 'title' and 'content'. Do NOT include markdown or triple backticks."
+                )
             },
             {"role": "user", "content": filled_prompt}
         ],
@@ -49,13 +54,12 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
     )
 
     raw_output = response.choices[0].message.content.strip()
-    print("\n📦 Raw LLM Output (preview):\n", raw_output)
+    print("\n📦 Raw LLM Output (preview):\n", raw_output[:1500])
 
     # ---------- Basic parsing ----------
     try:
         parsed = json.loads(raw_output)
     except Exception:
-        # Clean simple formatting issues
         cleaned = raw_output.strip()
 
         # Remove Markdown fences
@@ -64,17 +68,18 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
         cleaned = cleaned.strip()
 
         # Replace smart quotes / unsafe chars
-        cleaned = (
-            cleaned.replace("“", '"')
-            .replace("”", '"')
-            .replace("‘", "'")
-            .replace("’", "'")
-        )
-
-        # Remove stray Unicode
         cleaned = sanitize_text_for_docx(cleaned)
 
-        # Final simple fallback
+        # ✅ Escape unescaped internal quotes in content
+        def escape_inner_quotes(match):
+            inner = match.group(1)
+            # escape only double quotes that are not already escaped
+            inner_escaped = re.sub(r'(?<!\\)"', r'\\"', inner)
+            return f'"content": "{inner_escaped}"'
+
+        cleaned = re.sub(r'"content":\s*"([^"]*?)"', escape_inner_quotes, cleaned, flags=re.DOTALL)
+
+        # ---------- Try parsing again ----------
         try:
             parsed = json.loads(cleaned)
         except Exception:
