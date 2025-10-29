@@ -38,23 +38,41 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
     raw_output = response.choices[0].message.content.strip()
 
     try:
-        modified_slides = json.loads(raw_output)
-    except json.JSONDecodeError:
-        cleaned = raw_output.strip()
-        if cleaned.startswith("```json"):
-            cleaned = cleaned.replace("```json", "").replace("```", "").strip()
-        elif cleaned.startswith("```"):
-            cleaned = cleaned.replace("```", "").strip()
+        # Try parsing directly first
+        return json.loads(raw_output)
 
-        cleaned = cleaned.replace("“", "\"").replace("”", "\"").replace("‘", "'").replace("’", "'")
+    except json.JSONDecodeError:
+        # Cleaning starts here
+        cleaned = raw_output
+
+        # Remove triple backticks if present
+        if cleaned.startswith("```json") or cleaned.startswith("```"):
+            cleaned = re.sub(r"^```json|```$", "", cleaned).strip()
+
+        # Replace smart quotes and normalize line breaks
+        cleaned = cleaned.replace("“", '"').replace("”", '"').replace("‘", "'").replace("’", "'")
+        cleaned = cleaned.replace("\\n", "\n").replace("\r", "")
+        cleaned = cleaned.replace('\xa0', ' ')  # Remove non-breaking spaces
+
+        # Escape unescaped inner quotes likely causing parsing failure
+        cleaned = re.sub(r'(?<!\\)"(?=[^:]*?\n)', r'\"', cleaned)
+
+        # Final fallback: try ast.literal_eval
+        try:
+            modified_slides = json.loads(cleaned)
+        except json.JSONDecodeError:
+            try:
+                modified_slides = ast.literal_eval(cleaned)
+            except Exception as e:
+                print("\n❌ Final fallback failed. Output below:\n")
+                print(cleaned)
+                raise e
 
         print("\n🧹 Cleaned modified lesson content:")
         print(cleaned)
 
-        modified_slides = json.loads(cleaned)
-
-    print(f"✅ Modified Lesson Slides Generated: {len(modified_slides)}")
-    return modified_slides
+        print(f"✅ Modified Lesson Slides Generated: {len(modified_slides)}")
+        return modified_slides
 
 
 # ------------------------------------------------------------
