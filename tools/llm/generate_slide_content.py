@@ -9,6 +9,18 @@ from tools.llm.generate_sections import load_prompt
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+
+def sanitize_text_for_docx(text: str) -> str:
+    """Sanitize text for DOCX-safe output (remove danda, bad quotes, etc.)."""
+    return (
+        text.replace("।", ".")             # Devanagari danda → period
+            .replace("\u0964", ".")        # Explicit Unicode danda
+            .replace("\xa0", " ")          # Non-breaking space
+            .replace("\r", "")
+            .replace("\u2028", " ")        # Line separator
+            .replace("\u2029", " ")        # Paragraph separator
+    )
+
 # ------------------------------------------------------------
 # FIRST LLM CALL → Generate Modified Lesson Content Slides
 # ------------------------------------------------------------
@@ -25,53 +37,70 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "You are a curriculum adaptation expert generating slide-ready rewritten lesson content. Return only valid JSON with 'title' and 'content'."},
+            {
+                "role": "system",
+                "content": (
+                    "You are a curriculum adaptation expert generating slide-ready rewritten lesson content. "
+                    "Return only valid JSON with 'title' and 'content'."
+                )
+            },
             {"role": "user", "content": filled_prompt}
         ],
         temperature=0.7
     )
 
     raw_output = response.choices[0].message.content.strip()
+    print("\n📦 Raw LLM Output:\n", raw_output[:4000])  # Print preview (first 4000 chars)
 
+    # --- Try direct JSON parse first ---
     try:
-        return json.loads(raw_output)
+        parsed = json.loads(raw_output)
     except json.JSONDecodeError:
         cleaned = raw_output.strip()
 
-        # Remove code fences
-        if cleaned.startswith("```json") or cleaned.startswith("```"):
-            cleaned = re.sub(r"^```json|```$", "", cleaned).strip()
+        # Remove code fences and trailing markdown
+        cleaned = re.sub(r"^```(json)?", "", cleaned)
+        cleaned = re.sub(r"```$", "", cleaned)
+        cleaned = cleaned.strip()
 
-        # Replace smart quotes and fix backslashes
+        # Normalize quotes and backslashes
         cleaned = (
             cleaned.replace("“", '"').replace("”", '"')
             .replace("‘", "'").replace("’", "'")
             .replace("\r", "").replace("\xa0", " ")
         )
 
-        # ✅ FIX: escape invalid single backslashes
+        # Replace Danda & special Unicode BEFORE parsing
+        cleaned = sanitize_text_for_docx(cleaned)
+
+        # Escape bad backslashes
         cleaned = re.sub(r'(?<!\\)\\(?![nrt"\\])', r'\\\\', cleaned)
 
-        # ✅ FIX: unescape double‑escaped JSON strings
-        if cleaned.startswith('"[') and cleaned.endswith(']"'):
-            cleaned = cleaned[1:-1].encode('utf-8').decode('unicode_escape')
+        # Try regex extraction of JSON array
+        json_match = re.search(r"(\[\s*{.*}\s*\])", cleaned, re.DOTALL)
+        if json_match:
+            cleaned = json_match.group(1)
 
         try:
-            modified_slides = json.loads(cleaned)
+            parsed = json.loads(cleaned)
         except json.JSONDecodeError:
             try:
-                modified_slides = ast.literal_eval(cleaned)
+                parsed = ast.literal_eval(cleaned)
             except Exception as e:
                 print("\n❌ Final fallback failed. Output below:\n")
-                print(cleaned)
+                print(cleaned[:2000])
                 raise e
 
-        print("\n🧹 Cleaned modified lesson content:")
-        print(cleaned)
+    # ✅ Sanitize each slide field for DOCX/PPTX safety
+    sanitized_slides = []
+    for slide in parsed:
+        sanitized_slides.append({
+            "title": sanitize_text_for_docx(slide.get("title", "")),
+            "content": sanitize_text_for_docx(slide.get("content", "")),
+        })
 
-        print(f"✅ Modified Lesson Slides Generated: {len(modified_slides)}")
-        return modified_slides
-
+    print(f"✅ Modified Lesson Slides Generated: {len(sanitized_slides)}")
+    return sanitized_slides
 # ------------------------------------------------------------
 # SECOND LLM CALL → Generate Main Lesson Slide Structure
 # ------------------------------------------------------------
