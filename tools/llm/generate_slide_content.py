@@ -13,10 +13,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # FIRST LLM CALL → Generate Modified Lesson Content Slides
 # ------------------------------------------------------------
 def generate_modified_lesson_content(lesson_content, lesson_objective, language_objective, i_do_teacher):
-    """
-    Step 1: Rewrite the lesson content into slide-ready instructional chunks
-    that align with lesson & language objectives and include translations if required.
-    """
+    """Generate slide‑ready modified lesson content aligned with objectives."""
     prompt_template = load_prompt("modify_lesson_content")
     filled_prompt = prompt_template.format(
         lesson_content=lesson_content,
@@ -28,10 +25,7 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {
-                "role": "system",
-                "content": "You are a curriculum adaptation expert generating slide-ready rewritten lesson content. Return only valid JSON with 'title' and 'content'."
-            },
+            {"role": "system", "content": "You are a curriculum adaptation expert generating slide-ready rewritten lesson content. Return only valid JSON with 'title' and 'content'."},
             {"role": "user", "content": filled_prompt}
         ],
         temperature=0.7
@@ -40,26 +34,28 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
     raw_output = response.choices[0].message.content.strip()
 
     try:
-        # Try parsing directly first
         return json.loads(raw_output)
-
     except json.JSONDecodeError:
-        # Cleaning starts here
-        cleaned = raw_output
+        cleaned = raw_output.strip()
 
-        # Remove triple backticks if present
+        # Remove code fences
         if cleaned.startswith("```json") or cleaned.startswith("```"):
             cleaned = re.sub(r"^```json|```$", "", cleaned).strip()
 
-        # Replace smart quotes and normalize line breaks
-        cleaned = cleaned.replace("“", '"').replace("”", '"').replace("‘", "'").replace("’", "'")
-        cleaned = cleaned.replace("\\n", "\n").replace("\r", "")
-        cleaned = cleaned.replace('\xa0', ' ')  # Remove non-breaking spaces
+        # Replace smart quotes and fix backslashes
+        cleaned = (
+            cleaned.replace("“", '"').replace("”", '"')
+            .replace("‘", "'").replace("’", "'")
+            .replace("\r", "").replace("\xa0", " ")
+        )
 
-        # Escape unescaped inner quotes likely causing parsing failure
-        cleaned = re.sub(r'(?<!\\)"(?=[^:]*?\n)', r'\"', cleaned)
+        # ✅ FIX: escape invalid single backslashes
+        cleaned = re.sub(r'(?<!\\)\\(?![nrt"\\])', r'\\\\', cleaned)
 
-        # Final fallback: try ast.literal_eval
+        # ✅ FIX: unescape double‑escaped JSON strings
+        if cleaned.startswith('"[') and cleaned.endswith(']"'):
+            cleaned = cleaned[1:-1].encode('utf-8').decode('unicode_escape')
+
         try:
             modified_slides = json.loads(cleaned)
         except json.JSONDecodeError:
@@ -75,7 +71,6 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
 
         print(f"✅ Modified Lesson Slides Generated: {len(modified_slides)}")
         return modified_slides
-
 
 # ------------------------------------------------------------
 # SECOND LLM CALL → Generate Main Lesson Slide Structure
