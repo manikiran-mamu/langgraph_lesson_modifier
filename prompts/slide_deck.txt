@@ -30,8 +30,14 @@ Use the following slide structure:
    - Content: Leave this empty (just a section divider slide)
 
 4. Slide 4 to n: I DO Content Slides  
-   - Title: "" (empty string)  
-   - Content: Break down modeled instruction using i_do_teacher and lesson_content. Ensure the content supports the lesson_objective and language_objective.  
+   - Title: "" (leave blank for each slide)  
+   - Content: Modify the original lesson_content by aligning it with both the lesson_objective and language_objective.  
+   - Present the modified lesson content across multiple slides, where each slide introduces one clear instructional idea, example, or modeling step.  
+   - Follow the instructional tone and approach specified in i_do_teacher — use modeling language, sentence frames, key vocabulary explanations, and age-appropriate scaffolds.  
+   - The modified content should help students meet the lesson objective and practice the target language skills defined in the language objective.  
+   - Break the content into short, digestible parts to ensure clarity and flow (1 idea per slide).  
+   - If translation support is required (as mentioned in i_do_teacher), include a note on the slide (e.g., “Include translations in Hindi.”).  
+   - Do not repeat the full lesson_content on each slide — instead, transform and divide it meaningfully across slides as modeled instruction.
    - Include translation instructions if specified in i_do_teacher.
 
 5. Slide n+1: WE DO – Guided Practice  
