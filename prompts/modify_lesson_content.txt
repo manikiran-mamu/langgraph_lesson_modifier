@@ -30,10 +30,10 @@ Format:
 	•	Append the translated version after two line breaks in the same "content" field.
 	•	Do not include labels like “Translation” — just the translated text naturally after the English.
 	4.	Each slide must be returned in the following format:
-{
+{{
 “title”: “”,
 “content”: “[full content in English + embedded scaffolds]\n\n[optional translated version if required]”
-}
+}}
 
 ⸻
 
