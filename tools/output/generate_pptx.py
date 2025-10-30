@@ -88,10 +88,10 @@ def _add_content_only_slide(prs, content):
     slide = prs.slides.add_slide(slide_layout)
 
     # Set dimensions and position
-    left = Inches(0)
-    top = Inches(0)
+    left = Inches(0.5)
+    top = Inches(0.5)
     width = Inches(9)   # Slightly narrower to allow padding
-    height = Inches(6)
+    height = Inches(6.5)
 
     textbox = slide.shapes.add_textbox(left, top, width, height)
     text_frame = textbox.text_frame
