@@ -3,6 +3,7 @@ from pptx.util import Inches, Pt
 from pptx.enum.text import PP_ALIGN
 from pptx.dml.color import RGBColor
 import os
+import re
 import uuid
 
 # Helper to add formatted text into a placeholder with colors
@@ -10,17 +11,25 @@ def _set_formatted_content(text_frame, content):
     text_frame.clear()
     text_frame.word_wrap = True
 
-    # Step 1: Detect split between English and translation
-    parts = content.split("\n\n", 1)
-    english_part = parts[0].strip()
-    translation_part = parts[1].strip() if len(parts) > 1 else ""
+    # --- Detect translation ---
+    if "\n\n" in content:
+        english_part, translation_part = content.split("\n\n", 1)
+    else:
+        # Detect start of translation using Devanagari script (e.g., Hindi)
+        match = re.search(r'[\u0900-\u097F]', content)
+        if match:
+            split_index = match.start()
+            english_part = content[:split_index].rstrip()
+            translation_part = content[split_index:].lstrip()
+        else:
+            english_part = content.strip()
+            translation_part = ""
 
-    # Step 2: Add English content
+    # --- English Content ---
     for paragraph_text in english_part.split("\n"):
         clean_text = paragraph_text.strip()
         if not clean_text:
             continue
-
         p = text_frame.add_paragraph()
         p.alignment = PP_ALIGN.LEFT
         run = p.add_run()
@@ -29,17 +38,16 @@ def _set_formatted_content(text_frame, content):
         run.font.name = "Poppins"
         run.font.color.rgb = RGBColor(0, 102, 204)  # 🔵 Blue
 
-    # Step 3: Add spacing paragraph
+    # --- Spacer Paragraph ---
     if translation_part:
         spacer = text_frame.add_paragraph()
-        spacer.text = ""  # Leave empty for visible gap
+        spacer.text = ""
 
-    # Step 4: Add Translation content
+    # --- Translation Content ---
     for paragraph_text in translation_part.split("\n"):
         clean_text = paragraph_text.strip()
         if not clean_text:
             continue
-
         p = text_frame.add_paragraph()
         p.alignment = PP_ALIGN.LEFT
         run = p.add_run()
