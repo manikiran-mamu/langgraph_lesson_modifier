@@ -6,6 +6,9 @@ from openai import OpenAI
 import traceback
 from dotenv import load_dotenv
 from tools.llm.generate_sections import load_prompt
+import nltk
+nltk.download('punkt')
+from nltk.tokenize import sent_tokenize
 
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -26,12 +29,47 @@ def sanitize_text_for_docx(text: str) -> str:
             .replace("’", "'")
     )
 
+def split_paragraph_by_sentence_limit(paragraph: str, max_chars: int = 630) -> list[str]:
+    """Split a paragraph into chunks of <= max_chars, splitting only at sentence boundaries."""
+    sentences = sent_tokenize(paragraph)
+    chunks = []
+    current_chunk = ""
+
+    for sentence in sentences:
+        # If adding this sentence exceeds limit, start new chunk
+        if len(current_chunk) + len(sentence) + 1 > max_chars:
+            if current_chunk:
+                chunks.append(current_chunk.strip())
+            current_chunk = sentence
+        else:
+            current_chunk += " " + sentence
+
+    if current_chunk:
+        chunks.append(current_chunk.strip())
+
+    return chunks
 
 def generate_modified_lesson_content(lesson_content, lesson_objective, language_objective, i_do_teacher):
     """Generate slide‑ready modified lesson content aligned with objectives."""
     prompt_template = load_prompt("modify_lesson_content")
+
+    # 🪓 Split long paragraphs in lesson_content before sending to LLM
+    processed_paragraphs = []
+    for para in lesson_content.split("\n"):
+        para = para.strip()
+        if not para:
+            continue
+        if len(para) > 630:
+            processed_paragraphs.extend(split_paragraph_by_sentence_limit(para, max_chars=630))
+        else:
+            processed_paragraphs.append(para)
+
+    # 🧱 Rebuild lesson_content with cleaned paragraphs
+    lesson_content_split = "\n\n".join(processed_paragraphs)
+
+    # 🧠 Prompt with updated content
     filled_prompt = prompt_template.format(
-        lesson_content=lesson_content,
+        lesson_content=lesson_content_split,
         lesson_objective=lesson_objective,
         language_objective=language_objective,
         i_do_teacher=i_do_teacher
