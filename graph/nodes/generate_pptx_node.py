@@ -20,4 +20,7 @@ def generate_pptx_node(state: State) -> State:
     )
 
     pptx_path = generate_slide_deck(slides)
-    return state.update({"final_output_pptx": pptx_path})
+    return state.update({
+        "final_output_pptx": pptx_path,
+        "slide_data": slides  # ✅ storing slide list in state
+    })
