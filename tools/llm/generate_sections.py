@@ -127,14 +127,12 @@ def generate_all_sections(student_profile, lesson_content, lesson_objective, lan
 
     teacher_output = teacher_response.choices[0].message.content
     teacher_sections = parse_sections(teacher_output)
-    print("teacher_sections:", teacher_sections)
 
     # --- SECOND CALL: Generate student sections using teacher output ---
     student_prompt = build_combined_prompt(
         STUDENT_SECTIONS, student_profile, lesson_content, lesson_objective, language_objective, target_language,
         prior_sections=teacher_sections
     )
-    print("student_prompt:", student_prompt)
 
     student_response = client.chat.completions.create(
         model="gpt-4o",
@@ -152,10 +150,8 @@ def generate_all_sections(student_profile, lesson_content, lesson_objective, lan
     )
 
     student_output = student_response.choices[0].message.content
-    print("student_output", student_output)
     student_sections = parse_sections(student_output)
 
     # Combine all sections
     all_sections = {**teacher_sections, **student_sections}
-    print("Student_sections:", student_sections)
     return all_sections
