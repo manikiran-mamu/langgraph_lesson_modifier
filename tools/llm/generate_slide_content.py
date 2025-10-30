@@ -99,6 +99,7 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
         })
 
     print(f"✅ Modified Lesson Slides Generated: {len(sanitized_slides)}")
+    print(f"✅ Modified Lesson Slides Generated: {sanitized_slides}")
     return sanitized_slides
     
 # ------------------------------------------------------------
