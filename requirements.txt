@@ -21,4 +21,4 @@ html2text
 bs4
 python-docx
 python-pptx
-nltk
+nltk==3.8.1
