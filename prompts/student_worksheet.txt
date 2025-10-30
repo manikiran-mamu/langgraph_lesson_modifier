@@ -1,4 +1,4 @@
-You are an instructional designer creating a student worksheet.
+You are an expert instructional designer tasked with generating a student worksheet based on provided lesson content, slides, and instructional sections.
 
 Inputs:
 - intro_student: {intro_student}
@@ -6,15 +6,28 @@ Inputs:
 - we_do_student: {we_do_student}
 - you_do_student: {you_do_student}
 - lesson_content: {lesson_content}
+- slides: {slides}
 
 Instructions:
-- Use the inputs to generate engaging student activities or questions.
-- Each section should be clear and actionable.
-- Add bullet points or numbering for sub-items.
-- Activities should align with the original lesson.
+1. Carefully review the "slides" input, which is a list of slides with "title" and "content".
+2. For each slide:
+   - If the "content" includes a student question, prompt, or activity, extract it **exactly as written**.
+   - Use that content as a worksheet task.
+   - Below each extracted task, list any tools, support, or materials the student would need based on `intro_student`, `i_do_student`, or `we_do_student`.
 
-Return a list of sections in JSON:
+3. After all slide-based tasks:
+   - Add a **final task** from the `you_do_student` section, written as a standalone student task.
+   - Below this, list any supports or expectations from the `you_do_teacher` (if available).
+
+4. Finally, based on `lesson_content`, generate **three multiple choice questions** to assess understanding.
+   - Each question should have four options (A–D).
+   - Do **not** provide answers — this is a worksheet for students.
+
+Return the full worksheet as a **JSON list of sections** in the format:
+```json
 [
-  {{"section": "Intro Activity", "content": "Activity or question..."}},
+  {{"section": "Slide Task - [Slide Title]", "content": "Question or task from slide\n\nSupports:\n- Support 1\n- Support 2"}},
+  {{"section": "You Do Task", "content": "Task for student from You Do section\n\nSupports:\n- Support or reminders"}},
+  {{"section": "MCQ 1", "content": "Question?\nA. Option 1\nB. Option 2\nC. Option 3\nD. Option 4"}},
   ...
 ]
