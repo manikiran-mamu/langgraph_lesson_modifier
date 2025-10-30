@@ -33,6 +33,7 @@ class State(BaseModel):
     final_output_pptx: Optional[str] = None
     sections: Optional[Dict[str, str]] = None
     student_worksheet_path: Optional[str] = None
+    slide_data: Optional[List[Dict[str, str]]] = None
 
     def get(self, key, default=None):
         """
