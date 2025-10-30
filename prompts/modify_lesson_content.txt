@@ -38,14 +38,14 @@ Format:
 ⸻
 
 Important Guidelines:
-	•	Don’t use labels like “Original Text”, “Instructional Support”, or “Translation”.
-	•	All text should be within the "content" field only.
-	•	Keep each content chunk to about 3–6 sentences total (split into multiple slides if needed).
-	•	Maintain original order of the lesson_content.
-	•	The scaffolds should feel natural and student-friendly, like something a teacher would say while reading aloud.
-	•	If a word or idea is challenging, explain it briefly in parentheses right after it.
-	•	Do not oversimplify — your job is to enrich, not reduce.
-	•	Keep the tone warm, clear, and instructional.
+• Don’t use labels like “Original Text”, “Instructional Support”, or “Translation”.
+• All text should be within the "content" field only.
+• Each slide must contain the **entire original paragraph** from the lesson_content. Do not skip, shorten, or split the paragraph — preserve it in full.
+• Maintain the exact order of the lesson_content paragraphs.
+• The scaffolds should feel natural and student-friendly, like something a teacher would say while reading aloud.
+• If a word or idea is challenging, explain it briefly in parentheses right after it.
+• Do not oversimplify — your job is to enrich, not reduce.
+• Keep the tone warm, clear, and instructional.
 
 ⸻
 
