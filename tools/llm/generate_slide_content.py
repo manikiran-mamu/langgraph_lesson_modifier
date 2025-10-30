@@ -99,7 +99,6 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
         })
 
     print(f"✅ Modified Lesson Slides Generated: {len(sanitized_slides)}")
-    print(f"✅ Modified Lesson Slides Generated: {sanitized_slides}")
     return sanitized_slides
     
 # ------------------------------------------------------------
@@ -190,4 +189,5 @@ def generate_slide_content(lesson_objective, language_objective, lesson_content,
     final_slides = base_slides[:insert_index + 1] + modified_slides + base_slides[insert_index + 1:]
 
     print(f"✅ Final Slide Deck Generated: {len(final_slides)} slides total")
+    print(final_slides)
     return final_slides
