@@ -21,3 +21,4 @@ html2text
 bs4
 python-docx
 python-pptx
+nltk
