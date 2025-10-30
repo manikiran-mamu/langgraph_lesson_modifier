@@ -3,49 +3,55 @@ Your task is to transform a lesson into a set of instructionally enhanced slides
 Each slide must preserve the original lesson content exactly while layering in scaffolding and supports that help students achieve both the lesson objective and the language objective.
 
 Inputs:
-	•	lesson_content: {lesson_content}
-	•	lesson_objective: {lesson_objective}
-	•	language_objective: {language_objective}
-	•	i_do_teacher: {i_do_teacher}
+• lesson_content: {lesson_content}
+• lesson_objective: {lesson_objective}
+• language_objective: {language_objective}
+• i_do_teacher: {i_do_teacher}
 
 ⸻
 
 What to Do:
-	1.	Do not rewrite or simplify the original lesson_content.
-Keep all paragraphs and sentences exactly as they are — nothing should be omitted or changed.
-	2.	For each paragraph or event from the original lesson, generate one slide:
+1. Do not rewrite or simplify the original lesson_content.
+   Keep all paragraphs and sentences exactly as they are — nothing should be omitted or changed.
 
-	•	Use the paragraph as the base.
-	•	Directly embed instructional scaffolding into the same paragraph to support understanding. For example:
-	•	Define difficult words in parentheses (e.g., ingenious (very clever and creative)).
-	•	Add short comprehension questions or sentence frames within the text (e.g., “Daedalus was determined — How do we know?”).
-	•	Insert modeling prompts like “Let’s underline the word that shows how Icarus felt.”
-	•	Use simple sentence starters (e.g., “Daedalus shows courage because ___.”).
-	•	Use language supports aligned to the language_objective — like comparative words, sequencing phrases, or transition starters.
+2. For each paragraph from the lesson_content:
+   • If the paragraph is less than or equal to 630 characters, include it as one slide.
+   • If the paragraph is longer than 630 characters:
+     ➤ Split it into multiple slides, **each with no more than 630 characters**.
+     ➤ Do not break sentences in the middle — always split at sentence boundaries.
+     ➤ The number of slides should equal: `ceil(number_of_characters / 630)`
+     ➤ Preserve the **original order** and **entire content** across the parts.
 
-	3.	If the i_do_teacher input says something like:
-“Teacher should include translations in [Language]”,
-then after each slide’s content, add a translated version of the full content (English + scaffolds) in that language.
-Format:
-	•	Append the translated version after two line breaks in the same "content" field.
-	•	Do not include labels like “Translation” — just the translated text naturally after the English.
-	4.	Each slide must be returned in the following format:
+3. For each slide:
+   • Use the full paragraph (or sub-part) as the base.
+   • Embed instructional scaffolding directly into the paragraph to support understanding:
+     - Define difficult words in parentheses (e.g., ingenious (very clever and creative)).
+     - Add short comprehension questions or sentence frames (e.g., “Daedalus was determined — How do we know?”).
+     - Insert modeling prompts (e.g., “Let’s underline the word that shows how Icarus felt.”).
+     - Use sentence starters and language supports tied to the language_objective (e.g., comparative words, transitions, etc.).
+
+4. If the i_do_teacher input includes a phrase like “Teacher should include translations in [Language]”:
+   • After the English + scaffolds content, append the translated version of the **entire slide content** (including scaffolds) in that language.
+   • Format: Append the translation after **two line breaks** in the same "content" field.
+   • Do not include any labels like “Translation” — just show the translated text directly below the English.
+
+5. Return each slide in this JSON format:
 {{
-“title”: “”,
-“content”: “[full content in English + embedded scaffolds]\n\n[optional translated version if required]”
+  "title": "",
+  "content": "[full content in English + embedded scaffolds]\n\n[optional translated version if required]"
 }}
 
 ⸻
 
 Important Guidelines:
 • Don’t use labels like “Original Text”, “Instructional Support”, or “Translation”.
-• All text should be within the "content" field only.
-• Each slide must contain the **entire original paragraph** from the lesson_content. Do not skip, shorten, or split the paragraph — preserve it in full.
-• Maintain the exact order of the lesson_content paragraphs.
-• The scaffolds should feel natural and student-friendly, like something a teacher would say while reading aloud.
-• If a word or idea is challenging, explain it briefly in parentheses right after it.
-• Do not oversimplify — your job is to enrich, not reduce.
-• Keep the tone warm, clear, and instructional.
+• All text must go inside the "content" field only.
+• Always include the **entire content** of each original paragraph (split into parts if needed).
+• Maintain original paragraph order across slides.
+• Scaffolds should sound natural, warm, and student-friendly — as if read aloud by a caring teacher.
+• If a word or idea is challenging, define it briefly right after in parentheses.
+• Do not simplify or omit ideas — enrich and clarify instead.
+• If splitting, ensure each part makes logical instructional sense on its own.
 
 ⸻
 
