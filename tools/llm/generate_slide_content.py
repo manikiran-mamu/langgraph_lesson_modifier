@@ -39,7 +39,7 @@ def sanitize_text_for_docx(text: str) -> str:
     )
 
 
-def split_paragraph_by_sentence_limit(paragraph: str, max_chars: int = 630) -> List[str]:
+def split_paragraph_by_sentence_limit(paragraph: str, max_chars: int = 630) -> list[str]:
     """
     Split a paragraph into balanced chunks of roughly equal length (<= max_chars),
     while preserving sentence boundaries.
