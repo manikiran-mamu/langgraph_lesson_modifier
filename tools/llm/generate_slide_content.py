@@ -100,7 +100,6 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
     )
 
     raw_output = response.choices[0].message.content.strip()
-    print("\n📦 Raw LLM Output (preview):\n", raw_output[:1500])
 
     # ---------- Basic parsing ----------
     try:
