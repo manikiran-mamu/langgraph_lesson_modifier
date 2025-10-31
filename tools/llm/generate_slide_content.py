@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from tools.llm.generate_sections import load_prompt
 import nltk
 from nltk.tokenize import sent_tokenize
+import math
 
 nltk_data_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../nltk_data'))
 nltk.data.path.append(nltk_data_path)
