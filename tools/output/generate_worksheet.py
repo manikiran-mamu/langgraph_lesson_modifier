@@ -17,77 +17,86 @@ def generate_student_worksheet_doc(sections: list) -> str:
     title_run.font.size = Pt(24)
     title_run.font.color.rgb = RGBColor(0, 0, 0)
     title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    doc.add_paragraph()
 
-    doc.add_paragraph()  # spacing
-
-    # --- Helper: Detect translation using same strategy as PPTX ---
-    def split_translation(content: str):
+    def split_parts(content: str):
         content = content.strip()
+        english_part, translation_part, supports_part = "", "", ""
 
-        # 1️⃣ If explicit \n\n separator exists
-        if "\n\n" in content:
-            english_part, translation_part = content.split("\n\n", 1)
-            return english_part.strip(), translation_part.strip()
-
-        # 2️⃣ Otherwise detect translation start using non‑Latin scripts
-        # This includes Devanagari, Arabic, Chinese, Japanese, Korean, Cyrillic, etc.
-        match = re.search(r'[^\x00-\x7F]', content)
-        if match:
-            split_index = match.start()
-            english_part = content[:split_index].rstrip()
-            translation_part = content[split_index:].lstrip()
+        # First split by \n\n for main division
+        parts = content.split("\n\n")
+        if len(parts) == 3:
+            english_part, translation_part, supports_part = parts
+        elif len(parts) == 2:
+            english_part, translation_part = parts
         else:
-            english_part = content
-            translation_part = ""
+            # fallback to non-Latin script detection
+            match = re.search(r'[^\x00-\x7F]', content)
+            if match:
+                split_index = match.start()
+                english_part = content[:split_index].rstrip()
+                remainder = content[split_index:].lstrip()
+                # Try splitting remainder into translation and supports
+                support_match = re.search(r'Supports:\s*', remainder)
+                if support_match:
+                    support_index = support_match.start()
+                    translation_part = remainder[:support_index].rstrip()
+                    supports_part = remainder[support_index:].lstrip()
+                else:
+                    translation_part = remainder
+            else:
+                english_part = content
 
-        return english_part, translation_part
+        return english_part.strip(), translation_part.strip(), supports_part.strip()
 
-    # --- Process each section ---
+    # --- Add sections ---
     for section in sections:
-        # Section Heading
         heading = doc.add_paragraph()
         heading_run = heading.add_run(section["section"])
         heading_run.font.name = "Poppins SemiBold"
         heading_run.font.size = Pt(18)
         heading_run.font.color.rgb = RGBColor(0, 0, 0)
         heading.alignment = WD_ALIGN_PARAGRAPH.LEFT
+        doc.add_paragraph()
 
-        doc.add_paragraph()  # spacing
+        # Split content
+        content = section["content"]
+        english_part, translation_part, supports_part = split_parts(content)
 
-        content = section["content"].strip()
-        english_part, translation_part = split_translation(content)
-
-        # --- English Content (Blue) ---
+        # 🔵 English
         if english_part:
-            for paragraph_text in english_part.split("\n"):
-                clean_text = paragraph_text.strip()
-                if not clean_text:
-                    continue
-                p = doc.add_paragraph()
-                run = p.add_run(clean_text)
-                run.font.name = "Poppins"
-                run.font.size = Pt(12)
-                run.font.color.rgb = RGBColor(0, 102, 204)  # 🔵 Blue
-                p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+            for line in english_part.split("\n"):
+                if line.strip():
+                    p = doc.add_paragraph()
+                    run = p.add_run(line.strip())
+                    run.font.name = "Poppins"
+                    run.font.size = Pt(12)
+                    run.font.color.rgb = RGBColor(0, 102, 204)  # Blue
+                    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
 
-        # Spacer
+        # 🔴 Translated
         if translation_part:
-            doc.add_paragraph()
+            for line in translation_part.split("\n"):
+                if line.strip():
+                    p = doc.add_paragraph()
+                    run = p.add_run(line.strip())
+                    run.font.name = "Poppins"
+                    run.font.size = Pt(12)
+                    run.font.color.rgb = RGBColor(255, 0, 0)  # Red
+                    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
 
-        # --- Translation Content (Red) ---
-        if translation_part:
-            for paragraph_text in translation_part.split("\n"):
-                clean_text = paragraph_text.strip()
-                if not clean_text:
-                    continue
-                p = doc.add_paragraph()
-                run = p.add_run(clean_text)
-                run.font.name = "Poppins"
-                run.font.size = Pt(12)
-                run.font.color.rgb = RGBColor(255, 0, 0)  # 🔴 Red
-                p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+        # 🟢 Supports
+        if supports_part:
+            for line in supports_part.split("\n"):
+                if line.strip():
+                    p = doc.add_paragraph()
+                    run = p.add_run(line.strip())
+                    run.font.name = "Poppins"
+                    run.font.size = Pt(12)
+                    run.font.color.rgb = RGBColor(0, 153, 0)  # Green
+                    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
 
-        doc.add_paragraph()  # extra space after each section
+        doc.add_paragraph()
 
     # --- Save the file ---
     save_dir = "data/outputs/worksheets"
