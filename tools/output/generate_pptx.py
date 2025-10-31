@@ -1,21 +1,22 @@
 from pptx import Presentation
 from pptx.util import Inches, Pt
-from pptx.enum.text import PP_ALIGN
+from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from pptx.dml.color import RGBColor
 import os
 import re
 import uuid
 
 # Helper to add formatted text into a placeholder with colors
-def _set_formatted_content(text_frame, content):
+def _set_formatted_content(text_frame, content, center=False):
     text_frame.clear()
     text_frame.word_wrap = True
+    if center:
+        text_frame.vertical_anchor = MSO_ANCHOR.MIDDLE  # Vertically center content
 
     # --- Detect translation ---
     if "\n\n" in content:
         english_part, translation_part = content.split("\n\n", 1)
     else:
-        # Detect start of translation using Devanagari script (e.g., Hindi)
         match = re.search(r'[\u0900-\u097F]', content)
         if match:
             split_index = match.start()
@@ -31,14 +32,14 @@ def _set_formatted_content(text_frame, content):
         if not clean_text:
             continue
         p = text_frame.add_paragraph()
-        p.alignment = PP_ALIGN.LEFT
+        p.alignment = PP_ALIGN.CENTER if center else PP_ALIGN.LEFT
         run = p.add_run()
         run.text = clean_text
         run.font.size = Pt(16)
         run.font.name = "Poppins"
         run.font.color.rgb = RGBColor(0, 102, 204)  # 🔵 Blue
 
-    # --- Spacer Paragraph ---
+    # Spacer
     if translation_part:
         spacer = text_frame.add_paragraph()
         spacer.text = ""
@@ -49,65 +50,66 @@ def _set_formatted_content(text_frame, content):
         if not clean_text:
             continue
         p = text_frame.add_paragraph()
-        p.alignment = PP_ALIGN.LEFT
+        p.alignment = PP_ALIGN.CENTER if center else PP_ALIGN.LEFT
         run = p.add_run()
         run.text = clean_text
         run.font.size = Pt(16)
         run.font.name = "Poppins"
         run.font.color.rgb = RGBColor(255, 0, 0)  # 🔴 Red
 
-# Title + Content Slide
+# Title + Content Slide with adjusted sizes
 def _add_title_content_slide(prs, title, content):
-    slide_layout = prs.slide_layouts[1]  # Title + Content
+    slide_layout = prs.slide_layouts[6]  # Use blank layout for custom positioning
     slide = prs.slides.add_slide(slide_layout)
 
-    title_placeholder = slide.shapes.title
-    content_placeholder = slide.placeholders[1]
+    # Add title textbox (smaller height)
+    title_box = slide.shapes.add_textbox(Inches(0.5), Inches(0.3), Inches(9), Inches(1))
+    title_frame = title_box.text_frame
+    title_frame.word_wrap = True
+    p = title_frame.paragraphs[0]
+    run = p.add_run()
+    run.text = title
+    run.font.name = "Poppins"
+    run.font.bold = True
+    run.font.size = Pt(22)
+    p.alignment = PP_ALIGN.LEFT
 
-    # Set title
-    title_placeholder.text = title
-    for p in title_placeholder.text_frame.paragraphs:
-        for run in p.runs:
-            run.font.name = "Poppins"
-            run.font.bold = True
-            run.font.size = Pt(22)
+    # Add content textbox (larger height)
+    content_box = slide.shapes.add_textbox(Inches(0.5), Inches(1.3), Inches(9), Inches(5.5))
+    text_frame = content_box.text_frame
+    text_frame.word_wrap = True
+    _set_formatted_content(text_frame, content)
 
-    # Set content with colors
-    _set_formatted_content(content_placeholder.text_frame, content)
-
-# Title Only (Centered)
+# Title Only Slide — title centered on screen, large size
 def _add_title_only_slide(prs, title):
-    slide_layout = prs.slide_layouts[5]  # Title Only
+    slide_layout = prs.slide_layouts[6]  # Blank layout
     slide = prs.slides.add_slide(slide_layout)
 
-    title_placeholder = slide.shapes.title
-    title_placeholder.text = title
+    title_box = slide.shapes.add_textbox(Inches(1), Inches(2.5), Inches(8), Inches(2))
+    title_frame = title_box.text_frame
+    title_frame.vertical_anchor = MSO_ANCHOR.MIDDLE
 
-    for p in title_placeholder.text_frame.paragraphs:
-        for run in p.runs:
-            run.font.name = "Poppins"
-            run.font.bold = True
-            run.font.size = Pt(22)
-        p.alignment = PP_ALIGN.CENTER
+    p = title_frame.paragraphs[0]
+    run = p.add_run()
+    run.text = title
+    run.font.name = "Poppins"
+    run.font.bold = True
+    run.font.size = Pt(36)
+    p.alignment = PP_ALIGN.CENTER
 
-# Content Only (No Title)
+# Content Only Slide — content centered both ways
 def _add_content_only_slide(prs, content):
     slide_layout = prs.slide_layouts[6]  # Blank layout
     slide = prs.slides.add_slide(slide_layout)
 
-    # Set dimensions and position
-    left = Inches(0.5)
-    top = Inches(0.5)
-    width = Inches(9)   # Slightly narrower to allow padding
-    height = Inches(6.5)
-
-    textbox = slide.shapes.add_textbox(left, top, width, height)
+    textbox = slide.shapes.add_textbox(Inches(1), Inches(1), Inches(8), Inches(5.5))
     text_frame = textbox.text_frame
-    text_frame.word_wrap = True  # ✅ Enable word wrap
+    text_frame.word_wrap = True
+    text_frame.vertical_anchor = MSO_ANCHOR.MIDDLE
 
-    _set_formatted_content(text_frame, content)
+    _set_formatted_content(text_frame, content, center=True)
 
-# Master generator
+# Main slide generator
 def generate_slide_deck(slides: list) -> str:
     prs = Presentation()
 
