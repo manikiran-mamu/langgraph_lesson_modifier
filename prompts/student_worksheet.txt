@@ -31,15 +31,15 @@ Return the full worksheet as a **JSON list of sections** in the format:
 [
   {{
     "section": "Slide Task - [Slide Title]",
-    "content": "Original question or task from slide\n Translated version \n\nSupports:\n- Support 1\n- Support 2"
+    "content": "Original question or task from slide\n\n Translated version \n\nSupports:\n- Support 1\n- Support 2"
   }},
   {{
     "section": "You Do Task",
-    "content": "Task for student from You Do section\n Translated version \n\nSupports:\n- Support or reminders"
+    "content": "Task for student from You Do section\n\n Translated version \n\nSupports:\n- Support or reminders"
   }},
   {{
     "section": "MCQ 1",
-    "content": "Question?\nA. Option 1\nB. Option 2\nC. Option 3\nD. Option 4\n Translated Question and Options "
+    "content": "Question?\nA. Option 1\nB. Option 2\nC. Option 3\nD. Option 4\n\n Translated Question and Options "
   }},
   ...
 ]
