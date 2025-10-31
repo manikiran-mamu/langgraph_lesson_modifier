@@ -37,20 +37,34 @@ def sanitize_text_for_docx(text: str) -> str:
             .replace("’", "'")
     )
 
-def split_paragraph_by_sentence_limit(paragraph: str, max_chars: int = 630) -> list[str]:
-    """Split a paragraph into chunks of <= max_chars, splitting only at sentence boundaries."""
+
+def split_paragraph_by_sentence_limit(paragraph: str, max_chars: int = 630) -> List[str]:
+    """
+    Split a paragraph into balanced chunks of roughly equal length (<= max_chars),
+    while preserving sentence boundaries.
+    """
     sentences = sent_tokenize(paragraph)
+    total_chars = sum(len(s) for s in sentences)
+
+    # Estimate number of chunks needed
+    est_chunks = max(1, math.ceil(total_chars / max_chars))
+    target_chunk_size = total_chars / est_chunks
+
     chunks = []
     current_chunk = ""
+    current_size = 0
 
     for sentence in sentences:
-        # If adding this sentence exceeds limit, start new chunk
-        if len(current_chunk) + len(sentence) + 1 > max_chars:
-            if current_chunk:
-                chunks.append(current_chunk.strip())
+        if current_chunk and current_size + len(sentence) > target_chunk_size * 1.2:
+            chunks.append(current_chunk.strip())
             current_chunk = sentence
+            current_size = len(sentence)
         else:
-            current_chunk += " " + sentence
+            if current_chunk:
+                current_chunk += " " + sentence
+            else:
+                current_chunk = sentence
+            current_size += len(sentence)
 
     if current_chunk:
         chunks.append(current_chunk.strip())
