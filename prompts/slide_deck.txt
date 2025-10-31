@@ -17,7 +17,9 @@ Use the following slide structure:
 
 1. Slide 1: Lesson Title  
    - Title: A clear, engaging title derived from the main topic in the lesson_content  
-   - Content: A short sentence describing what the lesson is about
+   - Content: Leave this empty
+   - If intro_teacher mentions translation needs, include the translated version on the same slide.
+   
 
 2. Slide 2: Engager  
    - Title: "Engager"  
@@ -25,17 +27,17 @@ Use the following slide structure:
    - If intro_teacher mentions translation needs, include the translated version on the same slide.
 
 3. Slide 3: I DO – Teacher Modeling  
-   - Title: "I DO – Teacher Modeling"  
+   - Title: "I DO"  
    - Content: Leave this empty (just a section divider slide)
 
 4. Slide 4: WE DO – Guided Practice  
-   - Title: "WE DO – Guided Practice"  
+   - Title: "WE DO"  
    - Content: Leave this empty (just a section divider slide)
 
 5. Slide 5 to n: WE DO Content Slides  
    - Title: "" (empty string)  
    - Content: Collaborative student + teacher practice based on we_do_teacher and lesson_content. Include sentence frames, discussion tasks, or hands-on prompts.  
-   - Include translation instructions if mentioned in we_do_teacher.
+   - If we_do_teacher mentions translation needs, include the translated version on the same slide.
 
 Output Format:
 Return a Python-style list of dictionaries, where each dictionary has:
@@ -44,10 +46,11 @@ Return a Python-style list of dictionaries, where each dictionary has:
 
 Example:
 [
-  {{"title": "The Solar System", "content": "Learn about the planets that orbit our sun."}},
-  {{"title": "Engager", "content": "What do you already know about space? Turn and talk to a partner."}},
-  {{"title": "WE DO – Guided Practice", "content": ""}},
-  {{"title": "", "content": "Work with a partner to name all the planets. Use your glossary for tricky words."}}
+  {{"title": "The Solar System\n\n Translated Version"}},
+  {{"title": "Engager", "content": "What do you already know about space? Turn and talk to a partner.\n\n Translated version"}},
+  {{"title": "I DO", "content": ""}}
+  {{"title": "WE DO", "content": ""}},
+  {{"title": "", "content": "Work with a partner to name all the planets. Use your glossary for tricky words.\n\n Translated Version"}}
 ]
 
 Final Note:
