@@ -60,8 +60,8 @@ def save_node(state: State) -> State:
             try:
                 standards_cell = rows[1].cells[0]
                 content_cell = rows[1].cells[1]
-                purpose_cell = rows[2].cells[0]
-                language_cell = rows[1].cells[1]
+                purpose_cell = rows[4].cells[0]
+                language_cell = rows[2].cells[1]
 
                 # Fill standards
                 if "standards" in sections:
