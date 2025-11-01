@@ -15,6 +15,5 @@ def generate_worksheet_node(state: State) -> State:
         slides=slides  # ✅ Passing full slide data directly
     )
 
-    print(worksheet_sections)
     worksheet_path = generate_student_worksheet_doc(worksheet_sections)
     return state.update({"student_worksheet_path": worksheet_path})
