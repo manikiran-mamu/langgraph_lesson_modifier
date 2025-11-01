@@ -154,4 +154,5 @@ def generate_all_sections(student_profile, lesson_content, lesson_objective, lan
 
     # Combine all sections
     all_sections = {**teacher_sections, **student_sections}
+    print(all_sections)
     return all_sections
