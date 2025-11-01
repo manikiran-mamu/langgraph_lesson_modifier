@@ -72,7 +72,7 @@ def save_node(state: State) -> State:
                     insert_into_cell(content_cell, sections["content"])
 
                 # Fill language (look for "LANGUAGE:" block)
-                if "language" in sections and "LANGUAGE:" in content_cell.text:
+                if "language" in sections: #and "LANGUAGE:" in content_cell.text:
                     insert_into_cell(language_cell, sections["language"])
 
                 # Fill purpose
