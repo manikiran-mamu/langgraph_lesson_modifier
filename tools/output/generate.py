@@ -2,7 +2,6 @@ import os
 import uuid
 import json
 import re
-import urllib.parse
 
 FINAL_TXT_DIR = "data/outputs/final"
 FINAL_JSON_DIR = "data/outputs/json"
