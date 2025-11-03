@@ -75,10 +75,13 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
     for para in lesson_content.split("\n"):
         para = para.strip()
         if not para:
+            print("not a valid paragraph")
             continue
         if len(para) > 630:
+            print(len(para))
             processed_paragraphs.extend(split_paragraph_by_sentence_limit(para, max_chars=630))
         else:
+            print(len(para))
             processed_paragraphs.append(para)
 
     # 🧱 Rebuild lesson_content with cleaned paragraphs
