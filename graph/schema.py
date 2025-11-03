@@ -23,6 +23,7 @@ class State(BaseModel):
     final_output_path: Optional[str] = None   # path to final .txt file
     final_output_json: Optional[str] = None  # path to final .json file for structured display
     final_output_md: Optional[str] = None    # ✅ path to final .md file
+    source_material_path: Optional[str] = None  # 📘 New: path to reference material DOCX
 
     # 📘 New DOCX Flow Additions
     lesson_objective: Optional[str] = None
@@ -35,6 +36,7 @@ class State(BaseModel):
     student_worksheet_path: Optional[str] = None
     slide_data: Optional[List[Dict[str, str]]] = None
     processed_paragraphs: Optional[List[str]] = None
+    
 
     def get(self, key, default=None):
         """
