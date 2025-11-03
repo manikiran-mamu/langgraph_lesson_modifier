@@ -85,6 +85,7 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
             processed_paragraphs.append(para)
 
     # 🧱 Rebuild lesson_content with cleaned paragraphs
+    print("i reached processed paragraphs")
     print(processed_paragraphs)
     lesson_content_split = "\n\n".join(processed_paragraphs)
 
