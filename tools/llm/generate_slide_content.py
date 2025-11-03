@@ -72,7 +72,7 @@ def split_paragraph_by_sentence_limit(paragraph: str, max_chars: int = 630) -> l
 
     return chunks
 
-def generate_modified_lesson_content(state, lesson_content, lesson_objective, language_objective, i_do_teacher):
+def generate_modified_lesson_content(lesson_content, lesson_objective, language_objective, i_do_teacher):
     """Generate slide‑ready modified lesson content aligned with objectives."""
     prompt_template = load_prompt("modify_lesson_content")
 
@@ -89,7 +89,6 @@ def generate_modified_lesson_content(state, lesson_content, lesson_objective, la
 
     # 🧱 Rebuild lesson_content with cleaned paragraphs
     print(processed_paragraphs)
-    state.update({"processed_paragraphs": processed_paragraphs})
     lesson_content_split = "\n\n".join(processed_paragraphs)
 
     # 🧠 Prompt with updated content
@@ -161,7 +160,7 @@ def generate_modified_lesson_content(state, lesson_content, lesson_objective, la
         })
 
     print(f"✅ Modified Lesson Slides Generated: {len(sanitized_slides)}")
-    return sanitized_slides
+    return sanitized_slides, processed_paragraphs
     
 # ------------------------------------------------------------
 # SECOND LLM CALL → Generate Main Lesson Slide Structure
@@ -217,7 +216,7 @@ def generate_base_slide_structure(lesson_objective, language_objective, lesson_c
 # ------------------------------------------------------------
 # FINAL COMBINED FUNCTION → Merge Slides
 # ------------------------------------------------------------
-def generate_slide_content(state, lesson_objective, language_objective, lesson_content, intro_teacher, i_do_teacher, we_do_teacher):
+def generate_slide_content(lesson_objective, language_objective, lesson_content, intro_teacher, i_do_teacher, we_do_teacher):
     """
     Full pipeline:
       1️⃣ Generate modified lesson slides (LLM #1)
@@ -225,7 +224,7 @@ def generate_slide_content(state, lesson_objective, language_objective, lesson_c
       3️⃣ Insert modified slides right after 'I DO – Teacher Modeling'
     """
     # Step 1: Modified lesson slides
-    modified_slides = generate_modified_lesson_content(state,
+    modified_slides, processed_paragraphs = generate_modified_lesson_content(
         lesson_content=lesson_content,
         lesson_objective=lesson_objective,
         language_objective=language_objective,
@@ -251,4 +250,4 @@ def generate_slide_content(state, lesson_objective, language_objective, lesson_c
     final_slides = base_slides[:insert_index + 1] + modified_slides + base_slides[insert_index + 1:]
 
     print(f"✅ Final Slide Deck Generated: {len(final_slides)} slides total")
-    return final_slides
+    return final_slides, processed_paragraphs

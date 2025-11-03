@@ -10,7 +10,7 @@ def generate_pptx_node(state: State) -> State:
     content = state.lesson_content
     sections = state.sections
 
-    slides = generate_slide_content(state,
+    slides, processed_paragraphs = generate_slide_content(
         lesson_objective=lesson_obj,
         language_objective=lang_obj,
         lesson_content=content,
@@ -22,5 +22,6 @@ def generate_pptx_node(state: State) -> State:
     pptx_path = generate_slide_deck(slides)
     return state.update({
         "final_output_pptx": pptx_path,
-        "slide_data": slides  # ✅ storing slide list in state
+        "slide_data": slides,  # ✅ storing slide list in state
+        "processed_paragraphs": processed_paragraphs  # ✅ storing processed paragraphs in state
     })
