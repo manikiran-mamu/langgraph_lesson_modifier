@@ -225,7 +225,7 @@ def generate_slide_content(state, lesson_objective, language_objective, lesson_c
       3️⃣ Insert modified slides right after 'I DO – Teacher Modeling'
     """
     # Step 1: Modified lesson slides
-    modified_slides = generate_modified_lesson_content(
+    modified_slides = generate_modified_lesson_content(state,
         lesson_content=lesson_content,
         lesson_objective=lesson_objective,
         language_objective=language_objective,
@@ -233,7 +233,7 @@ def generate_slide_content(state, lesson_objective, language_objective, lesson_c
     )
 
     # Step 2: Main structure slides
-    base_slides = generate_base_slide_structure(state,
+    base_slides = generate_base_slide_structure(
         lesson_objective=lesson_objective,
         language_objective=language_objective,
         lesson_content=lesson_content,
