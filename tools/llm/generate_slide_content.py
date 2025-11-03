@@ -1,28 +1,24 @@
 import os
 import json
 import re
-import ast
-import math
-import traceback
+import ast 
 from openai import OpenAI
+import traceback
 from dotenv import load_dotenv
+from tools.llm.generate_sections import load_prompt
 import nltk
 from nltk.tokenize import sent_tokenize
-from tools.llm.generate_sections import load_prompt
+import math
 
-# -------------------- NLTK SETUP --------------------
-nltk_data_path = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '../../nltk_data')
-)
+# Set the custom nltk_data path (relative or absolute)
+nltk_data_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../nltk_data'))
 nltk.data.path.append(nltk_data_path)
-
-# -------------------- ENV + OPENAI --------------------
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# -------------------- TEXT UTILITIES --------------------
-def sanitize_text(text: str) -> str:
-    """Clean text for DOCX compatibility."""
+
+def sanitize_text_for_docx(text: str) -> str:
+    """Sanitize text for DOCX-safe output (remove danda, smart quotes, etc.)."""
     return (
         text.replace("।", ".")
             .replace("\u0964", ".")
@@ -36,82 +32,144 @@ def sanitize_text(text: str) -> str:
             .replace("’", "'")
     )
 
-def split_paragraph(paragraph: str, max_chars: int = 630) -> list[str]:
-    """Split long paragraphs into sentence-aligned chunks."""
+
+def split_paragraph_by_sentence_limit(paragraph: str, max_chars: int = 630) -> list[str]:
+    """
+    Split a paragraph into balanced chunks of roughly equal length (<= max_chars),
+    while preserving sentence boundaries.
+    """
     sentences = sent_tokenize(paragraph)
     total_chars = sum(len(s) for s in sentences)
-    target_chunk = total_chars / max(1, math.ceil(total_chars / max_chars))
 
-    chunks, buffer, size = [], "", 0
+    # Estimate number of chunks needed
+    est_chunks = max(1, math.ceil(total_chars / max_chars))
+    target_chunk_size = total_chars / est_chunks
+
+    chunks = []
+    current_chunk = ""
+    current_size = 0
+
     for sentence in sentences:
-        if buffer and size + len(sentence) > target_chunk * 1.2:
-            chunks.append(buffer.strip())
-            buffer, size = sentence, len(sentence)
+        if current_chunk and current_size + len(sentence) > target_chunk_size * 1.2:
+            chunks.append(current_chunk.strip())
+            current_chunk = sentence
+            current_size = len(sentence)
         else:
-            buffer += (" " if buffer else "") + sentence
-            size += len(sentence)
+            if current_chunk:
+                current_chunk += " " + sentence
+            else:
+                current_chunk = sentence
+            current_size += len(sentence)
 
-    if buffer:
-        chunks.append(buffer.strip())
+    if current_chunk:
+        chunks.append(current_chunk.strip())
+
     return chunks
 
-def parse_json_response(raw: str):
-    """Handle OpenAI LLM output with JSON fallback and sanitization."""
-    try:
-        return json.loads(raw)
-    except Exception:
-        raw = re.sub(r"^```(json)?", "", raw).replace("```", "").strip()
-        raw = sanitize_text(raw)
-
-        def escape_quotes(match):
-            inner = match.group(1)
-            escaped = re.sub(r'(?<!\\)"', r'\\"', inner)
-            return f'"content": "{escaped}"'
-
-        raw = re.sub(r'"content":\s*"([^"]*?)"', escape_quotes, raw, flags=re.DOTALL)
-
-        try:
-            return json.loads(raw)
-        except Exception:
-            return ast.literal_eval(raw)
-
-# -------------------- SLIDE GENERATION --------------------
-
 def generate_modified_lesson_content(lesson_content, lesson_objective, language_objective, i_do_teacher):
+    """Generate slide‑ready modified lesson content aligned with objectives."""
     prompt_template = load_prompt("modify_lesson_content")
 
+    # 🪓 Split long paragraphs in lesson_content before sending to LLM
     processed_paragraphs = []
     for para in lesson_content.split("\n"):
         para = para.strip()
-        if para:
-            processed_paragraphs.extend(
-                split_paragraph(para) if len(para) > 630 else [para]
-            )
+        if not para:
+            print("not a valid paragraph")
+            continue
+        if len(para) > 630:
+            print(len(para))
+            processed_paragraphs.extend(split_paragraph_by_sentence_limit(para, max_chars=630))
+        else:
+            print(len(para))
+            processed_paragraphs.append(para)
 
-    prompt = prompt_template.format(
-        lesson_content="\n\n".join(processed_paragraphs),
+    # 🧱 Rebuild lesson_content with cleaned paragraphs
+    print("i reached processed paragraphs")
+    print(processed_paragraphs)
+    lesson_content_split = "\n\n".join(processed_paragraphs)
+
+    # 🧠 Prompt with updated content
+    filled_prompt = prompt_template.format(
+        lesson_content=lesson_content_split,
         lesson_objective=lesson_objective,
         language_objective=language_objective,
         i_do_teacher=i_do_teacher
     )
 
+    # 🧠 LLM Call
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "You are a curriculum adaptation expert..."},
-            {"role": "user", "content": prompt}
+            {
+                "role": "system",
+                "content": (
+                    "You are a curriculum adaptation expert generating slide-ready rewritten lesson content. "
+                    "Return only valid JSON with 'title' and 'content'. Do NOT include markdown or triple backticks."
+                )
+            },
+            {"role": "user", "content": filled_prompt}
         ],
         temperature=0.7
     )
 
-    parsed = parse_json_response(response.choices[0].message.content.strip())
-    slides = [{"title": sanitize_text(s.get("title", "")), "content": sanitize_text(s.get("content", ""))} for s in parsed]
+    raw_output = response.choices[0].message.content.strip()
 
-    return slides, processed_paragraphs
+    # ---------- Basic parsing ----------
+    try:
+        parsed = json.loads(raw_output)
+    except Exception:
+        cleaned = raw_output.strip()
 
+        # Remove Markdown fences
+        cleaned = re.sub(r"^```(json)?", "", cleaned)
+        cleaned = re.sub(r"```$", "", cleaned)
+        cleaned = cleaned.strip()
+
+        # Replace smart quotes / unsafe chars
+        cleaned = sanitize_text_for_docx(cleaned)
+
+        # ✅ Escape unescaped internal quotes in content
+        def escape_inner_quotes(match):
+            inner = match.group(1)
+            # escape only double quotes that are not already escaped
+            inner_escaped = re.sub(r'(?<!\\)"', r'\\"', inner)
+            return f'"content": "{inner_escaped}"'
+
+        cleaned = re.sub(r'"content":\s*"([^"]*?)"', escape_inner_quotes, cleaned, flags=re.DOTALL)
+
+        # ---------- Try parsing again ----------
+        try:
+            parsed = json.loads(cleaned)
+        except Exception:
+            try:
+                parsed = ast.literal_eval(cleaned)
+            except Exception as e:
+                print("\n❌ Parsing failed. Output preview:\n", cleaned[:1000])
+                print("\n🚨 Traceback:\n", traceback.format_exc())
+                raise e
+
+    # ---------- Final cleanup ----------
+    sanitized_slides = []
+    for slide in parsed:
+        sanitized_slides.append({
+            "title": sanitize_text_for_docx(slide.get("title", "")),
+            "content": sanitize_text_for_docx(slide.get("content", "")),
+        })
+
+    print(f"✅ Modified Lesson Slides Generated: {len(sanitized_slides)}")
+    return sanitized_slides, processed_paragraphs
+    
+# ------------------------------------------------------------
+# SECOND LLM CALL → Generate Main Lesson Slide Structure
+# ------------------------------------------------------------
 def generate_base_slide_structure(lesson_objective, language_objective, lesson_content, intro_teacher, we_do_teacher):
-    prompt_template = load_prompt("slide_deck")
-    prompt = prompt_template.format(
+    """
+    Step 2: Generate the core slide structure (title, engager, I DO, WE DO, etc.)
+    without including the modified lesson slides.
+    """
+    prompt_template = load_prompt("slide_deck")  # New prompt file (see below)
+    filled_prompt = prompt_template.format(
         lesson_objective=lesson_objective,
         language_objective=language_objective,
         lesson_content=lesson_content,
@@ -122,36 +180,72 @@ def generate_base_slide_structure(lesson_objective, language_objective, lesson_c
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "You are an expert instructional designer..."},
-            {"role": "user", "content": prompt}
+            {
+                "role": "system",
+                "content": "You are an expert instructional designer. Return only valid JSON with 'title' and 'content'. No markdown or extra text."
+            },
+            {"role": "user", "content": filled_prompt}
         ],
         temperature=0.7
     )
 
-    return parse_json_response(response.choices[0].message.content.strip())
+    raw_output = response.choices[0].message.content.strip()
 
+    try:
+        base_slides = json.loads(raw_output)
+    except json.JSONDecodeError:
+        cleaned = raw_output.strip()
+        if cleaned.startswith("```json"):
+            cleaned = cleaned.replace("```json", "").replace("```", "").strip()
+        elif cleaned.startswith("```"):
+            cleaned = cleaned.replace("```", "").strip()
+
+        cleaned = cleaned.replace("“", "\"").replace("”", "\"").replace("‘", "'").replace("’", "'")
+
+        print("\n🧹 Cleaned base slide structure:")
+        print(cleaned)
+
+        base_slides = json.loads(cleaned)
+
+    print(f"✅ Base Slide Structure Generated: {len(base_slides)}")
+    return base_slides
+
+
+# ------------------------------------------------------------
+# FINAL COMBINED FUNCTION → Merge Slides
+# ------------------------------------------------------------
 def generate_slide_content(lesson_objective, language_objective, lesson_content, intro_teacher, i_do_teacher, we_do_teacher):
     """
-    Pipeline to:
-    1. Generate rewritten slide content from lesson text.
-    2. Generate base slide structure (title, intro, objectives).
-    3. Merge modified slides after "I DO – Teacher Modeling".
+    Full pipeline:
+      1️⃣ Generate modified lesson slides (LLM #1)
+      2️⃣ Generate base slide structure (LLM #2)
+      3️⃣ Insert modified slides right after 'I DO – Teacher Modeling'
     """
+    # Step 1: Modified lesson slides
     modified_slides, processed_paragraphs = generate_modified_lesson_content(
-        lesson_content, lesson_objective, language_objective, i_do_teacher
+        lesson_content=lesson_content,
+        lesson_objective=lesson_objective,
+        language_objective=language_objective,
+        i_do_teacher=i_do_teacher
     )
 
+    # Step 2: Main structure slides
     base_slides = generate_base_slide_structure(
-        lesson_objective, language_objective, lesson_content, intro_teacher, we_do_teacher
+        lesson_objective=lesson_objective,
+        language_objective=language_objective,
+        lesson_content=lesson_content,
+        intro_teacher=intro_teacher,
+        we_do_teacher=we_do_teacher
     )
 
+    # Step 3: Find index of “I DO – Teacher Modeling” slide
     insert_index = next(
-        (i for i, s in enumerate(base_slides) if "i do" in s.get("title", "").lower()),
-        3
+        (i for i, slide in enumerate(base_slides) if "i do" in slide["title"].lower()),
+        3  # default after 3rd slide
     )
 
-    final_slides = (
-        base_slides[:insert_index + 1] + modified_slides + base_slides[insert_index + 1:]
-    )
+    # Step 4: Merge
+    final_slides = base_slides[:insert_index + 1] + modified_slides + base_slides[insert_index + 1:]
 
+    print(f"✅ Final Slide Deck Generated: {len(final_slides)} slides total")
     return final_slides, processed_paragraphs
