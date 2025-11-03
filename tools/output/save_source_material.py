@@ -34,7 +34,7 @@ def save_source_material_doc(processed_paragraphs: List[str]) -> str:
         p = doc.add_paragraph()
         run = p.add_run(para)
         run.font.name = "Poppins"
-        run.font.size = Pt(14)
+        run.font.size = Pt(12)
         run.font.bold = False
         run.font.color.rgb = RGBColor(0, 0, 0)
         doc.add_paragraph()  # Blank line between paragraphs
