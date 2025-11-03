@@ -8,5 +8,4 @@ def generate_reference_text_node(state: State) -> State:
     Saves the document and updates the state with its path.
     """
     source_path = save_source_material_doc(state.get("processed_paragraphs", []))
-    state = state.update({"source_material_path": source_path})
-    return state
+    return state.update({"source_material_path": source_path})
