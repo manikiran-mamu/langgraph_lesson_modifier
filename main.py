@@ -126,6 +126,7 @@ async def generate_lesson_docx(request: Request, lesson_request: LessonDocxReque
         docx_file = os.path.basename(result.get("final_output_docx", ""))
         pptx_file = os.path.basename(result.get("final_output_pptx", ""))
         worksheet_file = os.path.basename(result.get("student_worksheet_path", ""))
+        reference_file = os.path.basename(result.get("source_material_path", ""))
 
         # Base response
         response = {}
@@ -136,6 +137,8 @@ async def generate_lesson_docx(request: Request, lesson_request: LessonDocxReque
             response["slide_deck_url"] = f"{base_url}/outputs/slides/{pptx_file}"
         if worksheet_file:
             response["worksheet_url"] = f"{base_url}/outputs/worksheets/{worksheet_file}"
+        if reference_file:
+            response["reference_material_url"] = f"{base_url}/outputs/references/{reference_file}"
 
         return response
 

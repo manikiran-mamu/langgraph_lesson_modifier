@@ -34,6 +34,7 @@ class State(BaseModel):
     sections: Optional[Dict[str, str]] = None
     student_worksheet_path: Optional[str] = None
     slide_data: Optional[List[Dict[str, str]]] = None
+    processed_paragraphs: Optional[List[str]] = None
 
     def get(self, key, default=None):
         """

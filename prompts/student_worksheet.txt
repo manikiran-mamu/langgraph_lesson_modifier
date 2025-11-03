@@ -14,12 +14,10 @@ Instructions:
    - If the "content" includes a student question, prompt, or activity, extract it **exactly as written**.
    - Use that content as a worksheet task.
    - **Immediately below each extracted task, provide a translated version of the same question or task.**
-   - Then list any tools, support, or materials the student would need based on `intro_student`, `i_do_student`, or `we_do_student`.
 
 3. After all slide-based tasks:
    - Add a **final task** from the `you_do_student` section, written as a standalone student task.
    - **Include a translated version of this task immediately below it.**
-   - Then list any supports or expectations from the `you_do_teacher` (if available).
 
 4. Finally, based on `lesson_content`, generate **three multiple choice questions** to assess understanding.
    - Each question should have four options (A–D).
@@ -31,11 +29,11 @@ Return the full worksheet as a **JSON list of sections** in the format:
 [
   {{
     "section": "Slide Task - [Slide Title]",
-    "content": "Original question or task from slide\n\n Translated version \n\nSupports:\n- Support 1\n- Support 2"
+    "content": "Original question or task from slide\n\n Translated version"
   }},
   {{
     "section": "You Do Task",
-    "content": "Task for student from You Do section\n\n Translated version \n\nSupports:\n- Support or reminders"
+    "content": "Task for student from You Do section\n\n Translated version"
   }},
   {{
     "section": "MCQ 1",

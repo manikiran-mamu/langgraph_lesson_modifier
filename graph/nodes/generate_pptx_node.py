@@ -10,7 +10,7 @@ def generate_pptx_node(state: State) -> State:
     content = state.lesson_content
     sections = state.sections
 
-    slides = generate_slide_content(
+    slides = generate_slide_content(state,
         lesson_objective=lesson_obj,
         language_objective=lang_obj,
         lesson_content=content,

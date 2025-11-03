@@ -72,7 +72,7 @@ def split_paragraph_by_sentence_limit(paragraph: str, max_chars: int = 630) -> l
 
     return chunks
 
-def generate_modified_lesson_content(lesson_content, lesson_objective, language_objective, i_do_teacher):
+def generate_modified_lesson_content(state, lesson_content, lesson_objective, language_objective, i_do_teacher):
     """Generate slide‑ready modified lesson content aligned with objectives."""
     prompt_template = load_prompt("modify_lesson_content")
 
@@ -89,6 +89,7 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
 
     # 🧱 Rebuild lesson_content with cleaned paragraphs
     print(processed_paragraphs)
+    state.update({"processed_paragraphs": processed_paragraphs})
     lesson_content_split = "\n\n".join(processed_paragraphs)
 
     # 🧠 Prompt with updated content
@@ -216,7 +217,7 @@ def generate_base_slide_structure(lesson_objective, language_objective, lesson_c
 # ------------------------------------------------------------
 # FINAL COMBINED FUNCTION → Merge Slides
 # ------------------------------------------------------------
-def generate_slide_content(lesson_objective, language_objective, lesson_content, intro_teacher, i_do_teacher, we_do_teacher):
+def generate_slide_content(state, lesson_objective, language_objective, lesson_content, intro_teacher, i_do_teacher, we_do_teacher):
     """
     Full pipeline:
       1️⃣ Generate modified lesson slides (LLM #1)
@@ -232,7 +233,7 @@ def generate_slide_content(lesson_objective, language_objective, lesson_content,
     )
 
     # Step 2: Main structure slides
-    base_slides = generate_base_slide_structure(
+    base_slides = generate_base_slide_structure(state,
         lesson_objective=lesson_objective,
         language_objective=language_objective,
         lesson_content=lesson_content,

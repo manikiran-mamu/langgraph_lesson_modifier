@@ -21,33 +21,23 @@ def generate_student_worksheet_doc(sections: list) -> str:
 
     def split_parts(content: str):
         content = content.strip()
-        english_part, translation_part, supports_part = "", "", ""
+        english_part, translation_part = "", ""
 
-        # First split by \n\n for main division
+        # Split by \n\n — now only need 2 parts
         parts = content.split("\n\n")
-        if len(parts) == 3:
-            english_part, translation_part, supports_part = parts
-        elif len(parts) == 2:
-            english_part, translation_part = parts
+        if len(parts) >= 2:
+            english_part, translation_part = parts[:2]
         else:
-            # fallback to non-Latin script detection
+            # fallback to non-ASCII (e.g. Spanish) split
             match = re.search(r'[^\x00-\x7F]', content)
             if match:
                 split_index = match.start()
                 english_part = content[:split_index].rstrip()
-                remainder = content[split_index:].lstrip()
-                # Try splitting remainder into translation and supports
-                support_match = re.search(r'Supports:\s*', remainder)
-                if support_match:
-                    support_index = support_match.start()
-                    translation_part = remainder[:support_index].rstrip()
-                    supports_part = remainder[support_index:].lstrip()
-                else:
-                    translation_part = remainder
+                translation_part = content[split_index:].lstrip()
             else:
                 english_part = content
 
-        return english_part.strip(), translation_part.strip(), supports_part.strip()
+        return english_part.strip(), translation_part.strip()
 
     # --- Add sections ---
     for section in sections:
@@ -61,9 +51,9 @@ def generate_student_worksheet_doc(sections: list) -> str:
 
         # Split content
         content = section["content"]
-        english_part, translation_part, supports_part = split_parts(content)
+        english_part, translation_part = split_parts(content)
 
-        # 🔵 English
+        # 🔵 English (question)
         if english_part:
             for line in english_part.split("\n"):
                 if line.strip():
@@ -74,7 +64,7 @@ def generate_student_worksheet_doc(sections: list) -> str:
                     run.font.color.rgb = RGBColor(0, 102, 204)  # Blue
                     p.alignment = WD_ALIGN_PARAGRAPH.LEFT
 
-        # 🔴 Translated
+        # 🔴 Translated (question)
         if translation_part:
             for line in translation_part.split("\n"):
                 if line.strip():
@@ -85,18 +75,16 @@ def generate_student_worksheet_doc(sections: list) -> str:
                     run.font.color.rgb = RGBColor(255, 0, 0)  # Red
                     p.alignment = WD_ALIGN_PARAGRAPH.LEFT
 
-        # 🟢 Supports
-        if supports_part:
-            for line in supports_part.split("\n"):
-                if line.strip():
-                    p = doc.add_paragraph()
-                    run = p.add_run(line.strip())
-                    run.font.name = "Poppins"
-                    run.font.size = Pt(12)
-                    run.font.color.rgb = RGBColor(0, 153, 0)  # Green
-                    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+        # ✏️ Add 5 blank answer lines
+        for _ in range(5):
+            p = doc.add_paragraph()
+            run = p.add_run("________________________________________________________________________________")
+            run.font.name = "Poppins"
+            run.font.size = Pt(12)
+            run.font.color.rgb = RGBColor(0, 0, 0)
+            p.alignment = WD_ALIGN_PARAGRAPH.LEFT
 
-        doc.add_paragraph()
+        doc.add_paragraph()  # Spacer
 
     # --- Save the file ---
     save_dir = "data/outputs/worksheets"
