@@ -110,50 +110,26 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
 
     raw_output = response.choices[0].message.content.strip()
 
-    # ---------- Basic parsing ----------
+
     try:
-        parsed = json.loads(raw_output)
-    except Exception:
+        sanitized_slides = json.loads(raw_output)
+    except json.JSONDecodeError:
         cleaned = raw_output.strip()
+        if cleaned.startswith("```json"):
+            cleaned = cleaned.replace("```json", "").replace("```", "").strip()
+        elif cleaned.startswith("```"):
+            cleaned = cleaned.replace("```", "").strip()
 
-        # Remove Markdown fences
-        cleaned = re.sub(r"^```(json)?", "", cleaned)
-        cleaned = re.sub(r"```$", "", cleaned)
-        cleaned = cleaned.strip()
+        cleaned = cleaned.replace("“", "\"").replace("”", "\"").replace("‘", "'").replace("’", "'")
 
-        # Replace smart quotes / unsafe chars
-        cleaned = sanitize_text_for_docx(cleaned)
+        print("\n🧹 Cleaned base slide structure:")
+        print(cleaned)
 
-        # ✅ Escape unescaped internal quotes in content
-        def escape_inner_quotes(match):
-            inner = match.group(1)
-            # escape only double quotes that are not already escaped
-            inner_escaped = re.sub(r'(?<!\\)"', r'\\"', inner)
-            return f'"content": "{inner_escaped}"'
+        sanitized_slides = json.loads(cleaned)
 
-        cleaned = re.sub(r'"content":\s*"([^"]*?)"', escape_inner_quotes, cleaned, flags=re.DOTALL)
-
-        # ---------- Try parsing again ----------
-        try:
-            parsed = json.loads(cleaned)
-        except Exception:
-            try:
-                parsed = ast.literal_eval(cleaned)
-            except Exception as e:
-                print("\n❌ Parsing failed. Output preview:\n", cleaned[:1000])
-                print("\n🚨 Traceback:\n", traceback.format_exc())
-                raise e
-
-    # ---------- Final cleanup ----------
-    sanitized_slides = []
-    for slide in parsed:
-        sanitized_slides.append({
-            "title": sanitize_text_for_docx(slide.get("title", "")),
-            "content": sanitize_text_for_docx(slide.get("content", "")),
-        })
-
-    print(f"✅ Modified Lesson Slides Generated: {len(sanitized_slides)}")
+    print(f"✅ Base Slide Structure Generated: {len(sanitized_slides)}")
     return sanitized_slides, processed_paragraphs
+
     
 # ------------------------------------------------------------
 # SECOND LLM CALL → Generate Main Lesson Slide Structure
