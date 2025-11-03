@@ -10,15 +10,9 @@ import nltk
 from nltk.tokenize import sent_tokenize
 import math
 
+# Set the custom nltk_data path (relative or absolute)
 nltk_data_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../nltk_data'))
 nltk.data.path.append(nltk_data_path)
-
-# Only download if not already available
-try:
-    nltk.data.find("tokenizers/punkt")
-except LookupError:
-    nltk.download("punkt", download_dir=nltk_data_path)
-
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
