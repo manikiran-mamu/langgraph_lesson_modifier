@@ -138,7 +138,7 @@ async def generate_lesson_docx(request: Request, lesson_request: LessonDocxReque
         if worksheet_file:
             response["worksheet_url"] = f"{base_url}/outputs/worksheets/{worksheet_file}"
         if reference_file:
-            response["reference_material_url"] = f"{base_url}/outputs/references/{reference_file}"
+            response["reference_material_url"] = f"{base_url}/outputs/source_materials/{reference_file}"
 
         return response
 
