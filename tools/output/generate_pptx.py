@@ -39,7 +39,8 @@ def _set_formatted_content(text_frame, content, center=False):
 
         styled_parts = [
             (part1, RGBColor(0, 102, 204), False),  # 🔵 Blue
-            (part2, RGBColor(0, 102, 204), True),   # 🔵 Blue Bold
+            (part2, RGBColor(0, 102, 204), True), # 🔵 Blue Bold
+            ("__SPACER__", None, None),       
             (part3, RGBColor(255, 0, 0), False),    # 🔴 Red
             (part4, RGBColor(255, 0, 0), True),     # 🔴 Red Bold
         ]
