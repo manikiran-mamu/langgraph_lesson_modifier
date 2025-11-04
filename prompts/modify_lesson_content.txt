@@ -37,11 +37,8 @@ Keep all paragraphs and sentences exactly as they are — nothing should be omit
 	then after each slide’s English content, add a translated version of the **entire enhanced paragraph** (including scaffolds and comprehension check) in that language.
 
 	Formatting for bilingual output:
-	```
 	[English full content + scaffolds + Comprehension Check]
-	
 	[Translated version of the same content including the Comprehension Check label]
-	```
 
 5️⃣ Each slide must be returned in the following JSON format:
 
@@ -65,12 +62,12 @@ Keep all paragraphs and sentences exactly as they are — nothing should be omit
 
 **Output Example:**
 [
-  {
+  {{
     "title": "",
     "content": "Daedalus was a brilliant inventor imprisoned by King Minos. (Brilliant means very smart and creative.) He decided to escape by creating wings out of feathers and wax.\nComprehension Check: What problem was he trying to solve? Let’s highlight how he uses creativity.\n\nडेडलस एक बहुत बुद्धिमान और रचनात्मक आविष्कारक था जिसे राजा मिनोस ने कैद कर लिया था। उसने पंख और मोम से पंख बनाकर भागने का फैसला किया।\nComprehension Check: वह किस समस्या को हल करने की कोशिश कर रहा था? चलो देखते हैं कि उसने रचनात्मकता कैसे दिखाई।"
-  },
-  {
+  }},
+  {{
     "title": "",
     "content": "Icarus helped gather feathers for his father. Together, they built wings strong enough to lift them into the air. (Strong means powerful or able to fly easily.)\nComprehension Check: Why is this important? Let’s predict what might happen next.\n\nइकरस ने अपने पिता के लिए पंख इकट्ठे किए। उन्होंने मिलकर ऐसे मजबूत पंख बनाए जो उन्हें हवा में उठा सकें।\nComprehension Check: यह क्यों महत्वपूर्ण है? चलो सोचते हैं आगे क्या हो सकता है।"
-  }
+  }}
 ]
