@@ -123,7 +123,6 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
         cleaned = cleaned.replace("“", "\"").replace("”", "\"").replace("‘", "'").replace("’", "'")
 
         print("\n🧹 Cleaned base slide structure:")
-        print(cleaned)
 
         sanitized_slides = json.loads(cleaned)
 
@@ -219,5 +218,4 @@ def generate_slide_content(lesson_objective, language_objective, lesson_content,
     final_slides = base_slides[:insert_index + 1] + modified_slides + base_slides[insert_index + 1:]
 
     print(f"✅ Final Slide Deck Generated: {len(final_slides)} slides total")
-    print(final_slides)
     return final_slides, processed_paragraphs

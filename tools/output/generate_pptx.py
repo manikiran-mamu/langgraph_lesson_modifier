@@ -150,7 +150,7 @@ def generate_slide_deck(slides: list) -> str:
             _add_title_only_slide(prs, title)
         elif not title:
             _add_content_only_slide(prs, content)
-        elif title.lower() in ["i do", "we do", "you do", "engager"]:
+        elif title.lower() in ["i do", "we do", "you do"]:
             _add_title_only_slide(prs, title)
         else:
             _add_title_content_slide(prs, title, content)
