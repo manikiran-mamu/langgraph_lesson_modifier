@@ -28,10 +28,8 @@ Keep all paragraphs and sentences exactly as they are — nothing should be omit
 	• Any comprehension questions, reflection prompts, or checks for understanding should appear **after a line break**, prefixed with:
 		**Comprehension Check:**  
 		Example:
-		```
 		Daedalus was a brilliant inventor imprisoned by King Minos. (Brilliant means very smart and creative.) He decided to escape by creating wings out of feathers and wax.  
 		Comprehension Check: What problem was he trying to solve? Let’s highlight how he uses creativity.
-		```
 	• Apply the same rule to the **translated version** if translations are required (see step 4).
 
 4️⃣ If the i_do_teacher input says something like:
