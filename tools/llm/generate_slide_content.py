@@ -33,7 +33,7 @@ def sanitize_text_for_docx(text: str) -> str:
     )
 
 
-def split_paragraph_by_sentence_limit(paragraph: str, max_chars: int = 630) -> list[str]:
+def split_paragraph_by_sentence_limit(paragraph: str, max_chars: int = 550) -> list[str]:
     """
     Split a paragraph into balanced chunks of roughly equal length (<= max_chars),
     while preserving sentence boundaries.
@@ -76,8 +76,8 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
         para = para.strip()
         if not para:
             continue
-        if len(para) > 630:
-            processed_paragraphs.extend(split_paragraph_by_sentence_limit(para, max_chars=630))
+        if len(para) > 550:
+            processed_paragraphs.extend(split_paragraph_by_sentence_limit(para, max_chars=550))
         else:
             processed_paragraphs.append(para)
 
