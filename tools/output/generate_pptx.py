@@ -143,6 +143,7 @@ def generate_slide_deck(slides: list) -> str:
     prs = Presentation()
 
     for slide in slides:
+        print(slide)
         title = slide.get("title", "").strip()
         content = slide.get("content", "").strip()
 

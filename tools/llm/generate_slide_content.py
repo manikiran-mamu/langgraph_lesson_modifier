@@ -109,7 +109,6 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
     )
 
     raw_output = response.choices[0].message.content.strip()
-    print(raw_output)
 
 
     try:
