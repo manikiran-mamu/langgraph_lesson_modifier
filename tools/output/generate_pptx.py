@@ -11,27 +11,28 @@ import uuid
 # -----------------------------------------------------------
 def _set_formatted_content(text_frame, content, center=False):
     """
-    Handles 2 main cases:
+    Handles 3 main cases:
     1️⃣ Only '\n\n' present → first part Blue, second part Red.
     2️⃣ Both '\n' and '\n\n' present →
         - Before first '\n'        → Blue
         - Between '\n' and '\n\n'  → Blue Bold
         - Between '\n\n' and next '\n' → Red
         - After that (final)       → Red Bold
+    3️⃣ No \n or \n\n → Treat all as black.
     """
     text_frame.clear()
     text_frame.word_wrap = True
     if center:
         text_frame.vertical_anchor = MSO_ANCHOR.MIDDLE
 
-    # Case 1: Has both \n and \n\n
+    styled_parts = []
+
+    # Case 1: Both '\n' and '\n\n' present
     if "\n\n" in content and "\n" in content:
-        # Find positions of key delimiters
         first_single = content.find("\n")
         first_double = content.find("\n\n")
         second_single = content.find("\n", first_double + 2)
 
-        # Segment extraction with safety
         part1 = content[:first_single].strip() if first_single != -1 else ""
         part2 = content[first_single:first_double].strip() if first_double != -1 else ""
         part3 = content[first_double:second_single].replace("\n\n", "").strip() if second_single != -1 else content[first_double:].replace("\n\n", "").strip()
@@ -39,8 +40,8 @@ def _set_formatted_content(text_frame, content, center=False):
 
         styled_parts = [
             (part1, RGBColor(0, 102, 204), False),  # 🔵 Blue
-            (part2, RGBColor(0, 102, 204), True), # 🔵 Blue Bold
-            ("__SPACER__", None, None),       
+            (part2, RGBColor(0, 102, 204), True),   # 🔵 Blue Bold
+            ("__SPACER__", None, None),             # Two blank lines after \n\n
             (part3, RGBColor(255, 0, 0), False),    # 🔴 Red
             (part4, RGBColor(255, 0, 0), True),     # 🔴 Red Bold
         ]
@@ -50,15 +51,22 @@ def _set_formatted_content(text_frame, content, center=False):
         english_part, translation_part = content.split("\n\n", 1)
         styled_parts = [
             (english_part.strip(), RGBColor(0, 102, 204), False),  # 🔵 Blue
+            ("__SPACER__", None, None),                            # Spacer
             (translation_part.strip(), RGBColor(255, 0, 0), False)  # 🔴 Red
         ]
 
-    # Case 3: Fallback → treat all as blue
+    # Case 3: No split → All black
     else:
         styled_parts = [(content.strip(), RGBColor(0, 0, 0), False)]
 
-    # Render styled parts
+    # Render
     for text, color, bold in styled_parts:
+        if text == "__SPACER__":
+            for _ in range(2):  # Add 2 blank lines
+                spacer = text_frame.add_paragraph()
+                spacer.text = ""
+            continue
+
         if not text:
             continue
         for line in text.split("\n"):
@@ -73,7 +81,6 @@ def _set_formatted_content(text_frame, content, center=False):
             run.font.name = "Poppins"
             run.font.color.rgb = color
             run.font.bold = bold
-
 
 # -----------------------------------------------------------
 # Layout Functions
