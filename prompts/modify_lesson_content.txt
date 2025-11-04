@@ -37,14 +37,14 @@ Keep all paragraphs and sentences exactly as they are — nothing should be omit
 	then after each slide’s English content, add a translated version of the **entire enhanced paragraph** (including scaffolds and comprehension check) in that language.
 
 	Formatting for bilingual output:
-	[English full content + scaffolds + Comprehension Check]
+	[English full content + scaffolds \n Comprehension Check]
 	[Translated version of the same content including the Comprehension Check label]
 
 5️⃣ Each slide must be returned in the following JSON format:
 
 	{{
 “title”: “Matching Title for the Paragraph”,
-“content”: “[full content in English + embedded scaffolds + Comprehension Check]\n\n[optional translated version including Comprehension Check]”
+“content”: “[full content in English + embedded scaffolds \n Comprehension Check]\n\n[optional translated version \n Comprehension Check]”
 }}
 
 ⸻

@@ -82,11 +82,11 @@ def generate_modified_lesson_content(lesson_content, lesson_objective, language_
             processed_paragraphs.append(para)
 
     # 🧱 Rebuild lesson_content with cleaned paragraphs
-    lesson_content_split = "\n\n".join(processed_paragraphs)
+    #lesson_content_split = "\n\n".join(processed_paragraphs)
 
     # 🧠 Prompt with updated content
     filled_prompt = prompt_template.format(
-        lesson_content=lesson_content_split,
+        lesson_content=processed_paragraphs,
         lesson_objective=lesson_objective,
         language_objective=language_objective,
         i_do_teacher=i_do_teacher
