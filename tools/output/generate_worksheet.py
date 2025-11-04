@@ -4,7 +4,27 @@ import uuid
 from docx import Document
 from docx.shared import Pt, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
 
+
+
+def add_horizontal_line(doc):
+    """Add a true continuous horizontal line (no dashed underscores)."""
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+
+    # Access the paragraph XML and add a bottom border
+    p_element = p._p
+    p_props = p_element.get_or_add_pPr()
+    border = OxmlElement('w:pBdr')
+    bottom = OxmlElement('w:bottom')
+    bottom.set(qn('w:val'), 'single')  # 'single' = solid line
+    bottom.set(qn('w:sz'), '8')        # Line thickness
+    bottom.set(qn('w:space'), '1')     # Padding around line
+    bottom.set(qn('w:color'), '000000')
+    border.append(bottom)
+    p_props.append(border)
 
 def generate_student_worksheet_doc(sections: list) -> str:
     doc = Document()
@@ -77,12 +97,7 @@ def generate_student_worksheet_doc(sections: list) -> str:
 
         # ✏️ Add 5 blank answer lines
         for _ in range(5):
-            p = doc.add_paragraph()
-            run = p.add_run("________________________________________________________________________________")
-            run.font.name = "Poppins"
-            run.font.size = Pt(12)
-            run.font.color.rgb = RGBColor(0, 0, 0)
-            p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+            add_horizontal_line(doc)
 
         doc.add_paragraph()  # Spacer
 

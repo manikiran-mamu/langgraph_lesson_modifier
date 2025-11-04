@@ -31,8 +31,8 @@ Format:
 	•	Do not include labels like “Translation” — just the translated text naturally after the English.
 	4.	Each slide must be returned in the following format:
 {{
-“title”: “”,
-“content”: “[full content in English + embedded scaffolds]\n\n[optional translated version if required]”
+“title”: “Matching Tilte for the Paragraph”,
+“content”: “[full content in English]\n[embedded scaffolds]\n\n[optional translated version of full content]\n[optional translated version of embedded scaffolds]”
 }}
 
 ⸻
@@ -52,11 +52,11 @@ Important Guidelines:
 Output Format Example:
 [
   {{
-    "title": "",
-    "content": "Daedalus was a brilliant inventor imprisoned by King Minos. (Brilliant means very smart and creative.) He decided to escape by creating wings out of feathers and wax. What problem was he trying to solve? Let’s highlight how he uses creativity.\n\nडेडलस एक बहुत बुद्धिमान और रचनात्मक आविष्कारक था जिसे राजा मिनोस ने कैद कर लिया था। उसने पंख और मोम से पंख बनाकर भागने का फैसला किया। वह किस समस्या को हल करने की कोशिश कर रहा था?"
+    "title": "Daedalus Escapes with His Invention",
+    "content": "Daedalus was a brilliant inventor imprisoned by King Minos. (Brilliant means very smart and creative.) He decided to escape by creating wings out of feathers and wax.\n\nWhat problem was he trying to solve? Let’s highlight how he uses creativity.\n\nडेडलस एक बहुत बुद्धिमान और रचनात्मक आविष्कारक था जिसे राजा मिनोस ने कैद कर लिया था। उसने पंख और मोम से पंख बनाकर भागने का फैसला किया। वह किस समस्या को हल करने की कोशिश कर रहा था?\n\n(बुद्धिमान और रचनात्मक का मतलब बहुत चतुर और रचनात्मक होता है।)"
   }},
   {{
-    "title": "",
-    "content": "Icarus helped gather feathers for his father. Together, they built wings strong enough to lift them into the air. Strong enough means they could really fly! Why is this important? Let’s think about what might happen next.\n\nइकरस ने अपने पिता के लिए पंख इकट्ठे किए। उन्होंने मिलकर ऐसे मजबूत पंख बनाए जो उन्हें हवा में उठा सकें। यह क्यों महत्वपूर्ण है? चलो सोचते हैं आगे क्या होगा।"
+    "title": "Icarus Helps Build the Wings",
+    "content": "Icarus helped gather feathers for his father. Together, they built wings strong enough to lift them into the air. (Strong enough means they could really fly!) Why is this important? Let’s think about what might happen next.\n\nइकरस ने अपने पिता के लिए पंख इकट्ठे किए। उन्होंने मिलकर ऐसे मजबूत पंख बनाए जो उन्हें हवा में उठा सकें। यह क्यों महत्वपूर्ण है? चलो सोचते हैं आगे क्या होगा।\n\n(मजबूत पंख का मतलब है कि वे वास्तव में उड़ सकते थे!)"
   }}
 ]

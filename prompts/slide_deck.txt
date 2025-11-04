@@ -35,7 +35,7 @@ Use the following slide structure:
    - Content: Leave this empty (just a section divider slide)
 
 5. Slide 5 to n: WE DO Content Slides  
-   - Title: "" (empty string)  
+   - Title: "We Do Task n-5"  
    - Content: Collaborative student + teacher practice based on we_do_teacher and lesson_content. Include sentence frames, discussion tasks, or hands-on prompts.  
    - If we_do_teacher mentions translation needs, include the translated version on the same slide.
 
@@ -50,7 +50,7 @@ Example:
   {{"title": "Engager", "content": "What do you already know about space? Turn and talk to a partner.\n\n Translated version"}},
   {{"title": "I DO", "content": ""}}
   {{"title": "WE DO", "content": ""}},
-  {{"title": "", "content": "Work with a partner to name all the planets. Use your glossary for tricky words.\n\n Translated Version"}}
+  {{"title": "WE DO Task 1", "content": "Work with a partner to name all the planets. Use your glossary for tricky words.\n\n Translated Version"}}
 ]
 
 Final Note:

@@ -219,4 +219,5 @@ def generate_slide_content(lesson_objective, language_objective, lesson_content,
     final_slides = base_slides[:insert_index + 1] + modified_slides + base_slides[insert_index + 1:]
 
     print(f"✅ Final Slide Deck Generated: {len(final_slides)} slides total")
+    print(final_slides)
     return final_slides, processed_paragraphs
