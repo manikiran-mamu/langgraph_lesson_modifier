@@ -162,3 +162,5 @@ os.makedirs("editor", exist_ok=True)
 # === Mount Static File Routes ===
 app.mount("/outputs", StaticFiles(directory="data/outputs"), name="outputs")
 app.mount("/editor", StaticFiles(directory="editor"), name="editor")
+app.mount("/audio", StaticFiles(directory="data/outputs/audio"), name="audio")
+app.mount("/images", StaticFiles(directory="data/outputs/images"), name="images")

@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   const file = params.get("file");
   if (file) {
-    fetch(`/markdown/${file}`)
+    fetch(`/outputs/markdown/${file}`)
       .then(res => res.text())
       .then(data => {
         container.innerHTML = marked.parse(data);
