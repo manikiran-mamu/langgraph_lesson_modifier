@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson Editor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <!-- 🔧 Toolbar -->
+  <div id="editor-toolbar">
+    <h2>Lesson Editor</h2>
+  </div>
+
+  <!-- 📄 Editable Lesson Content Area -->
+  <div id="lesson-container" contenteditable="true" spellcheck="false">
+    Loading lesson...
+  </div>
+
+  <!-- 📋 Right-Click Context Menu -->
+  <div id="context-menu">
+    <div id="insert-image">Insert Image</div>
+    <div id="insert-audio">Insert Audio</div>
+  </div>
+
+  <!-- 📎 Slide-In Side Panel -->
+  <div id="side-panel">
+    <div id="panel-header">
+      <span id="panel-title">Media Tools</span>
+      <button id="close-panel">×</button>
+    </div>
+    <div id="panel-content">
+      <!-- Dynamically inserted content -->
+    </div>
+  </div>
+
+  <!-- 🚀 Main Script -->
+  <script src="script.js"></script>
+</body>
+</html>
