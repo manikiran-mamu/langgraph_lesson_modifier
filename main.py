@@ -1,5 +1,6 @@
 # main.py — FastAPI backend for Placeholder-based Lesson Editing
 
+from requests import request
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -94,13 +95,13 @@ async def generate_lesson_docx(request: Request, lesson_request: LessonDocxReque
 
 # ===== Full Pipeline: Placeholder only =====
 @app.post("/full-pipeline")
-async def full_pipeline(request: FullPipelineRequest):
+async def full_pipeline(request: Request, lesson_request: FullPipelineRequest):
     try:
         result = lesson_placeholders_app.invoke({
-            "student_profile": request.student_profile,
-            "lesson_url": str(request.lesson_url),
-            "number_of_days": request.number_of_days,              
-            "file_category": str(request.file_category)
+            "student_profile": lesson_request.student_profile,
+            "lesson_url": str(lesson_request.lesson_url),
+            "number_of_days": lesson_request.number_of_days,
+            "file_category": str(lesson_request.file_category)
         })
 
         base_url = str(request.base_url).rstrip("/")
